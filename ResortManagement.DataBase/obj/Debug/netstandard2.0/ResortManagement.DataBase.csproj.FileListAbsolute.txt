@@ -1,0 +1,5 @@
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\netstandard2.0\ResortManagement.DataBase.deps.json
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\netstandard2.0\ResortManagement.DataBase.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\netstandard2.0\ResortManagement.DataBase.csprojAssemblyReference.cache
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\netstandard2.0\ResortManagement.DataBase.AssemblyInfoInputs.cache
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\netstandard2.0\ResortManagement.DataBase.AssemblyInfo.cs
