@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResortManagement", "ResortManagement\ResortManagement.csproj", "{25CEA885-DE82-455D-BB75-F37D533FE8CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResortManagement.Entities", "ResortManagement.Entities\ResortManagement.Entities.csproj", "{357BF139-2863-4A51-96C0-491B715F86AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResortManagement.Entities", "ResortManagement.Entities\ResortManagement.Entities.csproj", "{357BF139-2863-4A51-96C0-491B715F86AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResortManagement.DataBase", "ResortManagement.DataBase\ResortManagement.DataBase.csproj", "{5DEAC36D-7730-400B-AD27-D7BC2A7CD612}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResortManagement.DataBase", "ResortManagement.DataBase\ResortManagement.DataBase.csproj", "{5DEAC36D-7730-400B-AD27-D7BC2A7CD612}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

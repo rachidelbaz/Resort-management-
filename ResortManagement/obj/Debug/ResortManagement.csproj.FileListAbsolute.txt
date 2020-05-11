@@ -102,3 +102,9 @@ C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\obj\Debug\
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\obj\Debug\ResortManagement.csproj.CopyComplete
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\obj\Debug\ResortManagement.dll
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\obj\Debug\ResortManagement.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\obj\Debug\ResortManagement.Migrations.InitialCreate.resources
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\obj\Debug\ResortManagement.csproj.GenerateResource.cache
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.DataBase.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.Entities.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.DataBase.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.Entities.pdb

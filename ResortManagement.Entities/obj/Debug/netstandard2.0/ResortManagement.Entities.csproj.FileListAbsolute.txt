@@ -1,0 +1,15 @@
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\ResortManagement.Entities.deps.json
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\ResortManagement.Entities.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\ResortManagement.Entities.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\netstandard2.0\ResortManagement.Entities.csprojAssemblyReference.cache
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\netstandard2.0\ResortManagement.Entities.AssemblyInfoInputs.cache
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\netstandard2.0\ResortManagement.Entities.AssemblyInfo.cs
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\netstandard2.0\ResortManagement.Entities.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\netstandard2.0\ResortManagement.Entities.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\System.ComponentModel.DataAnnotations.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\System.Configuration.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\System.Security.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\System.ComponentModel.DataAnnotations.xml
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\System.Configuration.xml
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\netstandard2.0\System.Security.xml
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\netstandard2.0\ResortManagement.Entities.csproj.CopyComplete
