@@ -108,3 +108,6 @@ C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\Resort
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.Entities.dll
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.DataBase.pdb
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.Entities.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.Services.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.Services.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement\bin\ResortManagement.Services.dll.config

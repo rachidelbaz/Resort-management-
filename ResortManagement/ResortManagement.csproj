@@ -167,8 +167,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\AccommodationTypesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
+    <Compile Include="Areas\Dashboard\Models\AccommondationTypesViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -229,6 +231,9 @@
     <Content Include="Areas\Content\vendor\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Areas\Content\vendor\jquery\jquery.min.map" />
     <Content Include="Areas\Content\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="Areas\Dashboard\Views\AccommodationTypes\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\AccommodationTypes\_Listing.cshtml" />
+    <Content Include="Areas\Dashboard\Views\AccommodationTypes\_Action.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -277,7 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Dashboard\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -308,6 +312,10 @@
     <ProjectReference Include="..\ResortManagement.Entities\ResortManagement.Entities.csproj">
       <Project>{357BF139-2863-4A51-96C0-491B715F86AD}</Project>
       <Name>ResortManagement.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResortManagement.Services\ResortManagement.Services.csproj">
+      <Project>{9C69BE10-7317-41D1-9F0E-58D4EEA3EC63}</Project>
+      <Name>ResortManagement.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

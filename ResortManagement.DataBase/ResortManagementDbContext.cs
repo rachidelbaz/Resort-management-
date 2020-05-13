@@ -12,7 +12,9 @@ namespace ResortManagement.DataBase
         public ResortManagementDbContext() : base("ResortManagementDb")
         {
             //Database.SetInitializer(new DropCreateDatabaseAlways<ResortManagementDbContext>());
-            Database.SetInitializer(new CreateDatabaseIfNotExists<ResortManagementDbContext>());
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<ResortManagementDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ResortManagementDbContext>());
+            this.Configuration.LazyLoadingEnabled = false;
 
         }
         public static ResortManagementDbContext Create()

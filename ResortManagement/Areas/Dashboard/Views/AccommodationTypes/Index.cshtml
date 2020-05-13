@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<!-- div search -->
+<div class="row">
+    <div class="col col-12">
+
+        <h1 class="mx-auto"> Accommodation Types</h1>
+        <hr />
+
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" placeholder="Search!" id="inputSearch" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
+            <div class="input-group-append" id="button-addon4">
+                <button class="btn btn-outline-primary" type="button" id="btnSearch">Search</button>
+                <button class="btn btn-outline-secondary" type="button" id="btnReset">Reset</button>
+                <!-- Button trigger modal -->
+                <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#exampleModalCenter">Create</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--end div search-->
+<!--listing accommodation type -->
+<div class="row">
+    <div class="col col-12">
+        @{
+            Html.RenderAction("Listing");
+        }
+
+    </div>
+</div>
+<!--End listing accommodation type -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @{
+                Html.RenderAction("Action");
+            }
+        </div>
+    </div>
+</div>
+<!--End Model-->
+<script>
+    $("#btnSearch").click(function () {
+        debugger;
+        $.ajax({
+            url: '@Url.Action("Action","AccommodationTypes")',
+            type: 'GET',
+            data: $("#inputSearch").val()
+        });
+
+    });
+    $("#btnReset").click(function () {
+        $("input").val('');
+    });
+</script>

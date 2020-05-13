@@ -10,6 +10,7 @@
       "ResortManagement.DataBase/1.0.0": {
         "dependencies": {
           "EntityFramework": "6.2.0",
+          "Microsoft.AspNet.Identity.EntityFramework": "2.2.2",
           "NETStandard.Library": "2.0.3",
           "ResortManagement.Entities": "1.0.0"
         },
