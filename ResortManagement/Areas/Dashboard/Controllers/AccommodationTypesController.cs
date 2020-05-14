@@ -16,10 +16,17 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         {
             return View();
         }
-        public ActionResult Listing()
+        public ActionResult Listing(string searchTerm, int? pagNo)
         {
+            int pageSize = 5;
             AccommondationTypesViewModel model = new AccommondationTypesViewModel();
-            model.accommodationTypes = AccommodationTypeServices.Instance.GetAllAccommondationTypes();
+            model.SearchTerm = searchTerm;
+            model.PageNo = pagNo.HasValue ? pagNo.Value > 0 ? pagNo.Value : 1 : 1;
+
+            model.accommodationTypes = AccommodationTypeServices.Instance.GetSearchAccommondationTypes(searchTerm, model.PageNo);
+            int TotalItems = AccommodationTypeServices.Instance.GetSearchAccommondationTypesCount(searchTerm);
+
+            model.pager = new Pager(TotalItems, model.PageNo, pageSize);
 
             return PartialView("_Listing", model);
         }
@@ -39,19 +46,9 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             return jsonResult;
         }
         [HttpGet]
-        public ActionResult Action(string searchTerm,int? pagNo)
+        public ActionResult Action()
         {
-            int pageSize = 5;
-            AccommondationTypesViewModel model = new AccommondationTypesViewModel();
-            model.SearchTerm = searchTerm;
-            model.PageNo = pagNo.HasValue ? pagNo.Value>0? pagNo.Value : 1:1;
-
-            model.accommodationTypes = AccommodationTypeServices.Instance.GetSearchAccommondationTypes(searchTerm, model.PageNo);
-            int TotalItems = AccommodationTypeServices.Instance.GetSearchAccommondationTypesCount(searchTerm);
-
-            model.pager = new Pager(TotalItems, pagNo, pageSize);
-
-            return PartialView("_Action", model);
+            return PartialView("_Action");
         }
 
 

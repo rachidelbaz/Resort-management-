@@ -48,15 +48,17 @@ namespace ResortManagement.Services
             int pageSize = 5;
             using (var context=new ResortManagementDbContext())
             {
+                
                 var accommodationType = context.accommodationType.ToList();
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
-                    accommodationType= accommodationType.Where(acc => acc.Type.ToLower().Contains(searchTerm.ToLower().Trim())).ToList();
+                    
+                    accommodationType = accommodationType.Where(acc => !string.IsNullOrEmpty(acc.Type) && acc.Type.ToLower().Contains(searchTerm.ToLower().Trim())).ToList();
                 }
 
-                accommodationType.OrderByDescending(acc=>acc.ID).Skip(pageSize).Take((pageNo - 1) * pageSize);
+                return accommodationType.OrderByDescending(acc=>acc.ID).Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
 
-                return accommodationType;
+                 
             }
            
         }
@@ -68,7 +70,7 @@ namespace ResortManagement.Services
                 var accommodationTypesSearch = context.accommodationType.ToList();
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
-                    accommodationTypesSearch = accommodationTypesSearch.Where(acc => acc.Type.ToLower().Contains(searchTerm.Trim().ToLower())).ToList();
+                    accommodationTypesSearch = accommodationTypesSearch.Where(acc => !string.IsNullOrEmpty(acc.Type) && acc.Type.ToLower().Contains(searchTerm.Trim().ToLower())).ToList();
                 }
                 return accommodationTypesSearch.Count();
             }

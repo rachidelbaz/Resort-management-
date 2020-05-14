@@ -42,7 +42,7 @@
             DivMessage.show().html(response.Message);
             DivMessage.addClass(response.Class);
             $(":input").val('');
-            setTimeout(location.reload(),1000000);
+            setTimeout($("#ListingTable").load('@Url.Action("Listing","AccommodationTypes")'),1000000);
         });
     });
 </script>

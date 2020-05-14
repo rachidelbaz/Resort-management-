@@ -1,5 +1,5 @@
 ﻿@model ResortManagement.Areas.Dashboard.Models.AccommondationTypesViewModel
-@{ 
+@{
     ViewBag.Title = "Listing";
 }
 @if (Model != null && Model.accommodationTypes != null && Model.accommodationTypes.Count() > 0)
@@ -20,8 +20,8 @@
                 <tr>
                     <th scope="row">@AccommondationType.Type</th>
                     <td>@AccommondationType.Description</td>
-                    <td><button class="btn btn-outline-primary mr-2">Edit</button><button class="btn btn-outline-danger">Delete</button></td>
-             
+                    <td><button class="btn btn-outline-primary mr-2 btnEdit" data-id="@AccommondationType.ID">Edit</button><button class="btn btn-outline-danger btnDelete" data-id="@AccommondationType.ID">Delete</button></td>
+
 
                 </tr>
             }
@@ -30,6 +30,33 @@
     </table>
 
     <!--End Table-->
+    if (Model.pager!=null && Model.pager.TotalPages>1)
+    {
+    <!-- pagination table -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+
+            
+            <li class="page-item @(Model.pager.CurrentPage > 1 ? string.Empty:"disabled")">
+                <a class="page-link btn-link" tabindex="-1" data-PageNo="@(Model.pager.CurrentPage-1)">Previous</a>
+            </li>
+            @for (var page=Model.pager.StartPage;page<=Model.pager.EndPage; page++)
+            {
+
+                <li class="page-item @(Model.pager.CurrentPage==page?"active" :string.Empty)"><a class="page-link btn-link" data-PageNo="@(page)" >@(page)</a></li>
+
+            }
+            <li class="page-item @(Model.pager.CurrentPage < Model.pager.EndPage ? string.Empty:"disabled")">
+                <a class="page-link btn-link" data-PageNo="@(Model.pager.EndPage)">Next</a>
+            </li>
+
+
+
+
+        </ul>
+    </nav>
+    <!--end pagination table-->
+    }
 }
 else
 {

@@ -24,7 +24,7 @@
 <!--end div search-->
 <!--listing accommodation type -->
 <div class="row">
-    <div class="col col-12">
+    <div class="col col-12" id="ListingTable">
         @{
             Html.RenderAction("Listing");
         }
@@ -44,16 +44,46 @@
 </div>
 <!--End Model-->
 <script>
-    $("#btnSearch").click(function () {
-        debugger;
+      
+        $("#btnSearch").click(function () {
         $.ajax({
-            url: '@Url.Action("Action","AccommodationTypes")',
+            url: '@Url.Action("Listing","AccommodationTypes")',
             type: 'GET',
-            data: $("#inputSearch").val()
+            data: { searchTerm: $("#inputSearch").val(), pagNo: 1 }
+        }).done(function (response) {
+            $("#ListingTable").html(response);
         });
 
     });
+
+
     $("#btnReset").click(function () {
         $("input").val('');
+        $("#ListingTable").load('@Url.Action("Listing","AccommodationTypes")');
     });
+
+    $(".pagination li>a").on({
+        'click': function () {
+            
+            debugger;
+            let page = $(this).attr("data-PageNo");
+            $('#ListingTable').load('@Url.Action("Listing","AccommodationTypes")',
+                { 'pagNo': page },
+                function (response, status, xhr) {
+                    return response;
+                });
+    }, 'mouseover':function () { $(this).css('cursor', 'pointer'); }
+    });
+
+    @*$(".pagination li a").click(function () {
+        let page = $(this).attr("data-PageNo");
+        console.log(page);
+        $.ajax({
+            url: '@Url.Action("Listing","AccommodationTypes")',
+            type: 'GET',
+            data: { pagNo: page }
+        }).done(function (response) {
+            $('#ListingTable').html(response);
+        });
+    });*@
 </script>
