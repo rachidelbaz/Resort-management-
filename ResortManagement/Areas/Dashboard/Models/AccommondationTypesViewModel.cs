@@ -13,6 +13,10 @@ namespace ResortManagement.Areas.Dashboard.Models
         public int PageNo { get; set; }
         public Pager pager { get; set; }
     }
+    public class AccommondationTypeEditViewModel
+    {
+        public AccommodationTypes accommodationType { get; set; }
+    }
     public class Pager {
         public int TotalItems { get; private set; }
         public int CurrentPage { get; private set; }

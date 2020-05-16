@@ -1,48 +1,34 @@
-﻿<div class="modal-header">
-    <h5 class="modal-title" id="exampleModalCenterTitle">Create Accommodation Type</h5>
+﻿
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle">
+                <span>Create Accommodation Type</span>
+    </h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <div class="modal-body">
-    <form id="formCreate">
-        <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Accommodation Type name</span>
+    <form id="formAction">      
+            <input type="hidden" name="ID" value="">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Accommodation Type name</span>
+                </div>
+                <input type="text" name="Type" aria-label="First name" class="form-control" value="">
             </div>
-            <input type="text" name="Type" aria-label="First name" class="form-control">
-        </div>
-        <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Description</span>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Description</span>
+                </div>
+                <textarea class="form-control" name="Description" aria-label="With textarea" placeholder=""></textarea>
             </div>
-            <textarea class="form-control" name="Description" aria-label="With textarea"></textarea>
-        </div>
-    </form>
-    <div class="alert" role="alert" id="DivMessage">
-       
+        
+        </form>
+    <div class="alert d-none" role="alert" id="DivMessage">
+
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary" id="btnCreate">Save changes</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-share fa-1x mr-1"></i>Close</button>
+    <button type="button" class="btn btn-primary" id="btnSave"><i class="fas fa-save fa-1x mr-1"></i>Save changes</button>
 </div>
-<script>
-    const DivMessage = $("#DivMessage");
-    DivMessage.hide();
-
-    $("#btnCreate").click(function () {
-
-        $.ajax({
-            type: 'POST',
-            url:'@Url.Action("Action","AccommodationTypes")',
-            data: $("#formCreate").serialize(),
-            dataType:'json'
-        }).done(function (response) {
-            DivMessage.show().html(response.Message);
-            DivMessage.addClass(response.Class);
-            $(":input").val('');
-            setTimeout($("#ListingTable").load('@Url.Action("Listing","AccommodationTypes")'),1000000);
-        });
-    });
-</script>

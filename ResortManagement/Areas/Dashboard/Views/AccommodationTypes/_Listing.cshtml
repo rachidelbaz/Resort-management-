@@ -20,7 +20,7 @@
                 <tr>
                     <th scope="row">@AccommondationType.Type</th>
                     <td>@AccommondationType.Description</td>
-                    <td><button class="btn btn-outline-primary mr-2 btnEdit" data-id="@AccommondationType.ID">Edit</button><button class="btn btn-outline-danger btnDelete" data-id="@AccommondationType.ID">Delete</button></td>
+                    <td><button class="btn btn-outline-primary mr-2 btnAction" data-toggle="modal" data-target="#exampleModalCenter" data-href="@Url.Action("Action", "AccommodationTypes", new { ID = @AccommondationType.ID})"><i class="fas fa-edit fa-1x mr-1"></i>Edit</button><button class="btn btn-outline-danger btnDelete" data-id="@AccommondationType.ID"><i class="fas fa-trash-alt fa-1x mr-1"></i>Delete</button></td>
 
 
                 </tr>

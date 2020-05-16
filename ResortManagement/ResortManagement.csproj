@@ -17,7 +17,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <IISExpressSSLPort>44373</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -209,6 +209,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -244,6 +245,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kit.fontawesome.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -306,11 +308,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ResortManagement.DataBase\ResortManagement.DataBase.csproj">
-      <Project>{5deac36d-7730-400b-ad27-d7bc2a7cd612}</Project>
+      <Project>{8E5AB207-DDB1-4089-A2A6-B3AAFEF628B4}</Project>
       <Name>ResortManagement.DataBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResortManagement.Entities\ResortManagement.Entities.csproj">
-      <Project>{357BF139-2863-4A51-96C0-491B715F86AD}</Project>
+      <Project>{8B5112D4-3573-463F-941C-A95164C5C015}</Project>
       <Name>ResortManagement.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResortManagement.Services\ResortManagement.Services.csproj">

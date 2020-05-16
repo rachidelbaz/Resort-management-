@@ -41,7 +41,7 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -59,11 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ResortManagement.DataBase\ResortManagement.DataBase.csproj">
-      <Project>{5DEAC36D-7730-400B-AD27-D7BC2A7CD612}</Project>
+      <Project>{8E5AB207-DDB1-4089-A2A6-B3AAFEF628B4}</Project>
       <Name>ResortManagement.DataBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResortManagement.Entities\ResortManagement.Entities.csproj">
-      <Project>{357BF139-2863-4A51-96C0-491B715F86AD}</Project>
+      <Project>{8B5112D4-3573-463F-941C-A95164C5C015}</Project>
       <Name>ResortManagement.Entities</Name>
     </ProjectReference>
   </ItemGroup>

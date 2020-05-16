@@ -63,6 +63,16 @@ namespace ResortManagement.Services
            
         }
 
+        public bool EditAccommondationType(AccommodationTypes model)
+        {
+            using (var context=new ResortManagementDbContext())
+            {
+                context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+
+                return context.SaveChanges()>0;
+            }
+        }
+
         public int GetSearchAccommondationTypesCount(string searchTerm)
         {
             using (var context= new ResortManagementDbContext())
@@ -75,6 +85,15 @@ namespace ResortManagement.Services
                 return accommodationTypesSearch.Count();
             }
                 
+        }
+
+        public AccommodationTypes GetAccommondationTypeByID(int iD)
+        {
+            using (var context= new ResortManagementDbContext())
+            {
+                return context.accommodationType.Find(iD);
+
+            }
         }
     }
 }

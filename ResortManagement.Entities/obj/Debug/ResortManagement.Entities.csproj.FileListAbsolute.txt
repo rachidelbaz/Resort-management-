@@ -1,0 +1,15 @@
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.csprojAssemblyReference.cache
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\ResortManagement.Entities.dll.config
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\ResortManagement.Entities.dll
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\ResortManagement.Entities.pdb
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\EntityFramework.dll
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\EntityFramework.xml
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.csproj.CopyComplete
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.dll
+C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.pdb
