@@ -15,13 +15,14 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         AccommondationTypeEditViewModel Model = new AccommondationTypeEditViewModel();
         // GET: Dashboard/AccommodationTypes
         public ActionResult Index()
-        {
-            return View();
+         {
+            AccommondationTypesViewModel model = new AccommondationTypesViewModel();
+            return View(model);
         }
         public ActionResult Listing(string searchTerm, int? pagNo)
         {
             int pageSize = 5;
-            AccommondationTypesViewModel model = new AccommondationTypesViewModel();
+            AccommondationListingTypesViewModel model = new AccommondationListingTypesViewModel();
             model.SearchTerm = searchTerm;
             model.PageNo = pagNo.HasValue ? pagNo.Value > 0 ? pagNo.Value : 1 : 1;
 
@@ -69,19 +70,19 @@ namespace ResortManagement.Areas.Dashboard.Controllers
 
             if (ID.HasValue)
             {
-                JsonResult result = new JsonResult();
-                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                
 
                 Model.accommodationType = AccommodationTypeServices.Instance.GetAccommondationTypeByID(ID.Value);
-                result.Data = new { Success = Model.accommodationType!=null,
-                                    ID = Model.accommodationType.ID, 
-                                    Type= Model.accommodationType.Type,
-                                    Description= Model.accommodationType.Description };
-                return result;
+               
             }
 
-            return PartialView("_Action");
+            return PartialView("_Action", Model);
 
+        }
+        [HttpPost]
+        public JsonResult Delete(int ID)
+        {
+            return Json(new { Success = AccommodationTypeServices.Instance.DeleteAccommondationTypeByID(ID)}, JsonRequestBehavior.AllowGet);
         }
 
     }

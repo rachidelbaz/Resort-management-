@@ -8,6 +8,11 @@ namespace ResortManagement.Areas.Dashboard.Models
 {
     public class AccommondationTypesViewModel
     {
+        public AccommondationListingTypesViewModel accommondationListingTypesViewModel = new AccommondationListingTypesViewModel();
+        public AccommondationTypeEditViewModel accommondationTypeEditViewModel = new AccommondationTypeEditViewModel();
+    }
+    public class AccommondationListingTypesViewModel
+    {
         public IEnumerable<AccommodationTypes> accommodationTypes { get; set; }
         public string SearchTerm { get; set; }
         public int PageNo { get; set; }

@@ -1,4 +1,4 @@
-﻿
+﻿@model ResortManagement.Areas.Dashboard.Models.AccommondationTypesViewModel 
 @{
     ViewBag.Title = "Index";
 }
@@ -10,7 +10,7 @@
         <hr />
 
         <div class="input-group mb-2">
-            <input type="text" class="form-control" placeholder="Search!" id="inputSearch" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
+            <input type="text" class="form-control" value="" placeholder="Search!" id="inputSearch" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
             <div class="input-group-append" id="button-addon4">
                 <button class="btn btn-outline-primary" type="button" id="btnSearch"><i class="fas fa-search fa-1x mr-1"></i>Search</button>
                 <button class="btn btn-outline-secondary" type="button" id="btnReset"><i class="fas fa-redo fa-1x mr-1"></i>Reset</button>
@@ -26,132 +26,38 @@
 <div class="row">
     <div class="col col-12" id="ListingTable">
         @{
-            Html.RenderAction("Listing");
+            Html.RenderAction("Listing",Model.accommondationTypeEditViewModel);
         }
 
     </div>
 </div>
 <!--End listing accommodation type -->
-<!--Pagination-->
-<!--End Pagination-->
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        
             @{
-                
-                Html.RenderPartial("_Action");
+
+                Html.RenderPartial("_Action",Model.accommondationTypeEditViewModel);
             }
-        </div>
+       
     </div>
 </div>
 <!--End Model-->
 <script>
-    $(".btnAction").click(function () {
-        
-        $.ajax({
-            url: $(this).attr('data-href'),
-            type: 'GET',
-        }).done(function (response) {
-            debugger;
-            if (response.Success) {
-                $("#exampleModalCenterTitle span").text('');
-                $("#exampleModalCenterTitle span").text("Edit Accommodation Type");
-                $("input[name=ID]").val(response.ID);
-                $("input[name=Type]").val(response.Type);
-                $(":input[name=Description]").val(response.Description);
-            }
-            
-        });
+  
+
+     function refreshTableListing(search,page) {
+        $('#ListingTable').load('@Url.Action("Listing","AccommodationTypes")',{ searchTerm:search, pagNo:page });
+    }
+
+    $("#btnSearch").click(function () {
+        refreshTableListing($("#inputSearch").val());
     });
-
-
-    const DivMessage = $("#DivMessage");
-    $("#btnSave").click(function () {
-        $.ajax({
-            type: 'POST',
-            url:'@Url.Action("Action","AccommodationTypes")',
-            data: $("#formAction").serialize(),
-            dataType:'json'
-        }).done(function (response) {
-         
-            DivMessage
-                .removeClass('d-none')
-                .html(response.Message)
-                .addClass(response.Class);
-            $(":input").val('');
-
-            $("#ListingTable").load('@Url.Action("Listing","AccommodationTypes")', function (response,status,xhr) {
-                DivMessage.removeClass('d-none');
-               console.log(response);
-               console.log(status);
-                console.log(xhr.status);
-                setTimeout(function () {
-                 
-                 },0);
-            });
-
-            
-
-        });
-    });
-
-        $("#btnSearch").click(function () {
-        $.ajax({
-            url: '@Url.Action("Listing","AccommodationTypes")',
-            type: 'GET',
-            data: { searchTerm: $("#inputSearch").val(), pagNo: 1 }
-        }).done(function (response) {
-            $("#ListingTable").html(response);
-        });
-
-    });
-
 
     $("#btnReset").click(function () {
-        $("input").val('');
-        $("#ListingTable").load('@Url.Action("Listing","AccommodationTypes")', function (response,status,xhr) {
-
-            console.log(response);
-            console.log(status);
-            console.log(xhr.status);
-        });
+        $("#inputSearch").val('');
+        refreshTableListing();
     });
 
-    //$(".pagination li a").on({
-    //    'click': function () {
-
-    //        debugger;
-    //        let page = $(this).attr("data-PageNo");
-    //        //$.get('@Url.Action("Listing","AccommodationTypes")',
-            //    { 'pagNo': page },
-            //    function (response, status, xhr) {
-            //        let resp = $(response);
-            //        console.log(typeof resp);
-            //        console.log(resp);
-            //        $('#ListingTable').html('');
-            //        $('#ListingTable').html(resp);
-
-            //    },'html');
-    //        //@*$('#ListingTable').load('@Url.Action("Listing","AccommodationTypes")',
-                { 'pagNo': page },
-                function (response, status, xhr) {
-                    console.log(typeof response);
-                    return response;
-
-                });*@
-    //}, 'mouseover':function () { $(this).css('cursor', 'pointer'); }
-    //});
-
-    @*$(".pagination li a").click(function () {
-        let page = $(this).attr("data-PageNo");
-        console.log(page);
-        $.ajax({
-            url: '@Url.Action("Listing","AccommodationTypes")',
-            type: 'GET',
-            data: { pagNo: page }
-        }).done(function (response) {
-            $('#ListingTable').html(response);
-        });
-    });*@
 </script>

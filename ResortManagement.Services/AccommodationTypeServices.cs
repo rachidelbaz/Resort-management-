@@ -95,5 +95,16 @@ namespace ResortManagement.Services
 
             }
         }
+
+        public bool DeleteAccommondationTypeByID(int iD)
+        {
+            var model = GetAccommondationTypeByID(iD);
+            using (var context = new ResortManagementDbContext())
+            {
+                context.accommodationType.Attach(model);
+                 context.accommodationType.Remove(model);
+                return context.SaveChanges()>0;
+            }
+        }
     }
 }
