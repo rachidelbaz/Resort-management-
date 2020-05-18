@@ -19,17 +19,17 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             AccommondationTypesViewModel model = new AccommondationTypesViewModel();
             return View(model);
         }
-        public ActionResult Listing(string searchTerm, int? pagNo)
+        public ActionResult Listing(string searchTerm,int? pagSize, int? pagNo)
         {
-            int pageSize = 5;
             AccommondationListingTypesViewModel model = new AccommondationListingTypesViewModel();
+            model.PageSize= pagSize.HasValue ? pagSize.Value > 0 ? pagSize.Value : 5 : 5;
             model.SearchTerm = searchTerm;
             model.PageNo = pagNo.HasValue ? pagNo.Value > 0 ? pagNo.Value : 1 : 1;
 
-            model.accommodationTypes = AccommodationTypeServices.Instance.GetSearchAccommondationTypes(searchTerm, model.PageNo);
+            model.accommodationTypes = AccommodationTypeServices.Instance.GetSearchAccommondationTypes(searchTerm, model.PageNo, model.PageSize);
             int TotalItems = AccommodationTypeServices.Instance.GetSearchAccommondationTypesCount(searchTerm);
 
-            model.pager = new Pager(TotalItems, model.PageNo, pageSize);
+            model.pager = new Pager(TotalItems, model.PageNo, model.PageSize);
 
             return PartialView("_Listing", model);
         }

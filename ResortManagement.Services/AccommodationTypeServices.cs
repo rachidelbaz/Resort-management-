@@ -43,9 +43,9 @@ namespace ResortManagement.Services
                 
         }
 
-        public IEnumerable<AccommodationTypes> GetSearchAccommondationTypes(string searchTerm,int pageNo)
+        public IEnumerable<AccommodationTypes> GetSearchAccommondationTypes(string searchTerm,int pageNo, int pageSize)
         {
-            int pageSize = 5;
+           
             using (var context=new ResortManagementDbContext())
             {
                 

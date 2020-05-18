@@ -1,7 +1,7 @@
 ﻿@model ResortManagement.Areas.Dashboard.Models.AccommondationTypeEditViewModel
 
 
-<div class="modal-content">
+
     @if (Model != null)
     {
 
@@ -48,7 +48,6 @@
         </div>
 
     }
-</div>
 <script>
 
     $("#btnSave").click(function () {
@@ -76,23 +75,4 @@
             });
     });
 
-    $(".btnAction").click(function () {
-
-        $(".modal-content").load($(this).attr('data-href'));
-
-        //$.ajax({
-        //    url: $(this).attr('data-href'),
-        //    type: 'GET',
-        //}).done(function (response) {
-        //    debugger;
-        //    if (response.Success) {
-        //        $("#exampleModalCenterTitle span").text('');
-        //        $("#exampleModalCenterTitle span").text("Edit Accommodation Type");
-        //        $("input[name=ID]").val(response.ID);
-        //        $("input[name=Type]").val(response.Type);
-        //        $(":input[name=Description]").val(response.Description);
-        //    }
-
-        //});
-    });
 </script>

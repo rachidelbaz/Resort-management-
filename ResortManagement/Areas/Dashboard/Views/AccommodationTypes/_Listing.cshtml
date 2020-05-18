@@ -22,7 +22,7 @@
                     <th scope="row">@AccommondationType.Type</th>
                     <td>@AccommondationType.Description</td>
                     <td><button class="btn btn-outline-primary mr-2 btnAction" 
-                                data-toggle="modal" data-target="#exampleModalCenter" 
+                                data-toggle="modal" data-target="#exampleModalCenter"
                                 data-href="@Url.Action("Action", "AccommodationTypes", 
                                           new { ID = @AccommondationType.ID})">
                         <i class="fas fa-edit fa-1x mr-1"></i>Edit</button>
@@ -84,7 +84,8 @@ else
 <script>
     $('.btnDelete').click(function () {
         const dataHref = $(this).attr('data-href');
-        let pageNo = '@Model.PageNo';
+        //condition for handling showing div else no record registred yet . 
+        let pageNo = '@(Model.PageNo!=Model.pager.EndPage && Model.accommodationTypes.Count()==1?Model.PageNo:Model.PageNo-1)';
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-danger',
@@ -114,8 +115,8 @@ else
                             'Your file has been deleted.',
                             'success'
                         );
-                      
-                         refreshTableListing('@Model.SearchTerm',pageNo);
+                                            
+                         refreshTableListing('@Model.SearchTerm','@Model.PageSize',pageNo);
 
                     } else {
                          swalWithBootstrapButtons.fire(
@@ -139,12 +140,19 @@ else
         });
 
     });
+    
+    $(".btnAction").click(function () {
+
+        $(".modal-content").load($(this).attr('data-href'), function (response,status,xhr) {
+         
+        });
+    });
 
      $(".pagination li a").on({
          'click': function () {
 
              let pageNo = $(this).attr("data-PageNo");
-             refreshTableListing('@Model.SearchTerm',pageNo);
+             refreshTableListing('@Model.SearchTerm','@Model.PageSize',pageNo);
 
     },'mouseover':function () { $(this).css('cursor', 'pointer'); }
     });

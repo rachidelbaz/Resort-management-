@@ -1,21 +1,30 @@
-﻿@model ResortManagement.Areas.Dashboard.Models.AccommondationTypesViewModel 
+﻿@model ResortManagement.Areas.Dashboard.Models.AccommondationTypesViewModel
 @{
     ViewBag.Title = "Index";
 }
 <!-- div search -->
 <div class="row">
-    <div class="col col-12">
-
-        <h1 class="mx-auto"> Accommodation Types</h1>
-        <hr />
-
+    <h1 class="mx-auto mb-1"> Accommodation Types</h1>
+</div>
+<hr />
+<div class="row">
+    <div class="col col-2">
+        <select class="btn btn-secondary font-weight-bold pr-3" id="PagerSelect">
+            <option value="" class="font-weight-bold" selected>Pagination Size</option>
+            <option value="5">Default</option>
+            <option value="10">10 Row</option>
+            <option value="15">15 Row</option>
+            <option value="20">20 Row</option>
+        </select>
+    </div>
+    <div class="col col-10">
         <div class="input-group mb-2">
             <input type="text" class="form-control" value="" placeholder="Search!" id="inputSearch" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
             <div class="input-group-append" id="button-addon4">
                 <button class="btn btn-outline-primary" type="button" id="btnSearch"><i class="fas fa-search fa-1x mr-1"></i>Search</button>
                 <button class="btn btn-outline-secondary" type="button" id="btnReset"><i class="fas fa-redo fa-1x mr-1"></i>Reset</button>
                 <!-- Button trigger modal -->
-                <button class="btn btn-outline-success btnAction" type="button" data-href="@Url.Action("Action","AccommodationTypes")" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-plus fa-1x mr-1"></i>Create</button>
+                <button class="btn btn-outline-success btnAction" type="button" data-href="@Url.Action("Action","AccommodationTypes")" data-target="#exampleModalCenter" data-toggle="modal"><i class="fas fa-plus fa-1x mr-1"></i>Create</button>
             </div>
         </div>
 
@@ -26,7 +35,7 @@
 <div class="row">
     <div class="col col-12" id="ListingTable">
         @{
-            Html.RenderAction("Listing",Model.accommondationTypeEditViewModel);
+            Html.RenderAction("Listing", Model.accommondationTypeEditViewModel);
         }
 
     </div>
@@ -35,22 +44,33 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        
+        <div class="modal-content">
             @{
 
-                Html.RenderPartial("_Action",Model.accommondationTypeEditViewModel);
+                Html.RenderPartial("_Action", Model.accommondationTypeEditViewModel);
             }
-       
+
+        </div>
+
     </div>
 </div>
 <!--End Model-->
 <script>
-  
 
-     function refreshTableListing(search,page) {
-        $('#ListingTable').load('@Url.Action("Listing","AccommodationTypes")',{ searchTerm:search, pagNo:page });
+
+     function refreshTableListing(search,PageSize,page) {
+        $('#ListingTable').load('@Url.Action("Listing","AccommodationTypes")',{ searchTerm:search,pagSize:PageSize,pagNo:page });
     }
+    $("#PagerSelect").on({
+        'change': function () {
+            console.log($(this).children("option:selected").val());
+            refreshTableListing($("#inputSearch").val(), $(this).children("option:selected").val());
+        },
+        'mouseover': function () {
+            $(this).css('cursor', 'pointer');
+        }
 
+    });
     $("#btnSearch").click(function () {
         refreshTableListing($("#inputSearch").val());
     });

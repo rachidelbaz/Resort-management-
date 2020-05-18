@@ -17,6 +17,7 @@ namespace ResortManagement.Areas.Dashboard.Models
         public string SearchTerm { get; set; }
         public int PageNo { get; set; }
         public Pager pager { get; set; }
+        public int PageSize { get; set; }
     }
     public class AccommondationTypeEditViewModel
     {
