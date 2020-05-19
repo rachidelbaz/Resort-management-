@@ -1,0 +1,94 @@
+﻿@model ResortManagement.Areas.Dashboard.Models.AccommodationGadgetsEditViewModel
+
+@if (Model != null)
+{
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+            @if (Model.accommodationGadgets != null)
+            {
+                <span>Edit Accommodation Gadget</span>
+            }
+            else
+            {
+                <span>Create Accommodation Gadget</span>
+            }
+
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="formAction">
+            <input type="hidden" name="ID" value="@(Model.accommodationGadgets!=null?Model.accommodationGadgets.ID.ToString():string.Empty)">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Accommodation Type</span>
+                </div>
+                <select name="AccommodationTypeID" class="form-control font-weight-bold pr-3">
+                    @foreach (var accommodationType in Model.accommodationTypes)
+                    { 
+                       <option value="@accommodationType.ID" @(Model.accommodationGadgets != null?Model.accommodationGadgets.AccommodationTypeID == accommodationType.ID ? "class='font-weight-bold' " + "selected" : string.Empty:string.Empty)>@accommodationType.Type</option>     
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Gadget Name</span>
+                </div>
+                <input class="form-control" name="Name" type="text" placeholder="" value="@(Model.accommodationGadgets!=null?Model.accommodationGadgets.Name:string.Empty)">
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Number of Rooms</span>
+                </div>
+                <input class="form-control" name="NOfRoom" type="number" placeholder="" value="@(Model.accommodationGadgets!=null?Model.accommodationGadgets.NOfRoom.ToString():string.Empty)">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Fee Per Night</span>
+                </div>
+                <input class="form-control" name="FeePerNight" type="number" placeholder="" value="@(Model.accommodationGadgets!=null?Model.accommodationGadgets.FeePerNight.ToString():string.Empty)">
+            </div>
+        </form>
+        <div class="alert d-none" role="alert" id="DivMessage">
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-share fa-1x mr-1"></i>Close</button>
+        <button type="button" class="btn btn-primary" id="btnSave"><i class="fas fa-save fa-1x mr-1"></i>Save changes</button>
+    </div>
+
+}
+<script>
+
+    $("#btnSave").click(function () {
+        const DivMessage = $("#DivMessage");
+
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("Action","AccommodationGatgets")',
+            data: $("#formAction").serialize(),
+            dataType:'json'
+        }).done(function (response) {
+
+                 DivMessage
+                .removeClass('d-none')
+                .html(response.Message)
+                .addClass(response.Class);
+                 $(":input").val('');
+           //to refresh _listing partialView Data declared in index view
+            refreshTableListing();
+
+            setTimeout(function () {
+                DivMessage.addClass('d-none');
+            }, 5000);
+
+            });
+    });
+
+</script>
+

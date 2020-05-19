@@ -68,7 +68,7 @@
     }
 
 }
-else if (Model.SearchTerm != string.Empty)
+else if (!string.IsNullOrEmpty(Model.SearchTerm))
 {
     <div class="alert alert-warning" role="alert">
         Sorry! No Data Found!

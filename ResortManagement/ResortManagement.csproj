@@ -167,10 +167,13 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\AccommodationGatgetsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccommodationTypesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
+    <Compile Include="Areas\Dashboard\Models\AccommondationGadgetsViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AccommondationTypesViewModel.cs" />
+    <Compile Include="Areas\Dashboard\Models\Pager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -235,6 +238,9 @@
     <Content Include="Areas\Dashboard\Views\AccommodationTypes\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\AccommodationTypes\_Listing.cshtml" />
     <Content Include="Areas\Dashboard\Views\AccommodationTypes\_Action.cshtml" />
+    <Content Include="Areas\Dashboard\Views\AccommodationGatgets\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\AccommodationGatgets\_Listing.cshtml" />
+    <Content Include="Areas\Dashboard\Views\AccommodationGatgets\_Action.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
