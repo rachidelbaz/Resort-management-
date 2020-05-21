@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace ResortManagement.Services
         }
         private static AccommodationGadgetsServices instance { get; set; }
 
-        public IEnumerable<AccommodationGatgets> GetAllAccommodationGadgets(string searchTerm, int pagSize, int pagNo)
+        public IEnumerable<AccommodationGatgets> GetAllAccommodationGadgets(string searchTerm, int AccomoodationType, int pagSize, int pagNo)
         {
             using (var context = new ResortManagementDbContext())
             {
@@ -31,6 +32,10 @@ namespace ResortManagement.Services
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
                     AccommodationGadgets = AccommodationGadgets.Where(AccG => AccG.Name.Contains(searchTerm.ToLower().Trim()));
+                }
+                if(AccomoodationType>0)
+                {
+                    AccommodationGadgets = AccommodationGadgets.Where(AccG => AccG.AccommodationTypeID== AccomoodationType);
                 }
                 return AccommodationGadgets.OrderByDescending(AccG => AccG.ID).Skip((pagNo - 1) * pagSize).Take(pagSize).ToList();
             }
@@ -43,7 +48,7 @@ namespace ResortManagement.Services
             }
         }
 
-        public int GetAccommodationGadgetsCout(string searchTerm)
+        public int GetAccommodationGadgetsCout(string searchTerm, int accomoodationType)
         {
             using (var context = new ResortManagementDbContext())
             {
@@ -52,10 +57,13 @@ namespace ResortManagement.Services
                 {
                     return AccommodationGadgets.Where(AccG => AccG.Name.Contains(searchTerm.ToLower().Trim())).ToList().Count();
                 }
-                else
+                if (accomoodationType > 0)
                 {
-                    return AccommodationGadgets.ToList().Count();
+                    AccommodationGadgets = AccommodationGadgets.Where(AccG => AccG.AccommodationTypeID == accomoodationType);
                 }
+                
+               return AccommodationGadgets.ToList().Count();
+                
     
             }
         }
@@ -64,7 +72,8 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
-                return context.accommodationGatget.Find(id);
+                return context.accommodationGatget.Include(ac => ac.accommodationType).FirstOrDefault(acc => acc.ID == id);
+
             }
         }
 
@@ -72,6 +81,8 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
+                
+
                 context.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 return context.SaveChanges() > 0;
             }
@@ -85,11 +96,11 @@ namespace ResortManagement.Services
                 return context.SaveChanges() > 0;
             }
         }
-         public bool DeleteAccommondationGadget(AccommodationGatgets Model)
+         public bool DeleteAccommondationGadget(int id)
         {
             using (var context = new ResortManagementDbContext())
             {
-                
+                var Model = GetAccommodationGadgetsByID(id);
                  context.accommodationGatget.Attach(Model);
                  context.accommodationGatget.Remove(Model);
                 return context.SaveChanges() > 0;

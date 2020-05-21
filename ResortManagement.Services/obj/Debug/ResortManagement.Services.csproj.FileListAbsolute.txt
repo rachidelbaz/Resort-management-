@@ -19,24 +19,3 @@ C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortMan
 C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Services\obj\Debug\ResortManagement.Services.pdb
 C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.Entities.dll.config
 C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.DataBase.dll.config
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.Services.dll.config
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.Services.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.Services.pdb
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\EntityFramework.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\Microsoft.AspNet.Identity.Core.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.DataBase.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.Entities.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.DataBase.pdb
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.DataBase.dll.config
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.Entities.pdb
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\ResortManagement.Entities.dll.config
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\EntityFramework.xml
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\Microsoft.AspNet.Identity.Core.xml
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\obj\Debug\ResortManagement.Services.csprojAssemblyReference.cache
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\obj\Debug\ResortManagement.Services.csproj.CopyComplete
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\obj\Debug\ResortManagement.Services.dll
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Services\obj\Debug\ResortManagement.Services.pdb

@@ -67,6 +67,15 @@
                  $(":input").val('');
            //to refresh _listing partialView Data declared in index view
             refreshTableListing();
+            if (response.Edited) {
+                setTimeout(function () {
+                    $('#exampleModalCenter').modal('hide');
+                //    $("#exampleModalCenter").removeClass('show');
+                //$('body').removeClass('modal-open');
+                //$('body div:last').remove();
+                }, 1000);
+                
+            }
 
             setTimeout(function () {
                 DivMessage.addClass('d-none');

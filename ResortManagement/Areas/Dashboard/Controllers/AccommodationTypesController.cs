@@ -50,12 +50,12 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                     Model.accommodationType.Type = model.Type;
                     Model.accommodationType.Description = model.Description;
                     Result = AccommodationTypeServices.Instance.EditAccommondationType(model);
-                    jsonResult.Data = new { Success = Result, Message = Result ? "Accommodation Type updated successfully" : "update Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                    jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation Type updated successfully" : "update Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
                 else
                 {
                     Result = AccommodationTypeServices.Instance.CreateAccommondationType(model);
-                    jsonResult.Data = new { Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                    jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
    
             }
