@@ -83,9 +83,10 @@ else
 
 <script>
     $('.btnDelete').click(function () {
+        
         const dataHref = $(this).attr('data-href');
         //condition for handling showing div else no record registred yet . 
-        let pageNo = '@(Model.PageNo!=Model.pager.EndPage && Model.accommodationTypes.Count()==1?Model.PageNo:Model.PageNo-1)';
+        let pageNo = '@(Model.PageNo==Model.pager.EndPage && Model.accommodationTypes.Count()==1?Model.PageNo-1:Model.PageNo)';
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-danger',

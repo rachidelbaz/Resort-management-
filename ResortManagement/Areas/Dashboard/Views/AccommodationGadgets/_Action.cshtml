@@ -27,9 +27,14 @@
                     <span class="input-group-text">Accommodation Type</span>
                 </div>
                 <select name="AccommodationTypeID" class="form-control font-weight-bold pr-3">
-                    @foreach (var accommodationType in Model.accommodationTypes)
-                    { 
-                       <option value="@accommodationType.ID" @(Model.accommodationGadgets != null?Model.accommodationGadgets.AccommodationTypeID == accommodationType.ID ? "class='font-weight-bold' " + "selected" : string.Empty:string.Empty)>@accommodationType.Type</option>     
+                    @if (Model.accommodationTypes != null)
+                    {
+
+                        foreach (var accommodationType in Model.accommodationTypes)
+                        {
+                            <option value="@accommodationType.ID" @(Model.accommodationGadgets != null ? Model.accommodationGadgets.AccommodationTypeID == accommodationType.ID ? "class='font-weight-bold' " + "selected" : string.Empty : string.Empty)>@accommodationType.Type</option>
+
+                        }
                     }
                 </select>
             </div>
@@ -64,7 +69,7 @@
 
 }
 <script>
-    
+
     $("#btnSave").click(function () {
         const DivMessage = $("#DivMessage");
 
@@ -91,7 +96,7 @@
                     //    .removeClass('modal-dialog-centered')
                     //    .addClass('modal-dialog-centered');
                 }, 1000);
-                
+
             }
 
             setTimeout(function () {

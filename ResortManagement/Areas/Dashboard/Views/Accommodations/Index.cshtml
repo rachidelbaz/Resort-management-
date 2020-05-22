@@ -4,14 +4,14 @@
 }
 <!-- div search -->
 <div class="row">
-    <h1 class="mx-auto mb-1"> Accommodation Types</h1>
+    <h1 class="mx-auto mb-1"> Accommodation</h1>
 </div>
 <hr />
 <div class="row">
     <div class="col col-3">
         <div class="form-group">
-            <select class="form-control text-white bg-dark font-weight-bold pr-3" id="PagerSelect">
-                <option value="" class="font-weight-bold" selected>Pagination Size</option>
+            <select class="form-control text-white bg-dark font-weight-bold pr-3" id="PagerSelector">
+                <option value="0" class="font-weight-bold" disabled selected>Pagination Size</option>
                 <option value="5">Default</option>
                 <option value="10">10 Row</option>
                 <option value="15">15 Row</option>
@@ -21,11 +21,21 @@
     <div class="col col-9">
         <div class="input-group mb-2">
             <input type="text" class="form-control" value="" placeholder="Search!" id="inputSearch" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
+            <select class="form-control font-weight-bold pr-3" id="GadgetSelector">
+                <option value="0" class="font-weight-bold " disabled selected>Select Gadget</option>
+                @if (Model.accommodationGatgets != null)
+                {
+                    foreach (var gadget in Model.accommodationGatgets)
+                    {
+                        <option value="@gadget.ID">@gadget.Name</option>
+                    }
+                }
+            </select>
             <div class="input-group-append" id="button-addon4">
                 <button class="btn btn-outline-primary" type="button" id="btnSearch"><i class="fas fa-search fa-1x mr-1"></i>Search</button>
                 <button class="btn btn-outline-secondary" type="button" id="btnReset"><i class="fas fa-redo fa-1x mr-1"></i>Reset</button>
                 <!-- Button trigger modal -->
-                <button class="btn btn-outline-success btnAction" type="button" data-href="@Url.Action("Action","AccommodationTypes")" data-target="#exampleModalCenter" data-toggle="modal"><i class="fas fa-plus fa-1x mr-1"></i>Create</button>
+                <button class="btn btn-outline-success btnAction" type="button" data-href="@Url.Action("Action","Accommodations")" data-target="#exampleModalCenter" data-toggle="modal"><i class="fas fa-plus fa-1x mr-1"></i>Create</button>
             </div>
         </div>
 
@@ -48,7 +58,7 @@
         <div class="modal-content">
             @{
 
-                Html.RenderPartial("_Action",Model.accommodationsEdit);
+                Html.RenderPartial("_Action",Model.accommodationEdit);
             }
 
         </div>
@@ -58,20 +68,39 @@
 <!--End Model-->
 <script>
 
+ //---------------------------------------------------------------------------------------------
+    //                                      #functions#
+    //---------------------------------------------------------------------------------------------
 
-     function refreshTableListing(search,PageSize,page) {
-        $('#ListingTable').load('@Url.Action("Listing","AccommodationTypes")',{ searchTerm:search,pagSize:PageSize,pagNo:page });
+     function refreshTableListing(search,accomadationGadget,PageSize,page) {
+        $('#ListingTable').load('@Url.Action("Listing","Accommodations")',{ searchTerm:search,AccomadationGadgetID:accomadationGadget,pageSize:PageSize,pageNo:page });
     }
-    $("#PagerSelect").on({
-        'change': function () {
-            console.log($(this).children("option:selected").val());
-            refreshTableListing($("#inputSearch").val(), $(this).children("option:selected").val());
+    function eventSelector(selector,_selector) {
+        $("#"+selector).on({
+            'change': function () {
+                
+                console.log($("#" +selector).children("option:selected").val());
+                console.log($("#" + _selector).children("option:selected").val());
+                if (selector==="PagerSelector") {
+                    refreshTableListing($("#inputSearch").val(),$("#"+_selector).children("option:selected").val(),$(this).children("option:selected").val());
+
+                } else {
+                     refreshTableListing($("#inputSearch").val(),$(this).children("option:selected").val(),$("#"+_selector).children("option:selected").val());
+
+                }
         },
         'mouseover': function () {
             $(this).css('cursor', 'pointer');
         }
 
     });
+    }
+    //------------------------------------------------------------------------------------------------
+    //                                  #Query#
+    //------------------------------------------------------------------------------------------------
+    eventSelector("PagerSelector", "GadgetSelector");
+    eventSelector("GadgetSelector", "PagerSelector");
+
     $("#btnSearch").click(function () {
         refreshTableListing($("#inputSearch").val());
     });

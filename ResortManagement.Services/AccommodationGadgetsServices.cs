@@ -44,7 +44,7 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {          
-               return context.accommodationGatget.ToList();   
+               return context.accommodationGatget.Distinct().ToList();   
             }
         }
 
@@ -72,7 +72,7 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
-                return context.accommodationGatget.Include(ac => ac.accommodationType).FirstOrDefault(acc => acc.ID == id);
+                return context.accommodationGatget.Find(id);
 
             }
         }

@@ -16,3 +16,21 @@ C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortMan
 C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.csproj.CopyComplete
 C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.dll
 C:\Users\El baz Rachid\OneDrive\Bureau\New folder (2)\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\ResortManagement.DataBase.dll.config
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\ResortManagement.DataBase.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\ResortManagement.DataBase.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\EntityFramework.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\ResortManagement.Entities.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\ResortManagement.Entities.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\ResortManagement.Entities.dll.config
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\EntityFramework.xml
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.csprojAssemblyReference.cache
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.csproj.CopyComplete
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.dll
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.pdb

@@ -9,17 +9,18 @@ namespace ResortManagement.Areas.Dashboard.Models
     public class AccommodationsViewModel
     {
         public AccommodationsListingViewModel accommodationsListing = new AccommodationsListingViewModel();
-        public AccommodationsEditViewModel accommodationsEdit = new AccommodationsEditViewModel();
+        public AccommodationsEditViewModel accommodationEdit = new AccommodationsEditViewModel();
+        public IEnumerable< AccommodationGatgets> accommodationGatgets { get; set; }
     }
     public class AccommodationsEditViewModel
     {
-        public Accommodations accommodations = new Accommodations();
-        public IEnumerable<Accommodations> accommodationsList { get; set; }
+       public Accommodations accommodation {get ; set;}
+       public IEnumerable<Accommodations> accommodationsList { get; set; }
+        public IEnumerable<AccommodationGatgets> accommodationGatgets { get; set; }
     }
     public class AccommodationsListingViewModel
     {
-        public AccommodationGatgets accommodationGatgets { get; set; }
-        public string AccommodationGatgets { get;  set; }
+        public int AccommodationGatgetID { get;  set; }
         public IEnumerable<Accommodations> accommodations { get; set; }
         public Pager pager { get; set; }
         public string SearchTerm { get; set; }

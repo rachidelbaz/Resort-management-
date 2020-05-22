@@ -1,17 +1,21 @@
 ﻿@model ResortManagement.Areas.Dashboard.Models.AccommodationsEditViewModel
+@{ 
+
+}
+
 
 @if (Model != null)
 {
 
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">
-            @if (Model.accommodations != null)
+            @if (Model.accommodation != null)
             {
-                <span>Edit Accommodation Gadget</span>
+                <span>Edit Accommodation</span>
             }
             else
             {
-                <span>Create Accommodation Gadget</span>
+                <span>Create Accommodation</span>
             }
 
         </h5>
@@ -21,55 +25,38 @@
     </div>
     <div class="modal-body">
         <form id="formAction">
-            <input type="hidden" name="ID" value="@(Model.accommodations!=null?Model.accommodations.ID.ToString():string.Empty)">
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Type</span>
-                </div>
-                <select name="AccommodationTypeID" class="form-control font-weight-bold pr-3">
-                    @foreach (var accommodation in Model.accommodationsList)
-                    {
-                    <option value="@accommodation.accommodationGatgets.accommodationType.ID" @(Model.accommodationsList.accommodationGatgets.accommodationType.ID == accommodation.accommodationGatgets.accommodationType.ID ? "class='font-weight-bold' " + "selected" : string.Empty)>@accommodation.accommodationGatgets.accommodationType.Name</option>
-
-                    }
-                </select>
-            </div>
+            <input type="hidden" name="ID" value="@(Model.accommodation!=null?Model.accommodation.ID.ToString():string.Empty)">
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Name</span>
                 </div>
-                <input class="form-control" name="Name" type="text" placeholder="" value="@(Model.accommodations!=null?Model.accommodations.Name:string.Empty)">
+                <input class="form-control" name="Name" type="text" placeholder="" value="@(Model.accommodation!=null?Model.accommodation.Name:string.Empty)">
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Gadgets Name</span>
+                    <span class="input-group-text">Gadget</span>
                 </div>
+                
                 <select name="AccommodationGatgetID" class="form-control font-weight-bold pr-3">
-                    @foreach (var Accommodations in Model.accommodationsList)
+                    <option value="" disabled selected>Select Gadget</option>
+                    @if (Model.accommodationGatgets != null)
                     {
-                        <option value="@(Accommodations.AccommodationGatgetID)">@Accommodations.accommodationGatgets.Name </option>
+                        foreach (var accommodationadget in Model.accommodationGatgets)
+                        {
 
+                            <option value="@accommodationadget.ID" @(Model.accommodation != null ? Model.accommodation.AccommodationGatgetID == accommodationadget.ID ? "class='font-weight-bold' " + "selected" : string.Empty : string.Empty)>@accommodationadget.Name</option>
+
+
+                        }
                     }
                 </select>
-             </div>
-
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Number of Rooms</span>
-                </div>
-                <input class="form-control" name="NOfRoom" type="number" placeholder="" value="@(Model.accommodations!=null?Model.accommodations.accommodationGatgets.NOfRoom.ToString():string.Empty)">
-            </div>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Fee Per Night</span>
-                </div>
-                <input class="form-control" name="FeePerNight" type="number" placeholder="" value="@(Model.accommodations!=null?Model.accommodations.accommodationGatgets.FeePerNight.ToString():string.Empty)">
+               
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Description</span>
                 </div>
-                <textarea class="form-control" name="Description" rows="5" cols="10" placeholder="">@(Model.accommodations != null ? Model.accommodations.Description : string.Empty)</textarea>
+                <textarea class="form-control" name="Description" rows="5" cols="10" placeholder="">@(Model.accommodation != null ? Model.accommodation.Description:string.Empty)</textarea>
             </div>
         </form>
         <div class="alert d-none" role="alert" id="DivMessage">
@@ -89,7 +76,7 @@
 
         $.ajax({
             type: 'POST',
-            url:'@Url.Action("Action","AccommodationGadgets")',
+            url:'@Url.Action("Action","Accommodations")',
             data: $("#formAction").serialize(),
             dataType:'json'
         }).done(function (response) {

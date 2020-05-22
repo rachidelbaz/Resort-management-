@@ -10,12 +10,10 @@
         <thead>
             <tr>
 
-                <th scope="col">Accommodation Name</th>
-                <th scope="col">Accommodation Gadget</th>
-                <th scope="col">Number of Rooms</th>
-                <th scope="col">Accommodation Type</th>
-                <th scope="col">Fee Per Night</th>
-
+                <th scope="col">Name</th>
+                <th scope="col">Gadget</th>
+            
+                <th scope="col">Description</th>
 
                 <th scope="col">Actions</th>
             </tr>
@@ -25,10 +23,13 @@
             {
             <tr>
                 <th scope="row">@accommodation.Name</th>
-                <td>@accommodation.accommodationGatgets.Name</td>
-                <td>@accommodation.accommodationGatgets.NOfRoom</td>
-                <td>@accommodation.accommodationGatgets.accommodationType.Type</td>
-                <td>@accommodation.accommodationGatgets.FeePerNight</td>             
+                <td>@accommodation.accommodationGatgets.Name</td>  
+                <td>@(accommodation.Description.Length>50?accommodation.Description.Substring(0,50):accommodation.Description)
+                @if (accommodation.Description.Length>50)
+                {
+                    <span title="@accommodation.Description.Substring(50)">...</span>
+                }
+                </td>
                 <td>
                     <button class="btn btn-outline-primary mr-2 btnAction"
                             data-toggle="modal" data-target="#exampleModalCenter"
@@ -97,7 +98,7 @@ else
     $('.btnDelete').click(function () {
         const dataHref = $(this).attr('data-href');
         //condition for handling showing div else no record registred yet .
-        let pageNo = '@(Model.PageNo!=Model.pager.EndPage && Model.accommodations.Count()==1?Model.PageNo:Model.PageNo-1)';
+        let pageNo = '@(Model.PageNo==Model.pager.EndPage && Model.accommodations.Count()==1?Model.PageNo-1:Model.PageNo)';
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-danger',
@@ -164,7 +165,7 @@ else
          'click': function () {
 
              let pageNo = $(this).attr("data-PageNo");
-             refreshTableListing('@Model.SearchTerm','@Model.accommodationGatgets.Name','@Model.PageSize',pageNo);
+             refreshTableListing('@Model.SearchTerm','@Model.AccommodationGatgetID','@Model.PageSize',pageNo);
 
     },'mouseover':function () { $(this).css('cursor', 'pointer'); }
     });
