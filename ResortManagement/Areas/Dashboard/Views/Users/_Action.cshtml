@@ -1,0 +1,119 @@
+﻿@model ResortManagement.Areas.Dashboard.Models.UserEditViewmodel
+@{
+
+}
+
+
+@if (Model != null)
+{
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+            @if (Model.RMUser!= null)
+            {
+                <span>Edit User</span>
+            }
+            else
+            {
+                <span>Create User</span>
+            }
+
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="formAction">
+            <input type="hidden" name="ID" value="@(Model.RMUser!=null?Model.RMUser.Id:string.Empty)">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Name</span>
+                </div>
+                <input class="form-control" name="Name" type="text" placeholder="" value="@(Model.RMUser!=null?Model.RMUser.UserName:string.Empty)">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Role</span>
+                </div>
+
+                <select name="AccommodationGatgetID" multiple="@(Model.RMUser.Roles.Count()>1?Model.RMUser.Roles.Count():1)" class="form-control font-weight-bold pr-3">
+                    <option value="" disabled selected>Select Role</option>
+                    @if (Model.Roles != null)
+                    {
+                        foreach (var role in Model.Roles)
+                        {
+
+                            <option value="@role.Id" @(Model.Roles != null ? Model.RoleId == role.Id ? "class='font-weight-bold' " + "selected" : string.Empty : string.Empty)>@role.Name</option>
+
+
+                        }
+                    }
+                </select>
+
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">City</span>
+                </div>
+                <input type="text" value="@Model.RMUser.City" />
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Address</span>
+                </div>
+                <textarea class="form-control" name="Description" rows="5" cols="10" placeholder="">@(Model.RMUser != null ? Model.RMUser.Address:string.Empty)</textarea>
+            </div>
+        </form>
+        <div class="alert d-none" role="alert" id="DivMessage">
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-share fa-1x mr-1"></i>Close</button>
+        <button type="button" class="btn btn-primary" id="btnSave"><i class="fas fa-save fa-1x mr-1"></i>Save changes</button>
+    </div>
+
+}
+<script>
+
+    $("#btnSave").click(function () {
+        const DivMessage = $("#DivMessage");
+
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("Action","Accommodations")',
+            data: $("#formAction").serialize(),
+            dataType:'json'
+        }).done(function (response) {
+                 DivMessage
+                .removeClass('d-none')
+                .html(response.Message)
+                .addClass(response.Class);
+                 $(":input").val('');
+           //to refresh _listing partialView Data declared in index view
+            refreshTableListing();
+            if (response.Edited) {
+                setTimeout(function () {
+                    $('#exampleModalCenter').modal('hide');
+                    //$("#exampleModalCenter").removeClass('show');
+                    // $('body').removeClass('modal-open');
+                    //$('body div:last').remove();
+                    //$('.moadl-dialog').hasClass('modal-dialog-centered')
+                    //    .removeClass('modal-dialog-centered')
+                    //    .addClass('modal-dialog-centered');
+                }, 1000);
+
+            }
+
+            setTimeout(function () {
+                DivMessage.addClass('d-none');
+            }, 5000);
+
+            });
+    });
+
+</script>
+
+
+
