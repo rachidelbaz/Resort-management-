@@ -69,9 +69,9 @@ namespace ResortManagement.Services
         {
             using (var context=new ResortManagementDbContext())
             {
-                var roleStor = new RoleStore<IdentityRole>(context);
-                var rolesMgr = new RoleManager<IdentityRole>(roleStor);
-                 return rolesMgr.Roles.ToList();
+                var rolesStore = new RoleStore<IdentityRole>(context);
+                var rolesMgr = new RoleManager<IdentityRole>(rolesStore);
+                return rolesMgr.Roles.ToList();
             }
         }
 
@@ -83,7 +83,7 @@ namespace ResortManagement.Services
             }
         }
 
-        public int GetUsersCount(string searchTerm, int roleID)
+        public int GetUsersCount(string searchTerm, string roleID)
         {
             using (var context = new ResortManagementDbContext())
             {
@@ -92,7 +92,7 @@ namespace ResortManagement.Services
                 {
                     users = users.Where(u => u.UserName.ToLower().Contains(searchTerm.Trim().ToLower()));
                 }
-                if (roleID > 0)
+                if (!string.IsNullOrEmpty(roleID))
                 {
                     //users = users.Where(u =>u..ToLower().Contains(SearchTerm.Trim().ToLower()));
                 }
@@ -129,7 +129,7 @@ namespace ResortManagement.Services
             }
         }
 
-        public IEnumerable<RMUser> GetUsers(string SearchTerm, int? RoleID, int pageSize, int pageNo)
+        public IEnumerable<RMUser> GetUsers(string SearchTerm, string RoleID, int pageSize, int pageNo)
         {
             using (var context = new ResortManagementDbContext())
             {
@@ -138,11 +138,11 @@ namespace ResortManagement.Services
                 {
                     users = users.Where(u => u.UserName.ToLower().Contains(SearchTerm.Trim().ToLower()));
                 }
-                if (RoleID > 0)
+                if (!string.IsNullOrEmpty(RoleID))
                 {
                     //users = users.Where(u=>u.);
                 }
-                return users.OrderByDescending(u=>u.Id).Skip((pageNo-1)*pageSize).Take(pageSize);
+                return users.OrderByDescending(u=>u.Id).Skip((pageNo-1)*pageSize).Take(pageSize).ToList();
             }
 
         }

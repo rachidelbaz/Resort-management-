@@ -57,11 +57,11 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             model.Roles = UserManager.GetAllRoles();
             return View(model);
         }
-        public ActionResult Listing(string SearchTerm, int? RoleID, int? pageSize, int? pageNo)
+        public ActionResult Listing(string SearchTerm, string RoleID, int? pageSize, int? pageNo)
         {
             UsersListingViewmodel model = new UsersListingViewmodel();
             model.SearchTerm = SearchTerm;
-            model.RoleID = RoleID.HasValue ? RoleID.Value > 0 ? RoleID.Value : 0 : 0;
+             model.RoleID = !string.IsNullOrEmpty(RoleID) ? RoleID :string.Empty;
             model.PageSize = pageSize.HasValue ? pageSize.Value > 5 ? pageSize.Value : 5 : 5;
             model.PageNo = pageNo.HasValue ? pageNo.Value > 1 ? pageNo.Value : 1 : 1;
             model.RMUsers = UserManager.GetUsers(model.SearchTerm, model.RoleID,model.PageSize,model.PageNo);         
@@ -70,18 +70,17 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             return PartialView("_Listing", model);
         }
 
-       
+        [HttpGet]
         public async Task<ActionResult> Action(string ID)
         {
            
                 if (!string.IsNullOrEmpty(ID))
                 {
                     Model.RMUser = UserManager.GetUserByID(ID);
-                    Model.IRoles =await UserManager.GetRolesAsync(ID);
+                    Model.UserRoles= await UserManager.GetRolesAsync(ID);
                    // Model.RMUser = UserManager.FindByIdAsync(ID.Value);
                 }
             
-
              Model.Roles= UserManager.GetAllRoles();
             return PartialView("_Action", Model);
         }
@@ -93,14 +92,14 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             bool Result = false;
             if (!string.IsNullOrEmpty(model.Id))
             {
-                Result = await UserManager.EditUser(model); //UserManager.CreateAsync(model);
+                Result = await UserManager.EditUser(model); 
                 jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "User updated successfully" : "update User Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
 
             }
             else
             {
 
-                Result =await UserManager.CreateUser(model);
+                Result =await UserManager.CreateUser(model);//UserManager.CreateAsync(model);
                 jsonResult.Data = new { Edited =false , Success = Result, Message = Result ? "User was added successfully" : "add User Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
 
             }

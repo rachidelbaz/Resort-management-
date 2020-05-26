@@ -11,16 +11,15 @@ namespace ResortManagement.Areas.Dashboard.Models
     {
        public UserEditViewmodel userEditViewmodel =new UserEditViewmodel();
        public UsersListingViewmodel usersListingViewmodel = new UsersListingViewmodel();
-        public IEnumerable<IdentityRole> Roles { get; set; }
+       public IEnumerable<IdentityRole> Roles { get; set; }
     }
     public class UserEditViewmodel
     {
         public string UserID { get; set; }
-        public RMUser  RMUser { get; set; }
-        public string  RoleId { get; set; }
+        public RMUser RMUser { get; set; }
+        public IList<string> UserRoles { get; set; }
         public IEnumerable<IdentityRole> Roles { get; set; }
-        public IList<string> IRoles { get; set; }
-
+        
     }
     public class UsersListingViewmodel
     {
@@ -29,7 +28,8 @@ namespace ResortManagement.Areas.Dashboard.Models
         public int PageNo { get; set; }
         public int PageSize { get; set; }
         public string SearchTerm { get;  set; }
-        public int RoleID { get; internal set; }
+        public string RoleID { get; set; }
+
     }
 
 }

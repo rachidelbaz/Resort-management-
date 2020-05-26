@@ -10,7 +10,7 @@
         <thead>
             <tr>
 
-                <th scope="col">Name</th>
+                <th scope="col">User Name</th>
                 <th scope="col">Email</th>
 
                 <th scope="col">Role</th>
@@ -21,10 +21,18 @@
         <tbody>
             @foreach (var user in Model.RMUsers)
             {
-                <tr>
-                    <th scope="row">@user.UserName</th>
-                    <th>@user.Email</th>
-                    <th>@user.Role</th>
+            <tr>
+                <th scope="row">@user.UserName</th>
+                <th>@user.Email</th>
+                @if (user.Roles != null)
+                {
+                    <th>user.Roles</th>
+                }
+                else
+                {
+                    <th>-</th>
+                }
+
             </tr>
         }
 
@@ -78,7 +86,7 @@ else
     $('.btnDelete').click(function () {
         const dataHref = $(this).attr('data-href');
         //condition for handling showing div else no record registred yet .
-        let pageNo = '@(Model.PageNo==Model.pager.EndPage && Model.RMUser.Count()==1?Model.PageNo-1:Model.PageNo)';
+        let pageNo = '@(Model.PageNo==Model.pager.EndPage && Model.RMUsers.Count()==1?Model.PageNo-1:Model.PageNo)';
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-danger',
@@ -145,7 +153,7 @@ else
          'click': function () {
 
              let pageNo = $(this).attr("data-PageNo");
-             refreshTableListing('@Model.SearchTerm','@Model.AccommodationGatgetID','@Model.PageSize',pageNo);
+             refreshTableListing('@Model.SearchTerm','@Model.RoleID','@Model.PageSize',pageNo);
 
     },'mouseover':function () { $(this).css('cursor', 'pointer'); }
     });

@@ -11,7 +11,6 @@ namespace ResortManagement.Entities
 {
     public class RMUser : IdentityUser
     {
-        
         public string Address { get; set; }
         public string  City { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<RMUser> manager)
