@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using ResortManagement.Areas.Dashboard.Models;
 using ResortManagement.DataBase;
 using ResortManagement.Entities;
 using ResortManagement.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -89,32 +91,86 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         {
             JsonResult jsonResult = new JsonResult();
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            bool Result = false;
-            if (!string.IsNullOrEmpty(model.Id))
+            var msg = "<ul>";
+            var _class=string.Empty;
+            bool edit = false;
+            if (ModelState.IsValid)
             {
-                Result = await UserManager.EditUser(model); 
-                jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "User updated successfully" : "update User Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                var IdResult = new IdentityResult();
+                var user = new RMUser();
+                if (!string.IsNullOrEmpty(model.Id))
+                {
+                    user = await UserManager.FindByIdAsync(model.Id);
+                    
+                    user.FullName = model.FullName;
+                    user.Email = model.Email;
+                    user.UserName = model.UserName;
+                    user.City = model.City;
+                    user.Address = model.Address;
+                  
+                    IdResult =await UserManager.UpdateAsync(user);
+                    
+                    if (IdResult.Succeeded)
+                    {
+                        edit = true;
+                        _class = "alert-success text-white";
+                        msg = "User updated successfully";
+                    }
+                    else
+                    {   
+                        _class = "alert-danger text-white";
 
+                        foreach (var error in IdResult.Errors)
+                        {
+                            msg += "<li>"+ error + "</li>";
+                        }
+                        msg +="</ul>";
+                    }
+
+                }
+                else
+                {  
+                        user.FullName = model.FullName;
+                        user.Email = model.Email;
+                        user.UserName = model.UserName;
+                        user.City = model.City;
+                        user.Address = model.Address;
+                     IdResult = await UserManager.CreateAsync(user);
+                    if (IdResult.Succeeded)
+                    {
+                        _class = "alert-success text-white";
+                        msg = "User added successfully";
+                    }
+                    else
+                    {
+                        _class = "alert-danger text-white";
+                        foreach (var error in IdResult.Errors)
+                        {
+                            msg += "<li>" + error + "</li>";
+                        }
+                        msg += "</ul>";
+
+                    }
+
+                }
             }
-            else
-            {
-
-                Result =await UserManager.CreateUser(model);//UserManager.CreateAsync(model);
-                jsonResult.Data = new { Edited =false , Success = Result, Message = Result ? "User was added successfully" : "add User Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
-
-            }
+          
+            jsonResult.Data = new { Edited = edit,Message = msg, Class = _class };
 
             return jsonResult;
 
         }
         [HttpPost]
-        public JsonResult Delete(string ID)
+        public async Task<JsonResult> Delete(string ID)
         {
             JsonResult jsonResult = new JsonResult();
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             if (!string.IsNullOrEmpty(ID))
             {
-                return Json(new { Succes = UserManager.DeleteUserByID(ID), jsonResult});
+                var user = UserManager.FindById(ID);
+                var result =await UserManager.DeleteAsync(user);
+                jsonResult.Data= new { Success= result.Succeeded };
+                //jsonResult.Data=new { Success =await UserManager.DeleteUserByID(ID) };
             }
 
 

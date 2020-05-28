@@ -6,6 +6,7 @@ using ResortManagement.DataBase;
 using ResortManagement.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -97,24 +98,6 @@ namespace ResortManagement.Services
                     //users = users.Where(u =>u..ToLower().Contains(SearchTerm.Trim().ToLower()));
                 }
                 return users.Count();
-            }
-        }
-
-        public async Task<bool> EditUser(RMUser model)
-        {
-            using (var context = new ResortManagementDbContext())
-            {
-                context.Entry(model).State =System.Data.Entity.EntityState.Modified;
-                return await context.SaveChangesAsync() > 0;
-            }
-        }
-
-        public async Task<bool> CreateUser(RMUser model)
-        {
-            using (var context=new ResortManagementDbContext())
-            {
-                context.Users.Add(model);
-                return await context.SaveChangesAsync()>0;
             }
         }
 

@@ -13,7 +13,7 @@
                 <th scope="col">User Name</th>
                 <th scope="col">Email</th>
 
-                <th scope="col">Role</th>
+                <th scope="col">Roles</th>
 
                 <th scope="col">Actions</th>
             </tr>
@@ -21,20 +21,48 @@
         <tbody>
             @foreach (var user in Model.RMUsers)
             {
-            <tr>
-                <th scope="row">@user.UserName</th>
-                <th>@user.Email</th>
-                @if (user.Roles != null)
-                {
-                    <th>user.Roles</th>
-                }
-                else
-                {
-                    <th>-</th>
-                }
+                <tr>
+                    <th scope="row">@user.UserName</th>
+                    <th>@user.Email</th>
+                    <th>
+                        <ul>
+                            @if (@user.Roles != null && @user.Roles.Count() > 0)
+                            {
 
-            </tr>
-        }
+
+                                foreach (var role in user.Roles)
+                                {
+
+                                    <li>
+                                        @role
+                                    </li>
+
+                                }
+
+
+                            }
+                            else
+                            {
+                                <li>@string.Empty</li>
+                            }
+                        </ul>
+                    </th>
+
+                    <td>
+                        <button class="btn btn-outline-primary mr-2 btnAction"
+                                data-toggle="modal" data-target="#exampleModalCenter"
+                                data-href="@Url.Action("Action", "Users",
+                                          new { ID = @user.Id})">
+                            <i class="fas fa-edit fa-1x mr-1"></i>Edit
+                        </button>
+                        <button class="btn btn-outline-danger btnDelete"
+                                data-href="@Url.Action("Delete", "Users",
+                                      new { ID = @user.Id})">
+                            <i class="fas fa-trash-alt fa-1x mr-1"></i>Delete
+                        </button>
+                    </td>
+                </tr>
+            }
 
         </tbody>
     </table>
@@ -110,22 +138,24 @@ else
                     type: 'POST',
                     dataType: 'json'
                 }).done(function (response) {
+                   
                     if (response.Success) {
+                        
                         swalWithBootstrapButtons.fire(
                             'Deleted!',
                             'Your file has been deleted.',
                             'success'
                         );
 
-                        refreshTableListing('@Model.SearchTerm', $("#PagerSelect option:selected").val(), pageNo);
+                        refreshTableListing('@Model.SearchTerm','@Model.RoleID', $("#PagerSelect option:selected").val(), pageNo);
 
-                    } else {
-                         swalWithBootstrapButtons.fire(
-                            'Error!',
-                            'Your file has been deleted.',
-                            'error'
-                        );
                     }
+                }).fail(function () {
+
+                    swalWithBootstrapButtons.fire(
+                        'Error!',
+                        'Your Users record is safe :)',
+                        'error');
                 });
 
             } else if (
@@ -134,7 +164,7 @@ else
             ) {
                 swalWithBootstrapButtons.fire(
                     'Cancelled',
-                    'Your Accommodation gadget record is safe :)',
+                    'Your Users record is safe :)',
                     'error'
                 );
             }
