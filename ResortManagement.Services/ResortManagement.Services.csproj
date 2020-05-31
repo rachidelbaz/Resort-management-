@@ -101,6 +101,7 @@
     <Compile Include="AccoommodationsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResortManagemenetSignInManager.cs" />
+    <Compile Include="ResortManagementRoleManager.cs" />
     <Compile Include="ResortManagementUserManager.cs" />
   </ItemGroup>
   <ItemGroup>

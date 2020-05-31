@@ -1,0 +1,87 @@
+﻿@model ResortManagement.Areas.Dashboard.Models.EditRolesViewModel
+@{
+
+}
+
+
+@if (Model != null)
+{
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+            @if (Model.role != null)
+            {
+                <span>Edit Role</span>
+            }
+            else
+            {
+                <span>Create Role</span>
+            }
+
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="formAction">
+            <input type="hidden" name="Id" value="@(Model.role!=null?Model.role.Id.ToString():string.Empty)">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Name</span>
+                </div>
+                <input class="form-control" name="Name" type="text" placeholder="" value="@(Model.role!=null?Model.role.Name:string.Empty)">
+            </div>
+        </form>
+        <div class="alert d-none" role="alert" id="DivMessage">
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-share fa-1x mr-1"></i>Close</button>
+        <button type="button" class="btn btn-primary" id="btnSave"><i class="fas fa-save fa-1x mr-1"></i>Save changes</button>
+    </div>
+
+}
+<script>
+
+    $("#btnSave").click(function () {
+        const DivMessage = $("#DivMessage");
+
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("Action","Roles")',
+            data: $("#formAction").serialize(),
+            dataType:'json'
+        }).done(function (response) {
+                 DivMessage
+                .removeClass('d-none')
+                .html(response.Message)
+                .addClass(response.Class);
+                 $(":input").val('');
+           //to refresh _listing partialView Data declared in index view
+            refreshTableListing();
+            if (response.Edited) {
+                setTimeout(function () {
+                    $('#exampleModalCenter').modal('hide');
+                    //$("#exampleModalCenter").removeClass('show');
+                    // $('body').removeClass('modal-open');
+                    //$('body div:last').remove();
+                    //$('.moadl-dialog').hasClass('modal-dialog-centered')
+                    //    .removeClass('modal-dialog-centered')
+                    //    .addClass('modal-dialog-centered');
+                }, 1000);
+
+            }
+
+            setTimeout(function () {
+                DivMessage.addClass('d-none');
+            }, 6000);
+
+            });
+    });
+
+</script>
+
+
+

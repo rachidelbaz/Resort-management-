@@ -17,7 +17,6 @@ namespace ResortManagement.Areas.Dashboard.Models
     {
         public string UserID { get; set; }
         public RMUser RMUser { get; set; }
-        public IList<string> UserRoles { get; set; }
         public IEnumerable<IdentityRole> Roles { get; set; }
         
     }
@@ -29,7 +28,7 @@ namespace ResortManagement.Areas.Dashboard.Models
         public int PageSize { get; set; }
         public string SearchTerm { get;  set; }
         public string RoleID { get; set; }
-
+        public IEnumerable<IdentityRole> AllRoles { get; set; }
     }
 
 }

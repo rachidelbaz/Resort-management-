@@ -40,41 +40,62 @@
                 </div>
                 <input class="form-control" name="UserName" type="text" placeholder="" value="@(Model.RMUser!=null?Model.RMUser.UserName:string.Empty)">
             </div>
-            @*<div class="input-group mb-2">
+            <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Role</span>
                 </div>
+                <div class="row border rounded-right ml-0">
+                    <div class="col-8">
+                        <div class="d-flex flex-wrap justify-content-around">
+                            @if (Model.Roles != null)
+                            { 
+                            <ul>
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <li class="input-group m-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-addon">
+                                                <input name="UserRoles" @(Model.RMUser!=null?Model.RMUser.UserRoles.Contains(role.Name)?"checked":string.Empty:string.Empty) type="checkbox" value="@role.Name" />
+                                            </div>
+                                            <label class="form-check">@role.Name</label>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                            }
+                        </div>
 
-                <select name="Roles" @(Model.RMUser != null && Model.RMUser.Roles.Count() > 1 ? "multiple='" + @Model.RMUser.Roles.Count() + "'" : string.Empty) class="form-control font-weight-bold pr-3">
-                    <option value="" disabled selected>Select Role</option>
-                    @if (Model.Roles != null && Model.Roles.Count() > 0)
-                    {
-                        foreach (var role in Model.Roles)
-                        {
+                        @*<select name="Roles" @(Model.RMUser != null && Model.RMUser.Roles.Count() > 1 ? "multiple='" + @Model.RMUser.Roles.Count() + "'" : string.Empty) class="form-control font-weight-bold pr-3">
+                                <option value="" disabled selected>Select Role</option>
+                                @if (Model.Roles != null && Model.Roles.Count() > 0)
+                                {
+                                    foreach (var role in Model.Roles)
+                                    {
 
-                            <option value="@role.Id" @(Model.Roles != null ? Model.UserRoles.Contains(role.Name) ? "class='font-weight-bold' " + "selected" : string.Empty : string.Empty)>@role.Name</option>
+                                        <option value="@role.Id" @(Model.Roles != null ? Model.UserRoles.Contains(role.Name) ? "class='font-weight-bold' " + "selected" : string.Empty : string.Empty)>@role.Name</option>
 
-                        }
-                    }
-                </select>
+                                    }
+                                }
+                            </select>*@
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">City</span>
+                </div>
+                <input type="text" name="City" class="form-control" value="@(Model.RMUser!=null?Model.RMUser.City:string.Empty)" />
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Address</span>
+                </div>
+                <textarea class="form-control" name="Address" rows="5" cols="10" placeholder="">@(Model.RMUser != null ? Model.RMUser.Address:string.Empty)</textarea>
+            </div>
+        </form>
+        <div class="alert d-none" role="alert" id="DivMessage">
 
-             </div>*@
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <span class="input-group-text">City</span>
         </div>
-        <input type="text" name="City" class="form-control" value="@(Model.RMUser!=null?Model.RMUser.City:string.Empty)" />
-    </div>
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Address</span>
-        </div>
-        <textarea class="form-control" name="Address" rows="5" cols="10" placeholder="">@(Model.RMUser != null ? Model.RMUser.Address:string.Empty)</textarea>
-    </div>
-    </form>
-    <div class="alert d-none" role="alert" id="DivMessage">
-
-    </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-share fa-1x mr-1"></i>Close</button>

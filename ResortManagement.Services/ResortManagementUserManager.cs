@@ -6,6 +6,7 @@ using ResortManagement.DataBase;
 using ResortManagement.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
@@ -116,14 +117,14 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
-                var users = context.Users.AsQueryable();
+                var users = context.Users.Include(u=>u.Roles).AsQueryable();
                 if (!string.IsNullOrEmpty(SearchTerm))
                 {
-                    users = users.Where(u => u.UserName.ToLower().Contains(SearchTerm.Trim().ToLower()));
+                    users = users.Include(u=>u.Roles).Where(u => u.UserName.ToLower().Contains(SearchTerm.Trim().ToLower()));
                 }
                 if (!string.IsNullOrEmpty(RoleID))
                 {
-                    //users = users.Where(u=>u.);
+                 users = users.Where(u=>u.Roles.Select(r=>r.RoleId).Contains(RoleID));
                 }
                 return users.OrderByDescending(u=>u.Id).Skip((pageNo-1)*pageSize).Take(pageSize).ToList();
             }

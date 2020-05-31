@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ResortManagement.Entities
 {
     public class RMUser : IdentityUser
-    {
+    {   public IList<string> UserRoles { get; set; }
         public string FullName { get; set; }
         public string Address { get; set; }
         public string  City { get; set; }

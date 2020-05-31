@@ -21,7 +21,7 @@ namespace ResortManagement
             app.CreatePerOwinContext(ResortManagementDbContext.Create);
             app.CreatePerOwinContext<ResortManagementUserManager>(ResortManagementUserManager.Create);
             app.CreatePerOwinContext<ResortManagemenetSignInManager>(ResortManagemenetSignInManager.Create);
-
+            app.CreatePerOwinContext<ResortManagementRoleManager>(ResortManagementRoleManager.Create);
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie

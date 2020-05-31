@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using ResortManagement.Areas.Dashboard.Models;
 using ResortManagement.DataBase;
@@ -18,13 +19,15 @@ namespace ResortManagement.Areas.Dashboard.Controllers
     {
         private ResortManagemenetSignInManager _signInManager;
         private ResortManagementUserManager _userManager;
+        private ResortManagementRoleManager _roleManager;
         public UsersController()
         {
         }
-        public UsersController(ResortManagementUserManager userManager, ResortManagemenetSignInManager signInManager)
+        public UsersController(ResortManagementUserManager userManager, ResortManagemenetSignInManager signInManager,ResortManagementRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager=roleManager;
         }
         public ResortManagementUserManager UserManager
         {
@@ -48,7 +51,17 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 _signInManager = value;
             }
         }
-     
+        public ResortManagementRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ResortManagementRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
 
         UserEditViewmodel Model = new UserEditViewmodel();
        
@@ -69,6 +82,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             model.RMUsers = UserManager.GetUsers(model.SearchTerm, model.RoleID,model.PageSize,model.PageNo);         
             int TotalUsers = UserManager.GetUsersCount(model.SearchTerm, model.RoleID);
             model.pager = new Pager(TotalUsers, model.PageNo, model.PageSize);
+            model.AllRoles = UserManager.GetAllRoles();
             return PartialView("_Listing", model);
         }
 
@@ -78,9 +92,9 @@ namespace ResortManagement.Areas.Dashboard.Controllers
            
                 if (!string.IsNullOrEmpty(ID))
                 {
+                    // Model.RMUser = UserManager.FindByIdAsync(ID);
                     Model.RMUser = UserManager.GetUserByID(ID);
-                    Model.UserRoles= await UserManager.GetRolesAsync(ID);
-                   // Model.RMUser = UserManager.FindByIdAsync(ID.Value);
+                    Model.RMUser.UserRoles = await UserManager.GetRolesAsync(Model.RMUser.Id);       
                 }
             
              Model.Roles= UserManager.GetAllRoles();
@@ -96,8 +110,9 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             bool edit = false;
             if (ModelState.IsValid)
             {
-                var IdResult = new IdentityResult();
+                IdentityResult IdResult, resultRole;
                 var user = new RMUser();
+               
                 if (!string.IsNullOrEmpty(model.Id))
                 {
                     user = await UserManager.FindByIdAsync(model.Id);
@@ -107,7 +122,24 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                     user.UserName = model.UserName;
                     user.City = model.City;
                     user.Address = model.Address;
-                  
+                    
+                    foreach (var roleName in model.UserRoles)
+                    {
+                        if (!(await UserManager.IsInRoleAsync(model.Id, roleName)))
+                        {
+                            
+                            resultRole= await UserManager.AddToRoleAsync(model.Id, roleName);
+                        }
+                        else
+                        {
+                            
+                            resultRole = await UserManager.RemoveFromRoleAsync(model.Id, roleName);
+                        }
+                    }
+
+
+
+
                     IdResult =await UserManager.UpdateAsync(user);
                     
                     if (IdResult.Succeeded)
@@ -176,5 +208,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
 
             return jsonResult;
         }
+
+        
     }
 }

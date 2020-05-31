@@ -26,18 +26,26 @@
                     <th>@user.Email</th>
                     <th>
                         <ul>
-                            @if (@user.Roles != null && @user.Roles.Count() > 0)
+                            @if (@user.Roles != null && @user.Roles.Any())
                             {
-
-
-                                foreach (var role in user.Roles)
+                                if (Model.AllRoles!=null && Model.AllRoles.Any())
                                 {
+                                    foreach (var role in Model.AllRoles)
+                                    {
+                                        foreach (var Urole in user.Roles)
+                                        {
+                                            if (role.Id == Urole.RoleId)
+                                            {
+                                                <li>
+                                                    @role.Name
+                                                </li>
+                                            }
 
-                                    <li>
-                                        @role
-                                    </li>
 
+                                        }
+                                    }
                                 }
+
 
 
                             }
@@ -59,6 +67,11 @@
                                 data-href="@Url.Action("Delete", "Users",
                                       new { ID = @user.Id})">
                             <i class="fas fa-trash-alt fa-1x mr-1"></i>Delete
+                        </button>
+                        <button class="btn btn-outline-info btnRoles"
+                                data-href="@Url.Action("Roles", "Users",
+                                      new { ID = @user.Id})">
+                            <i class="fas fa-user-tag fa-1x mr-1"></i>Roles
                         </button>
                     </td>
                 </tr>
@@ -138,9 +151,9 @@ else
                     type: 'POST',
                     dataType: 'json'
                 }).done(function (response) {
-                   
+
                     if (response.Success) {
-                        
+
                         swalWithBootstrapButtons.fire(
                             'Deleted!',
                             'Your file has been deleted.',
