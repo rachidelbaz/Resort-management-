@@ -164,7 +164,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             if (!string.IsNullOrEmpty(ID))
             {
-                var Role = RoleManager.FindById(ID);
+                var Role =await RoleManager.FindByIdAsync(ID);
                 var result = await RoleManager.DeleteAsync(Role);
                 jsonResult.Data = new { Success = result.Succeeded };
             }

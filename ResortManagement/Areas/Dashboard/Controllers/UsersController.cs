@@ -23,11 +23,11 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         public UsersController()
         {
         }
-        public UsersController(ResortManagementUserManager userManager, ResortManagemenetSignInManager signInManager,ResortManagementRoleManager roleManager)
+        public UsersController(ResortManagementUserManager userManager, ResortManagemenetSignInManager signInManager, ResortManagementRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            RoleManager=roleManager;
+            RoleManager = roleManager;
         }
         public ResortManagementUserManager UserManager
         {
@@ -64,7 +64,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         }
 
         UserEditViewmodel Model = new UserEditViewmodel();
-       
+
         // GET: Dashboard/Users
         public ActionResult Index()
         {
@@ -76,10 +76,10 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         {
             UsersListingViewmodel model = new UsersListingViewmodel();
             model.SearchTerm = SearchTerm;
-             model.RoleID = !string.IsNullOrEmpty(RoleID) ? RoleID :string.Empty;
+            model.RoleID = !string.IsNullOrEmpty(RoleID) ? RoleID : string.Empty;
             model.PageSize = pageSize.HasValue ? pageSize.Value > 5 ? pageSize.Value : 5 : 5;
             model.PageNo = pageNo.HasValue ? pageNo.Value > 1 ? pageNo.Value : 1 : 1;
-            model.RMUsers = UserManager.GetUsers(model.SearchTerm, model.RoleID,model.PageSize,model.PageNo);         
+            model.RMUsers = UserManager.GetUsers(model.SearchTerm, model.RoleID, model.PageSize, model.PageNo);
             int TotalUsers = UserManager.GetUsersCount(model.SearchTerm, model.RoleID);
             model.pager = new Pager(TotalUsers, model.PageNo, model.PageSize);
             model.AllRoles = UserManager.GetAllRoles();
@@ -89,15 +89,18 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         [HttpGet]
         public async Task<ActionResult> Action(string ID)
         {
-           
-                if (!string.IsNullOrEmpty(ID))
+
+            if (!string.IsNullOrEmpty(ID))
+            {
+                Model.RMUser = await UserManager.FindByIdAsync(ID);
+
+                if (Model.RMUser != null)
                 {
-                    // Model.RMUser = UserManager.FindByIdAsync(ID);
-                    Model.RMUser = UserManager.GetUserByID(ID);
-                    Model.RMUser.UserRoles = await UserManager.GetRolesAsync(Model.RMUser.Id);       
+                    Model.RMUser.UserRoles = await UserManager.GetRolesAsync(Model.RMUser.Id);
                 }
-            
-             Model.Roles= UserManager.GetAllRoles();
+            }
+
+            Model.Roles = UserManager.GetAllRoles();
             return PartialView("_Action", Model);
         }
         [HttpPost]
@@ -106,88 +109,94 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             JsonResult jsonResult = new JsonResult();
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             var msg = "<ul>";
-            var _class=string.Empty;
+            var _class = string.Empty;
             bool edit = false;
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            IdentityResult IdResult, resultRole;
+            var user = new RMUser();
+
+            if (!string.IsNullOrEmpty(model.Id))
             {
-                IdentityResult IdResult, resultRole;
-                var user = new RMUser();
-               
-                if (!string.IsNullOrEmpty(model.Id))
+                user = await UserManager.FindByIdAsync(model.Id);
+
+                user.FullName = model.FullName;
+                user.Email = model.Email;
+                user.UserName = model.UserName;
+                user.City = model.City;
+                user.Address = model.Address;
+
+                foreach (var UroleName in model.UserRoles)
                 {
-                    user = await UserManager.FindByIdAsync(model.Id);
-                    
-                    user.FullName = model.FullName;
-                    user.Email = model.Email;
-                    user.UserName = model.UserName;
-                    user.City = model.City;
-                    user.Address = model.Address;
-                    
-                    foreach (var roleName in model.UserRoles)
+                    if (!(await UserManager.IsInRoleAsync(user.Id, UroleName)))
                     {
-                        if (!(await UserManager.IsInRoleAsync(model.Id, roleName)))
-                        {
-                            
-                            resultRole= await UserManager.AddToRoleAsync(model.Id, roleName);
-                        }
-                        else
-                        {
-                            
-                            resultRole = await UserManager.RemoveFromRoleAsync(model.Id, roleName);
-                        }
+                        resultRole = await UserManager.AddToRoleAsync(model.Id, UroleName);
                     }
-
-
-
-
-                    IdResult =await UserManager.UpdateAsync(user);
-                    
-                    if (IdResult.Succeeded)
+                }
+                foreach (var Ur in user.Roles)
+                {
+                    var r = await RoleManager.FindByIdAsync(Ur.RoleId);
+                    if (!model.UserRoles.Contains(r.Name))
                     {
-                        edit = true;
-                        _class = "alert-success text-white";
-                        msg = "User updated successfully";
+                        resultRole = await UserManager.RemoveFromRoleAsync(model.Id,r.Name);
                     }
-                    else
-                    {   
-                        _class = "alert-danger text-white";
+                    
+                }
 
-                        foreach (var error in IdResult.Errors)
-                        {
-                            msg += "<li>"+ error + "</li>";
-                        }
-                        msg +="</ul>";
-                    }
+                IdResult = await UserManager.UpdateAsync(user);
 
+                if (IdResult.Succeeded)
+                {
+                    edit = true;
+                    _class = "alert-success text-white";
+                    msg = "User updated successfully";
                 }
                 else
-                {  
-                        user.FullName = model.FullName;
-                        user.Email = model.Email;
-                        user.UserName = model.UserName;
-                        user.City = model.City;
-                        user.Address = model.Address;
-                     IdResult = await UserManager.CreateAsync(user);
-                    if (IdResult.Succeeded)
-                    {
-                        _class = "alert-success text-white";
-                        msg = "User added successfully";
-                    }
-                    else
-                    {
-                        _class = "alert-danger text-white";
-                        foreach (var error in IdResult.Errors)
-                        {
-                            msg += "<li>" + error + "</li>";
-                        }
-                        msg += "</ul>";
+                {
+                    _class = "alert-danger text-white";
 
+                    foreach (var error in IdResult.Errors)
+                    {
+                        msg += "<li>" + error + "</li>";
                     }
+                    msg += "</ul>";
+                }
+
+            }
+            else
+            {
+                user.FullName = model.FullName;
+                user.Email = model.Email;
+                user.UserName = model.UserName;
+                user.City = model.City;
+                user.Address = model.Address;
+
+                IdResult = await UserManager.CreateAsync(user);
+
+                if (IdResult.Succeeded)
+                {
+                    foreach (var UroleName in model.UserRoles)
+                    {
+                        resultRole = await UserManager.AddToRoleAsync(user.Id, UroleName);
+                    }
+                    _class = "alert-success text-white";
+                    msg = "User added successfully";
+                }
+                else
+                {
+                    _class = "alert-danger text-white";
+                    foreach (var error in IdResult.Errors)
+                    {
+                        msg += "<li>" + error + "</li>";
+                    }
+                    msg += "</ul>";
 
                 }
+
             }
-          
-            jsonResult.Data = new { Edited = edit,Message = msg, Class = _class };
+
+
+            jsonResult.Data = new { Edited = edit, Message = msg, Class = _class };
 
             return jsonResult;
 
@@ -200,8 +209,8 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             if (!string.IsNullOrEmpty(ID))
             {
                 var user = UserManager.FindById(ID);
-                var result =await UserManager.DeleteAsync(user);
-                jsonResult.Data= new { Success= result.Succeeded };
+                var result = await UserManager.DeleteAsync(user);
+                jsonResult.Data = new { Success = result.Succeeded };
                 //jsonResult.Data=new { Success =await UserManager.DeleteUserByID(ID) };
             }
 
@@ -209,6 +218,14 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             return jsonResult;
         }
 
-        
+
     }
 }
+
+
+
+
+
+
+
+

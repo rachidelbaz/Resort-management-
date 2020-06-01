@@ -41,8 +41,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
             bool Result = false;
-            if (ModelState.IsValid)
-            {
+           
                
                 if (model.ID>0)
                 {
@@ -58,7 +57,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                     jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
    
-            }
+            
             return jsonResult;
         }
         /// <summary>
