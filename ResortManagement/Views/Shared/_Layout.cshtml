@@ -15,6 +15,8 @@
     <link href="~/Content/plugins/jquery-datepicker/jquery-ui.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="~/Content/Styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Styles/responsive.css">
+    <link href="~/Content/Styles/rooms.css" rel="stylesheet" />
+    <script src="~/Areas/Content/vendor/jquery/jquery.min.js"></script>
 </head>
 <body>
 
@@ -26,18 +28,22 @@
             <div class="header_content d-flex flex-column align-items-center justify-content-lg-end justify-content-center">
 
                 <!-- Logo -->
-                <div class="logo"><a href="#"><img class="logo_1" src="~/Content/images/logo.png" alt=""><img class="logo_2" src="~/Content/images/logo_2.png" alt=""><img class="logo_3" src="~/Content/images/logo_3.png" alt=""></a></div>
+                <div class="logo"><a href="@Url.Action("Index","Home")"><img class="logo_1" src="~/Content/images/logo.png" alt=""><img class="logo_2" src="~/Content/images/logo_2.png" alt=""><img class="logo_3" src="~/Content/images/logo_3.png" alt=""></a></div>
 
                 <!-- Main Nav -->
                 <nav class="main_nav">
+                    @Html.Partial("_LoginPartial")
+                </nav>
+                <nav class="main_nav">
                     <ul class="d-flex flex-row align-items-center justify-content-start">
-                        <li class="active"><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About us</a></li>
-                        <li><a href="rooms.html">Rooms</a></li>
-                        <li><a href="blog.html">News</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li class="active"><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li><a href="@Url.Action("About","Home")">About us</a></li>
+                        <li><a href="@Url.Action("Rooms","Home")">Rooms</a></li>
+
+                        <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
                     </ul>
                 </nav>
+
 
                 <!-- Social -->
                 <div class="social header_social">
@@ -88,7 +94,7 @@
 
         <div class="logo_overlay">
             <div class="logo_overlay_content d-flex flex-column align-items-center justify-content-center">
-                <div class="logo"><a href="#"><img src="~/Content/images/logo_3.png" alt=""></a></div>
+                <div class="logo"><a href="@Url.Action("Index","Home")"><img src="~/Content/images/logo_3.png" alt=""></a></div>
             </div>
         </div>
 
@@ -110,11 +116,13 @@
                 <!-- Menu Navigation -->
                 <nav class="menu_nav text-center">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About us</a></li>
+                        <li><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li><a href="@Url.Action("About","Home")">About us</a></li>
                         <li><a href="rooms.html">Rooms</a></li>
-                        <li><a href="blog.html">News</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+
+                        <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+                        <li><a href="@Url.Action("Register","Account")">Register</a></li>
+                        <li><a href="@Url.Action("Login","Account")">Login</a></li>
                     </ul>
                 </nav>
                 <div class="button menu_button"><a href="#">book now</a></div>
@@ -132,8 +140,59 @@
 
             </div>
         </div>
-      
 
+        <!-- Home -->
+        <div class="home">
+            <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="/Content/images/home.jpg" data-speed="0.8"></div>
+            <div class="home_container d-flex flex-column align-items-center justify-content-center">
+                <div class="home_title"><h1>Book Your Stay</h1></div>
+                <div class="home_text text-center">Fusce erat dui, venenatis et erat in, vulputate dignissim lacus. Donec vitae tempus dolor, sit amet elementum lorem. Ut cursus tempor turpis.</div>
+                <div class="button home_button"><a href="#">book now</a></div>
+            </div>
+        </div>
+        <!-- Booking -->
+
+        <div class="booking">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="booking_container d-flex flex-row align-items-end justify-content-start">
+                            <form action="#" class="booking_form">
+                                <div class="booking_form_container d-flex flex-lg-row flex-column align-items-start justify-content-start flex-wrap">
+                                    <div class="booking_form_inputs d-flex flex-row align-items-start justify-content-between flex-wrap">
+                                        <div class="booking_dropdown"><input type="text" class="datepicker booking_input booking_input_a booking_in" placeholder="Check in" required="required"></div>
+                                        <div class="booking_dropdown"><input type="text" class="datepicker booking_input booking_input_a booking_out" placeholder="Check out" required="required"></div>
+                                        <div class="custom-select">
+                                            <select>
+                                                <option value="0">Adults</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <div class="custom-select">
+                                            <select>
+                                                <option value="0">Children</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="booking_form_button ml-lg-auto">book now</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intro -->
         @RenderBody()
 
 
@@ -145,7 +204,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="footer_logo text-center">
-                            <a href="#"><img src="~/Content/images/logo.png" alt=""></a>
+                            <a href="@Url.Action("Index","Home")"><img src="~/Content/images/logo.png" alt=""></a>
                         </div>
                         <div class="footer_content">
                             <div class="row">
@@ -186,7 +245,8 @@
             </div>
         </footer>
     </div>
-
+    @RenderSection("scripts", required: false)
+    
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Content/Styles/bootstrap-4.1.2/popper.js"></script>
     <script src="~/Content/Styles/bootstrap-4.1.2/bootstrap.min.js"></script>

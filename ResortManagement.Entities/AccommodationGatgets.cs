@@ -19,5 +19,6 @@ namespace ResortManagement.Entities
         public string Name { get; set; }
         public int NOfRoom { get; set; }
         public decimal FeePerNight { get; set; }
+        public virtual List<AccommodationGadgetPicture> GadgetPictures { get; set; }
     }
 }

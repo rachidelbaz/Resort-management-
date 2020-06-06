@@ -76,6 +76,14 @@ namespace ResortManagement.Services
 
             }
         }
+        public IEnumerable<AccommodationGatgets> GetAccommodationGadgetsByIDs(List<int> ids)
+        {
+            using (var context = new ResortManagementDbContext())
+            {
+                return context.accommodationGatget.Where(acc=>ids.Contains(acc.ID)).ToList();
+
+            }
+        }
 
         public bool EditAccommondationGadget(AccommodationGatgets model)
         {

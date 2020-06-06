@@ -32,6 +32,6 @@ namespace ResortManagement.DataBase
         //should not create user cuase it aready created from IdentityDbContext<user> 
         //public DbSet<RMUser> users { get; set; }
 
-
+        public DbSet<Picture>  picture { get; set; }
     }
 }

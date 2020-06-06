@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ResortManagement.Entities
 {
-    public class Accommodations
+    public class  Accommodations
     {
         [Key]
         public int ID { get; set; }
@@ -18,5 +18,7 @@ namespace ResortManagement.Entities
 
         public string Name { get; set; }
         public string Description { get; set; }
+        public virtual List<AccommodationPicture>  accommodationPictures { get; set; }
+        
     }
 }

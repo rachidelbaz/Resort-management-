@@ -1,0 +1,82 @@
+﻿@model ResortManagement.Models.AccommodationsViewModel
+@{
+    ViewBag.Title = "Rooms";
+}
+
+<!-- Rooms -->
+
+@if (Model != null && Model.accommodations != null && Model.pager!=null)
+{
+    <div class="rooms">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="card-columns">
+
+                        @foreach (var room in Model.accommodations)
+                        {
+                            <div class="card">
+                                <img class="card-img-top" src="~/Content/images/room_1.jpg" alt="Room image description">
+                                <div class="card-body">
+                                    <div class="rooms_title"><h2>@(room.accommodationGatgets.Name)</h2></div>
+                                    <div class="rooms_text">
+                                        <p>@room.Description</p>
+                                    </div>
+                                    <div class="rooms_list">
+                                        <ul>
+                                            <li class="d-flex flex-row align-items-center justify-content-start">
+                                                <img src="~/Content/images/check.png" alt="">
+                                                <span>Morbi tempus malesuada erat sed</span>
+                                            </li>
+                                            <li class="d-flex flex-row align-items-center justify-content-start">
+                                                <img src="~/Content/images/check.png" alt="">
+                                                <span>Tempus malesuada erat sed</span>
+                                            </li>
+                                            <li class="d-flex flex-row align-items-center justify-content-start">
+                                                <img src="~/Content/images/check.png" alt="">
+                                                <span>Pellentesque vel neque finibus elit</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="rooms_price">$ @(room.accommodationGatgets.FeePerNight)/<span>Night</span></div>
+                                    <div class="button rooms_button"><a href="#">book now</a></div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+
+                    @*@(Model.pager!=null?Model.PageNo >= Model.pager.EndPage?"d-none":string.Empty:"d-none")*@
+                    <div class="load_more_container text-center">
+                        <div class="load_more_button"><a data-href="@Url.Action("Rooms","Home")">load more rooms</a></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $(".load_more_button a").on({
+        "click": function () {
+                if (@Model.PageNo+1>=@Model.pager.EndPage) {
+                    $(".load_more_container").addClass("d-none");}
+           $.post($(this).attr("data-href"), {pageNo: '@(Model.PageNo+1)'}, function (response) {
+           $(".card-columns").append($(response).find(".card-columns").html());
+           }, 'html');
+        }
+        ,"mouseenter": function () {$(this).css("cursor","pointer");}
+    });
+    </script>
+}
+else
+{
+    <div class="container mt-2">
+        <div class="alert alert-warning" role="alert">
+            Sorry! No Room registred yet!
+        </div>
+    </div>
+}
+
+

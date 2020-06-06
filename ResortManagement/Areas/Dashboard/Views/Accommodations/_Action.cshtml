@@ -1,6 +1,6 @@
 ﻿@model ResortManagement.Areas.Dashboard.Models.AccommodationsEditViewModel
 @{ 
-
+    var imgDefault = "/content/images/empty.jpg";
 }
 
 
@@ -36,7 +36,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Gadget</span>
                 </div>
-                
+
                 <select name="AccommodationGatgetID" class="form-control font-weight-bold pr-3">
                     <option value="" disabled selected>Select Gadget</option>
                     @if (Model.accommodationGatgets != null)
@@ -50,7 +50,7 @@
                         }
                     }
                 </select>
-               
+
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -58,7 +58,20 @@
                 </div>
                 <textarea class="form-control" name="Description" rows="5" cols="10" placeholder="">@(Model.accommodation != null ? Model.accommodation.Description:string.Empty)</textarea>
             </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Picture</span>
+                </div>
+                <div class="custom-file">
+                    <input id="ImgURL" name="URL" hidden />
+                    <input id="PicSelecter" type="file" accept="image/*" class="custom-file-input" multiple>
+                    <label class="custom-file-label" for="PicSelecter">Choose file</label>
+                </div>
+            </div>
         </form>
+        <div id="ImgLaoder" class="d-flex flex-wrap justify-content-around mb-2">
+            <input type="image" src="@imgDefault" class="img-thumbnail w-25" />
+        </div>
         <div class="alert d-none" role="alert" id="DivMessage">
 
         </div>
@@ -106,7 +119,47 @@
 
             });
     });
+    $("#PicSelecter").change(function () {
+        var files = this.files;
+        var picData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            var pic = files[i];
+            picData.append("picture", pic);
+        }
+        $.ajax({
+            url: '@Url.Action("UpLoadPictures","Dashboard")',
+            type:'POST',
+            data: picData,
+            dataType: 'json',
+            contentType: false,
+            processData: false
+        }).done(function (response) {
+            
+            if (response.success) {
+                $("#ImgURL").val(response.ImgURL);
+                $.each(response.ImgURL, function () {
+                    debugger;
+                      var img = $("#ImgLaoder input[type='image']").clone();
+                      var imgEmpty = $("#ImgLaoder input[type='image']");
+                     console.log($(this).join(''));
+                if (imgEmpty.attr("src") == "@imgDefault") {imgEmpty.remove();}
+                    img.attr("src", $(this));
+                   $("#ImgLaoder").append(img);
+                
 
+                });
+                
+                // var img = `<input type="image" src=${response.ImgURL} class="img-thumbnail"/>`;
+              
+            }
+            else {
+                console.log("Fail:"+response.message);
+            }
+        }).fail(function (response, status, xhttpR) {
+        });
+
+
+    });
 </script>
 
 

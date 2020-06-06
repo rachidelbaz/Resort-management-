@@ -54,11 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccommodationGadgetPicture.cs" />
     <Compile Include="AccommodationGatgets.cs" />
+    <Compile Include="AccommodationPicture.cs" />
     <Compile Include="Accommodations.cs" />
+    <Compile Include="AccommodationTypePicture.cs" />
     <Compile Include="AccommodationTypes.cs" />
     <Compile Include="Bookings.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RMUser.cs" />
   </ItemGroup>

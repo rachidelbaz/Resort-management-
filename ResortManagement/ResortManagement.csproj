@@ -191,6 +191,7 @@
       <DependentUpon>202005092112386_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccommodationsViewModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -214,9 +215,6 @@
     <Content Include="Areas\Content\vendor\jquery\jquery.min.js" />
     <Content Include="Areas\Content\vendor\jquery\jquery.slim.js" />
     <Content Include="Areas\Content\vendor\jquery\jquery.slim.min.js" />
-    <Content Include="Content\bootstrap-4.1.2\bootstrap.min.css" />
-    <Content Include="Content\bootstrap-4.1.2\bootstrap.min.js" />
-    <Content Include="Content\bootstrap-4.1.2\popper.js" />
     <Content Include="Content\plugins\easing\easing.js" />
     <Content Include="Content\plugins\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\plugins\font-awesome-4.7.0\css\font-awesome.min.css" />
@@ -393,6 +391,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\WebPictures\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\plugins\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
@@ -430,6 +429,8 @@
     <Content Include="Content\plugins\font-awesome-4.7.0\scss\_variables.scss" />
     <Content Include="Content\plugins\jquery-datepicker\package.json" />
     <None Include="packages.config" />
+    <Content Include="Views\Home\Rooms.cshtml" />
+    <Content Include="Views\Home\_RoomsListing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202005092112386_InitialCreate.resx">

@@ -66,7 +66,7 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
-                return context.accommodation.ToList();
+                return context.accommodation.Include(acc=>acc.accommodationGatgets).ToList();
             }
         }
 

@@ -76,7 +76,7 @@
 
         <!-- Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading"><i class="fas fa-hotel fa-3x"></i> RM</div>
+            <div class="sidebar-heading h-25"><i class="fas fa-hotel fa-4x"></i> RM</div>
             <div class="list-group list-group-flush">
                 <a href="@Url.Action("Index","AccommodationTypes")" class="list-group-item list-group-item-action bg-light"><i class="fas fa-building fa-2x"></i> Accommodation Type</a>
                 <a href="@Url.Action("Index","AccommodationGadgets")" class="list-group-item list-group-item-action bg-light"><i class="fas fa-archive fa-2x"></i> Accommodation Gadgets</a>
@@ -103,15 +103,14 @@
                     </button>*@
 
                 @*@Html.ActionLink("Logout", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
-                <div class="nav">
+                <div class="nav navbar-nav ml-auto mt-2 mt-lg-0">
                     @if (Request.IsAuthenticated)
                     {
-                        using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                        using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "d-flex align-items-center" }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-
-                            <a class="navbar-brand" href="javascript:document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt fa-2x"></i>Logout</a>
+                            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: new { area="" }, htmlAttributes: new { title = "Manage", @class="text-secondary" })
+                    <a class="navbar-brand d-flex flex-column ml-5"  href="javascript:document.getElementById('logoutForm').submit()"><i class="fas fa-sign-out-alt fa-1x ml-1"></i>Logout</a>
 
 
                         }
