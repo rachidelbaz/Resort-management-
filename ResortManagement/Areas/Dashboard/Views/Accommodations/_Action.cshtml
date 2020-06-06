@@ -63,15 +63,15 @@
                     <span class="input-group-text">Picture</span>
                 </div>
                 <div class="custom-file">
-                    <input id="ImgURL" name="URL" hidden />
                     <input id="PicSelecter" type="file" accept="image/*" class="custom-file-input" multiple>
                     <label class="custom-file-label" for="PicSelecter">Choose file</label>
                 </div>
             </div>
+            <div id="ImgCarer" class="d-flex flex-wrap justify-content-around mb-2">
+                <input type="image" src="@imgDefault" value="" class="img-thumbnail w-25" />
+            </div>
         </form>
-        <div id="ImgLaoder" class="d-flex flex-wrap justify-content-around mb-2">
-            <input type="image" src="@imgDefault" class="img-thumbnail w-25" />
-        </div>
+        
         <div class="alert d-none" role="alert" id="DivMessage">
 
         </div>
@@ -134,28 +134,22 @@
             contentType: false,
             processData: false
         }).done(function (response) {
-            
+            var imgEmpty = $("#ImgCarer input[type='image']");
+            var ImgCarer=$("#ImgCarer");
             if (response.success) {
-                $("#ImgURL").val(response.ImgURL);
-                $.each(response.ImgURL, function () {
-                    debugger;
-                      var img = $("#ImgLaoder input[type='image']").clone();
-                      var imgEmpty = $("#ImgLaoder input[type='image']");
-                     console.log($(this).join(''));
-                if (imgEmpty.attr("src") == "@imgDefault") {imgEmpty.remove();}
-                    img.attr("src", $(this));
-                   $("#ImgLaoder").append(img);
-                
-
-                });
-                
-                // var img = `<input type="image" src=${response.ImgURL} class="img-thumbnail"/>`;
-              
+                for (var i = 0; i < response.ImgURL.length; i++) {
+                    var $imgclone = imgEmpty.clone();
+                    $imgclone.attr({ "src": response.ImgURL[i],"value":response.ImgURL[i]});
+                   ImgCarer.append($imgclone);
+                }
+                imgEmpty.remove();
             }
             else {
                 console.log("Fail:"+response.message);
             }
         }).fail(function (response, status, xhttpR) {
+            console.log(xhttpR.status);
+            console.log(status);
         });
 
 
