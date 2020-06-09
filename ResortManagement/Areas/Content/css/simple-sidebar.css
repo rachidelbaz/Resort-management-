@@ -38,8 +38,31 @@ body {
 }
 
 .change .bar3 {
-    transform: rotate(38deg) translate(-4px, -5px);
-   
+    transform: rotate(38deg) translate(-4px, -5px); 
+}
+
+#ImgContainer img:hover + .overlay {
+    cursor: pointer;
+    display: block;
+}
+#ImgContainer img:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+.overlay{
+    display:none;
+}
+
+.text {
+    color: red;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
 #sidebar-wrapper {
@@ -72,8 +95,9 @@ body {
     font-weight:bold;
 }
 
+
 @media (min-width: 768px) {
-  #sidebar-wrapper {
+    #sidebar-wrapper {
     margin-left: 0;
   }
 

@@ -1,6 +1,7 @@
 ﻿@model ResortManagement.Areas.Dashboard.Models.AccommodationsEditViewModel
 @{ 
-    var imgDefault = "/content/images/empty.jpg";
+    var urlDefault = "/content/images/WebPictures/";
+
 }
 
 
@@ -63,12 +64,33 @@
                     <span class="input-group-text">Picture</span>
                 </div>
                 <div class="custom-file">
-                    <input id="PicSelecter" type="file" accept="image/*" class="custom-file-input" multiple>
-                    <label class="custom-file-label" for="PicSelecter">Choose file</label>
+                    <input id="inputGroupFile01" type="file" accept="image/*" class="custom-file-input" multiple />
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                 </div>
             </div>
-            <div id="ImgCarer" class="d-flex flex-wrap justify-content-around mb-2">
-                <input type="image" src="@imgDefault" value="" class="img-thumbnail w-25" />
+            <input type="hidden" name="imgUrls" value="" />
+            <div id="ImgContainer" class="d-flex flex-wrap justify-content-around mb-2">
+                <!--Clone div-->
+                <div onclick="Remove(this)" class="d-none justify-content-center align-content-center m-1 w-25">
+                    <img src="" title="Click To Remove" class="img-thumbnail">
+                    <div class="position-absolute align-self-center overlay">
+                        <span class="text font-weight-bold">X</span>
+                    </div>
+                </div>
+                <!--End Clone div-->
+                @if (Model.Pictures != null)
+                {
+                    foreach (var AccoPics in Model.Pictures)
+                    {
+                        <div onclick="Remove(this)" class="d-flex justify-content-center align-content-center m-1 w-25">
+                            <img src="@(string.Concat(urlDefault,AccoPics.URL))" title="Click To Remove" class="img-thumbnail">
+                            <div class="position-absolute align-self-center overlay">
+                                <span class="text font-weight-bold">X</span>
+                            </div>
+                        </div>
+                    }
+                }
+
             </div>
         </form>
         
@@ -83,13 +105,17 @@
 
 }
 <script>
-
+   
     $("#btnSave").click(function () {
+        var imgUrls = [];
+        $("#ImgContainer img").each(function () {
+            imgUrls.push($(this).attr('src'));
+        });
+        $("input[name='imgUrls']").val(imgUrls);
         const DivMessage = $("#DivMessage");
-
         $.ajax({
             type: 'POST',
-            url:'@Url.Action("Action","Accommodations")',
+            url: '@Url.Action("Action","Accommodations")',
             data: $("#formAction").serialize(),
             dataType:'json'
         }).done(function (response) {
@@ -97,18 +123,16 @@
                 .removeClass('d-none')
                 .html(response.Message)
                 .addClass(response.Class);
-                 $(":input").val('');
-           //to refresh _listing partialView Data declared in index view
+            $(":input").val('');
+            $("#ImgContainer div").each(function () {
+                $(this).remove();
+            });
+            
+           //to refresh _listing partialView Data, declared in index view
             refreshTableListing();
             if (response.Edited) {
                 setTimeout(function () {
                     $('#exampleModalCenter').modal('hide');
-                    //$("#exampleModalCenter").removeClass('show');
-                    // $('body').removeClass('modal-open');
-                    //$('body div:last').remove();
-                    //$('.moadl-dialog').hasClass('modal-dialog-centered')
-                    //    .removeClass('modal-dialog-centered')
-                    //    .addClass('modal-dialog-centered');
                 }, 1000);
 
             }
@@ -119,7 +143,8 @@
 
             });
     });
-    $("#PicSelecter").change(function () {
+    var imgEmpty = $("#ImgContainer div:first-child");
+    $("#inputGroupFile01").change(function () {
         var files = this.files;
         var picData = new FormData();
         for (var i = 0; i < files.length; i++) {
@@ -134,12 +159,11 @@
             contentType: false,
             processData: false
         }).done(function (response) {
-            var imgEmpty = $("#ImgCarer input[type='image']");
-            var ImgCarer=$("#ImgCarer");
+            var ImgCarer = $("#ImgContainer");
             if (response.success) {
                 for (var i = 0; i < response.ImgURL.length; i++) {
                     var $imgclone = imgEmpty.clone();
-                    $imgclone.attr({ "src": response.ImgURL[i],"value":response.ImgURL[i]});
+                    $imgclone.addClass('d-flex').removeClass('d-none').children('img').attr({ "src": response.ImgURL[i], "value": response.ImgURL[i] });
                    ImgCarer.append($imgclone);
                 }
                 imgEmpty.remove();
@@ -151,9 +175,11 @@
             console.log(xhttpR.status);
             console.log(status);
         });
-
-
     });
+    function Remove(element) {
+       element.remove();
+     }
+      
 </script>
 
 

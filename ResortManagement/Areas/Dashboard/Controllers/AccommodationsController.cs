@@ -39,6 +39,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 if (ID.Value > 0)
                 {
                     Model.accommodation = AccoommodationsService.Instance.GetAccommodationsByID(ID.Value);
+                    Model.Pictures= PictureServices.Instance.GetPituresByPictureID(Model.accommodation.accommodationPictures.Select(acc=>acc.pictureID).ToList());
                 }
             }
 
@@ -47,23 +48,57 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             return PartialView("_Action", Model);
         }
         [HttpPost]
-        public JsonResult Action(Accommodations model)
+        public JsonResult Action(AccommodationActionModel model)
         {
+            var urls=new List<string>();
+            var newPics = new List<Picture>();
+            var newAccomodation = new Accommodations();
+            newAccomodation.Name= model.Name;
+            newAccomodation.Description=model.Description;
+            newAccomodation.AccommodationGatgetID= model.AccommodationGatgetID;
+
+            if (!string.IsNullOrEmpty(model.imgUrls))
+            {
+                foreach (var itemUrl in model.imgUrls.Split(','))
+                {
+                    urls.Add(itemUrl.Split('/').LastOrDefault());
+                }
+                foreach (var url in urls)
+                {
+                    var newPic = new Picture() { URL = url };
+                    var IsAdded = PictureServices.Instance.CreatePicture(newPic);
+                    if (IsAdded)
+                    {
+                        newPics.Add(newPic);
+                    }
+
+                }
+            }
             JsonResult jsonResult = new JsonResult();
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             bool Result = false;
             if (model.ID > 0)
             {
-                Result = AccoommodationsService.Instance.EditAccommodation(model);
-                jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                
+                //if (newAccomodation.accommodationPictures != null)
+                //{
+                //    bool isDeleted = PictureServices.Instance.DeletePics(newAccomodation.accommodationPictures.Select(acc => acc.pictureID).ToList());
+                //    newAccomodation.accommodationPictures.RemoveAll(acc => acc.AccommodationID == model.ID);
 
+                //}
+                newAccomodation.ID = model.ID;
+                newAccomodation.accommodationPictures = new List<AccommodationPicture>();
+                newAccomodation.accommodationPictures.AddRange(newPics.Select(pic => new AccommodationPicture() { pictureID = pic.ID, AccommodationID = model.ID }));
+      
+                Result = AccoommodationsService.Instance.EditAccommodation(newAccomodation);
+               jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
             }
             else
-            {
-               
-                Result = AccoommodationsService.Instance.CreatAccommodation(model);
-            jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
-
+            { 
+                newAccomodation.accommodationPictures = new List<AccommodationPicture>();
+                newAccomodation.accommodationPictures.AddRange(newPics.Select(pic=>new AccommodationPicture() { pictureID=pic.ID, AccommodationID=newAccomodation.ID}));
+                Result = AccoommodationsService.Instance.CreatAccommodation(newAccomodation);
+                jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
             }
 
             return jsonResult;

@@ -30,7 +30,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                     var picture = Files[i];
                     var fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
                     var filePath = Path.Combine(Server.MapPath("~/Content/images/WebPictures"), fileName);
-                    URLpictures.Add(string.Format("/Content/images/WebPictures/{0}", fileName));
+                    URLpictures.Add(string.Concat("/Content/images/WebPictures/", fileName));
                     picture.SaveAs(filePath);
                     
                 }

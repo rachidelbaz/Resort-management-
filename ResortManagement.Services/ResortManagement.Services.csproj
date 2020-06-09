@@ -97,8 +97,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccommodationGadgetsServices.cs" />
+    <Compile Include="AccommodationPictureServices.cs" />
     <Compile Include="AccommodationTypeServices.cs" />
     <Compile Include="AccoommodationsService.cs" />
+    <Compile Include="PictureServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResortManagemenetSignInManager.cs" />
     <Compile Include="ResortManagementRoleManager.cs" />

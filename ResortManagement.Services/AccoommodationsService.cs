@@ -62,6 +62,7 @@ namespace ResortManagement.Services
             }
         }
 
+       
         public IEnumerable<Accommodations> GetAllAccommodations()
         {
             using (var context = new ResortManagementDbContext())
@@ -92,7 +93,8 @@ namespace ResortManagement.Services
         {
             using (var context=new ResortManagementDbContext())
             {
-                return context.accommodation.Find(ID);
+                //return context.accommodation.Find(ID);
+                return context.accommodation.Include(acc=>acc.accommodationPictures).FirstOrDefault(acc=>acc.ID==ID);
             }
         }
 
