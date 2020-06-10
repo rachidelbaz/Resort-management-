@@ -71,11 +71,17 @@ namespace ResortManagement.Services
             }
         }
 
-        public bool EditAccommodation(Accommodations model)
+        public bool EditAccommodation(Accommodations NewModel)
         {
             using (var context = new ResortManagementDbContext())
             {
-                context.Entry(model).State = EntityState.Modified;
+                var oldModel = context.accommodation.Find(NewModel.ID);
+                context.Entry(oldModel).CurrentValues.SetValues(NewModel);
+                foreach (var item in NewModel.accommodationPictures)
+                {
+                    context.Entry(item).State = EntityState.Added;
+                }
+               
                 return context.SaveChanges() > 0;
             }
         }

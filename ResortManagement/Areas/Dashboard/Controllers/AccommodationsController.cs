@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace ResortManagement.Areas.Dashboard.Controllers
 {
@@ -79,13 +80,17 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             bool Result = false;
             if (model.ID > 0)
             {
-                
-                //if (newAccomodation.accommodationPictures != null)
-                //{
-                //    bool isDeleted = PictureServices.Instance.DeletePics(newAccomodation.accommodationPictures.Select(acc => acc.pictureID).ToList());
-                //    newAccomodation.accommodationPictures.RemoveAll(acc => acc.AccommodationID == model.ID);
-
-                //}
+                var OldAccommodationPictures = AccoommodationsService.Instance.GetAccommodationsByID(model.ID).accommodationPictures;
+                if (OldAccommodationPictures != null && OldAccommodationPictures.Any())
+                {
+                    var pics = PictureServices.Instance.GetPituresByPictureID(OldAccommodationPictures.Select(old => old.pictureID).ToList());
+                    bool isDeleted = PictureServices.Instance.DeletePics(OldAccommodationPictures.Select(acc => acc.pictureID).ToList());
+                    foreach (var item in pics)
+                    {    
+                        var filePath = Server.MapPath(string.Concat("/content/images/WebPictures/", item.URL));
+                        System.IO.File.Delete(filePath);
+                    }
+                }
                 newAccomodation.ID = model.ID;
                 newAccomodation.accommodationPictures = new List<AccommodationPicture>();
                 newAccomodation.accommodationPictures.AddRange(newPics.Select(pic => new AccommodationPicture() { pictureID = pic.ID, AccommodationID = model.ID }));
