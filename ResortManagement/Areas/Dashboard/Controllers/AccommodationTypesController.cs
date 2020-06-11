@@ -34,11 +34,19 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             return PartialView("_Listing", model);
         }
         [HttpPost]
-        public JsonResult Action(AccommodationTypes model)
+        public JsonResult Action(AccommondationTypesActionViewModel model)
         {
             JsonResult jsonResult = new JsonResult();
-
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            var newAccommodationTypes = new AccommodationTypes();
+            newAccommodationTypes.ID = model.ID;
+            newAccommodationTypes.Type = model.Type;
+            newAccommodationTypes.Description = model.Description;
+            var Pictures = new List<Picture>();
+            if (!string.IsNullOrEmpty(model.imgUrls))
+            {
+                Pictures.AddRange(PictureServices.Instance.converterToPictures(model.imgUrls));
+            }
 
             bool Result = false;
            
@@ -46,15 +54,21 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 if (model.ID>0)
                 {
                     Model.accommodationType = AccommodationTypeServices.Instance.GetAccommondationTypeByID(model.ID);
-                    Model.accommodationType.Type = model.Type;
-                    Model.accommodationType.Description = model.Description;
-                    Result = AccommodationTypeServices.Instance.EditAccommondationType(model);
+                    if (Model.accommodationType.AccommodationTypePictures.Any())
+                    {
+                     bool IsDeleted = PictureServices.Instance.DeletePics(Model.accommodationType.AccommodationTypePictures.Select(acc=>acc.pictureID).ToList());
+                    }
+                    newAccommodationTypes.AccommodationTypePictures = new List<AccommodationTypePicture>();
+                    newAccommodationTypes.AccommodationTypePictures.AddRange(Pictures.Select(p => new AccommodationTypePicture() { pictureID = p.ID, AccommodationTypeId = newAccommodationTypes.ID }));
+                    Result = AccommodationTypeServices.Instance.EditAccommondationType(newAccommodationTypes);
                     jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation Type updated successfully" : "update Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
                 else
                 {
-                    Result = AccommodationTypeServices.Instance.CreateAccommondationType(model);
-                    jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                     newAccommodationTypes.AccommodationTypePictures = new List<AccommodationTypePicture>();
+                     newAccommodationTypes.AccommodationTypePictures.AddRange(Pictures.Select(p=>new AccommodationTypePicture() { pictureID=p.ID, AccommodationTypeId = newAccommodationTypes.ID }));
+                    Result = AccommodationTypeServices.Instance.CreateAccommondationType(newAccommodationTypes);
+                     jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
    
             
@@ -69,10 +83,8 @@ namespace ResortManagement.Areas.Dashboard.Controllers
 
             if (ID.HasValue)
             {
-                
-
                 Model.accommodationType = AccommodationTypeServices.Instance.GetAccommondationTypeByID(ID.Value);
-               
+                Model.pictures = PictureServices.Instance.GetPituresByPictureID(Model.accommodationType.AccommodationTypePictures.Select(acc=>acc.pictureID).ToList()); 
             }
 
             return PartialView("_Action", Model);

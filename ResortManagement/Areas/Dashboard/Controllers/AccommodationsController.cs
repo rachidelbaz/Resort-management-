@@ -1,12 +1,10 @@
 ﻿using ResortManagement.Areas.Dashboard.Models;
 using ResortManagement.Entities;
 using ResortManagement.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.IO;
+
 
 namespace ResortManagement.Areas.Dashboard.Controllers
 {
@@ -14,7 +12,6 @@ namespace ResortManagement.Areas.Dashboard.Controllers
     {
         AccommodationsEditViewModel Model = new AccommodationsEditViewModel();
         // GET: Dashboard/Accommodations
-        
         public ActionResult Index()
         {
             AccommodationsViewModel model = new AccommodationsViewModel();
@@ -51,30 +48,18 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         [HttpPost]
         public JsonResult Action(AccommodationActionModel model)
         {
-            var urls=new List<string>();
             var newPics = new List<Picture>();
             var newAccomodation = new Accommodations();
+            newAccomodation.ID = model.ID;
             newAccomodation.Name= model.Name;
             newAccomodation.Description=model.Description;
             newAccomodation.AccommodationGatgetID= model.AccommodationGatgetID;
 
             if (!string.IsNullOrEmpty(model.imgUrls))
             {
-                foreach (var itemUrl in model.imgUrls.Split(','))
-                {
-                    urls.Add(itemUrl.Split('/').LastOrDefault());
-                }
-                foreach (var url in urls)
-                {
-                    var newPic = new Picture() { URL = url };
-                    var IsAdded = PictureServices.Instance.CreatePicture(newPic);
-                    if (IsAdded)
-                    {
-                        newPics.Add(newPic);
-                    }
-
-                }
+                newPics.AddRange(PictureServices.Instance.converterToPictures(model.imgUrls));
             }
+
             JsonResult jsonResult = new JsonResult();
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             bool Result = false;
@@ -83,18 +68,11 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 var OldAccommodationPictures = AccoommodationsService.Instance.GetAccommodationsByID(model.ID).accommodationPictures;
                 if (OldAccommodationPictures != null && OldAccommodationPictures.Any())
                 {
-                    var pics = PictureServices.Instance.GetPituresByPictureID(OldAccommodationPictures.Select(old => old.pictureID).ToList());
-                    bool isDeleted = PictureServices.Instance.DeletePics(OldAccommodationPictures.Select(acc => acc.pictureID).ToList());
-                    foreach (var item in pics)
-                    {    
-                        var filePath = Server.MapPath(string.Concat("/content/images/WebPictures/", item.URL));
-                        System.IO.File.Delete(filePath);
-                    }
+                    bool isDeleted = PictureServices.Instance.DeletePics(OldAccommodationPictures.Select(acc => acc.pictureID).ToList());     
                 }
-                newAccomodation.ID = model.ID;
+                
                 newAccomodation.accommodationPictures = new List<AccommodationPicture>();
                 newAccomodation.accommodationPictures.AddRange(newPics.Select(pic => new AccommodationPicture() { pictureID = pic.ID, AccommodationID = model.ID }));
-      
                 Result = AccoommodationsService.Instance.EditAccommodation(newAccomodation);
                jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
             }
@@ -121,5 +99,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
 
             return Json(new {Succes=AccoommodationsService.Instance.DeleteAccommodationByID(ID.Value) });
         }
+
+       
     }
 }

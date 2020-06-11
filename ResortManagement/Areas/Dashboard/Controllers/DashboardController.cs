@@ -25,14 +25,12 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             try
             {
                 for (int i = 0; i < Files.Count; i++)
-                {
-               
+                { 
                     var picture = Files[i];
                     var fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
                     var filePath = Path.Combine(Server.MapPath("~/Content/images/WebPictures"), fileName);
                     URLpictures.Add(string.Concat("/Content/images/WebPictures/", fileName));
-                    picture.SaveAs(filePath);
-                    
+                    picture.SaveAs(filePath);      
                 }
                 jsonResult.Data = new { success = true, ImgURL = URLpictures };
 
@@ -43,6 +41,26 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             }
           
 
+            return jsonResult;
+        }
+
+        [HttpPost]
+        public JsonResult DeletePic(string imgName)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            if (!string.IsNullOrEmpty(imgName))
+            {
+                try
+                {
+                    var file = Server.MapPath(imgName);
+                    System.IO.File.Delete(file);
+                    jsonResult.Data = new { seccuss=true };
+                }
+                catch {
+                    jsonResult.Data = new { seccuss = false };
+                }
+            }
             return jsonResult;
         }
     }

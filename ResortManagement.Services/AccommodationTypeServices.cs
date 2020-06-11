@@ -2,6 +2,7 @@
 using ResortManagement.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,8 +68,12 @@ namespace ResortManagement.Services
         {
             using (var context=new ResortManagementDbContext())
             {
-                context.Entry(model).State = System.Data.Entity.EntityState.Modified;
-
+                var OldModel = context.accommodationType.Find(model.ID);
+                context.Entry(OldModel).CurrentValues.SetValues(model);
+                foreach (var item in model.AccommodationTypePictures)
+                {
+                    context.Entry(item).State = EntityState.Added;
+                }
                 return context.SaveChanges()>0;
             }
         }
@@ -91,7 +96,8 @@ namespace ResortManagement.Services
         {
             using (var context= new ResortManagementDbContext())
             {
-                return context.accommodationType.Find(iD);
+                //return context.accommodationType.Find(iD);
+                return context.accommodationType.Include(acc => acc.AccommodationTypePictures).FirstOrDefault(acc=>acc.ID==iD);
 
             }
         }

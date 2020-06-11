@@ -6,6 +6,14 @@ using System.Web;
 
 namespace ResortManagement.Areas.Dashboard.Models
 {
+    public class AccommondationTypesActionViewModel
+    {
+        public int ID { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public string imgUrls { get; set; }
+
+    }
     public class AccommondationTypesViewModel
     {
         public AccommondationListingTypesViewModel accommondationListingTypesViewModel = new AccommondationListingTypesViewModel();
@@ -22,6 +30,7 @@ namespace ResortManagement.Areas.Dashboard.Models
     public class AccommondationTypeEditViewModel
     {
         public AccommodationTypes accommodationType { get; set; }
+        public List<Picture> pictures { get; set; }
     }
    
 }

@@ -109,9 +109,12 @@
     $("#btnSave").click(function () {
         var imgUrls = [];
         $("#ImgContainer img").each(function () {
-            imgUrls.push($(this).attr('src'));
+             if ($(this).attr("src")!="") {
+            imgUrls.push($(this).attr("src"));
+            }
         });
         $("input[name='imgUrls']").val(imgUrls);
+
         const DivMessage = $("#DivMessage");
         $.ajax({
             type: 'POST',

@@ -1,7 +1,7 @@
 ﻿@model ResortManagement.Areas.Dashboard.Models.AccommondationTypeEditViewModel
-
-
-
+@{
+    var UrlDefault = "/Content/images/WebPictures/";
+}
     @if (Model != null)
     {
 
@@ -36,6 +36,38 @@
                     </div>
                     <textarea class="form-control" name="Description" aria-label="With textarea" placeholder="">@(Model.accommodationType!=null?Model.accommodationType.Description:string.Empty)</textarea>
                 </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" multiple>
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+                <input name="imgUrls" type="hidden" value="" />
+                <div id="ImgContainer" class="d-flex flex-wrap justify-content-around align-content-center">
+                    <!--Clone-->
+                    <div onclick="Remove(this)" class="d-none justify-content-center align-content-center m-1 w-25">
+                        <img src="" title="Click To Remove" class="img-thumbnail" />
+                        <div class="position-absolute align-self-center overlay">
+                            <span class="text font-weight-bold">X</span>
+                        </div>
+                    </div>
+                    <!--End Clone-->
+                    @if (Model.pictures != null)
+                    {
+                        foreach (var Pic in Model.pictures)
+                        {
+                            <div onclick="Remove(this)" class="d-flex justify-content-center align-content-center m-1 w-25">
+                                <img src="@(string.Concat(UrlDefault,Pic.URL))" title="Click To Remove" class="img-thumbnail" />
+                                <div class="position-absolute align-self-center overlay">
+                                    <span class="text font-weight-bold">X</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
 
             </form>
             <div class="alert d-none" role="alert" id="DivMessage">
@@ -49,39 +81,88 @@
 
     }
 <script>
+    
+    function Message(element,rMessage,rClass) {
+         element
+        .removeClass('d-none')
+        .html(rMessage)
+        .addClass(rClass);
+    }
 
     $("#btnSave").click(function () {
-        const DivMessage = $("#DivMessage");
-
+        var imgUrls = [];
+        $("#ImgContainer img").each(function () {
+            if ($(this).attr("src")!="") {
+            imgUrls.push($(this).attr("src"));
+            }
+        });
+        $("input[name='imgUrls']").val(imgUrls);
         $.ajax({
             type: 'POST',
             url:'@Url.Action("Action","AccommodationTypes")',
             data: $("#formAction").serialize(),
             dataType:'json'
         }).done(function (response) {
-
-                 DivMessage
-                .removeClass('d-none')
-                .html(response.Message)
-                .addClass(response.Class);
-                 $(":input").val('');
+            debugger;
+            const DivMessage = $("#DivMessage");
+                Message(DivMessage, response.Message, response.Class);        
            //to refresh _listing partialView Data declared in index view
-            refreshTableListing();
-            if (response.Edited) {
+            if (response.Edited && response.Success) {
                 setTimeout(function () {
                     $('#exampleModalCenter').modal('hide');
-                //    $("#exampleModalCenter").removeClass('show');
-                //$('body').removeClass('modal-open');
-                //$('body div:last').remove();
                 }, 1000);
+            } else if (!response.Edited && response.Seccuss) {
                 
+                $(":input").val('');
             }
-
+            
+            refreshTableListing();
             setTimeout(function () {
                 DivMessage.addClass('d-none');
             }, 5000);
-
             });
     });
+    var divClone = $("#ImgContainer div:first-child");
+    var divContainer = $("#ImgContainer");
+    $("#inputGroupFile01").change(function () {
+        debugger;
+        var PicsData = new FormData();
+        var files = this.files;
+        for (var i = 0; i < files.length; i++) {
+            PicsData.append("picture",files[i]);
+        }
+        $.ajax({
+            type:'POST',
+            url:'@Url.Action("UpLoadPictures","Dashboard")',
+            data: PicsData,
+            contentType: false,
+            processData: false
+        }).done(function (response)
+        {
+            if (response.success) {
+                for (var i = 0; i < response.ImgURL.length; i++) {
+                    var div = divClone.clone();
+                    div.addClass('d-flex').removeClass('d-none');
+                    div.children('img').attr("src", response.ImgURL[i]);
+                    divContainer.append(div);
+                }
+            }
+        });
+
+    });
+    function Remove(element) {
+        var div = $(element);
+        var img = div.children('img');
+        $.ajax({
+            url: '@Url.Action("DeletePic","Dashboard")',
+            type: 'POST',
+            data: { imgName: img.attr("src") },
+            dataType: 'json'
+        }).done(function (response) {
+            if (response.seccuss) {
+                div.remove();
+            }
+        });
+    }
 
 </script>
