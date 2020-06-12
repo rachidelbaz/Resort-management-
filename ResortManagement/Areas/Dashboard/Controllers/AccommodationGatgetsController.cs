@@ -43,17 +43,27 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             if (ID.HasValue)
             {
                 Model.accommodationGadgets = AccommodationGadgetsServices.Instance.GetAccommodationGadgetsByID(ID.Value);
+                Model.pictures = PictureServices.Instance.GetPituresByPictureID(Model.accommodationGadgets.GadgetPictures.Select(acc=>acc.PictureId).ToList());
             }
             Model.accommodationTypes = AccommodationTypeServices.Instance.GetAllAccommondationTypes();
 
             return PartialView("_Action", Model);
         }
         [HttpPost]
-        public JsonResult Action(AccommodationGatgets model)
+        public JsonResult Action(AccommodationGatgetsActionModel model)
         {
             JsonResult jsonResult = new JsonResult();
-
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            var NewAccommodationGatget = new AccommodationGatgets();
+            NewAccommodationGatget.ID = model.ID;
+            NewAccommodationGatget.Name = model.Name;
+            NewAccommodationGatget.FeePerNight = model.FeePerNight;
+            NewAccommodationGatget.AccommodationTypeID = model.AccommodationTypeID;
+            var Pictures = new List<Picture>();
+            if (!string.IsNullOrEmpty(model.imgUrls))
+            {
+                Pictures.AddRange(PictureServices.Instance.converterToPictures(model.imgUrls));
+            }
 
             bool Result = false;
            
@@ -65,12 +75,20 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                     Model.accommodationGadgets.NOfRoom = model.NOfRoom;
                     Model.accommodationGadgets.AccommodationTypeID = model.AccommodationTypeID;
                     Model.accommodationGadgets.accommodationType = AccommodationTypeServices.Instance.GetAccommondationTypeByID(model.AccommodationTypeID);
-                    Result = AccommodationGadgetsServices.Instance.EditAccommondationGadget(model);
+                    if (Model.accommodationGadgets.GadgetPictures.Any())
+                    {
+                     bool isDeleted = PictureServices.Instance.DeletePics(Model.accommodationGadgets.GadgetPictures.Select(acc=>acc.PictureId).ToList());
+                    }
+                    NewAccommodationGatget.GadgetPictures = new List<AccommodationGadgetPicture>();
+                    NewAccommodationGatget.GadgetPictures.AddRange(Pictures.Select(acc=>new AccommodationGadgetPicture() { PictureId=acc.ID, AccommodationGadgetId=NewAccommodationGatget.ID}));
+                    Result = AccommodationGadgetsServices.Instance.EditAccommondationGadget(NewAccommodationGatget);
                     jsonResult.Data = new {Edited=Result, Success = Result, Message = Result ? "Accommodation Gadget updated successfully" : "update Accommodation Gadget Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
                 else
                 {
-                    Result = AccommodationGadgetsServices.Instance.CreateAccommondationGadget(model);
+                    NewAccommodationGatget.GadgetPictures = new List<AccommodationGadgetPicture>();
+                    NewAccommodationGatget.GadgetPictures.AddRange(Pictures.Select(pic=>new AccommodationGadgetPicture() { PictureId=pic.ID, AccommodationGadgetId=NewAccommodationGatget.ID }));
+                    Result = AccommodationGadgetsServices.Instance.CreateAccommondationGadget(NewAccommodationGatget);
                     jsonResult.Data = new { Edited=false, Success = Result, Message = Result ? "Accommodation Gadget added successfully" : "add Accommodation Type Gadget! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
 

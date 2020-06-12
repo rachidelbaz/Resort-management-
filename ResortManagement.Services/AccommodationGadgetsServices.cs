@@ -72,8 +72,8 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
-                return context.accommodationGatget.Find(id);
-
+                //return context.accommodationGatget.Find(id);
+                return context.accommodationGatget.Include(acc=>acc.GadgetPictures).FirstOrDefault(acc=>acc.ID==id);
             }
         }
         public IEnumerable<AccommodationGatgets> GetAccommodationGadgetsByIDs(List<int> ids)
@@ -89,9 +89,12 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
-                
-
-                context.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                var gadget = context.accommodationGatget.Find(model.ID);
+                context.Entry(gadget).CurrentValues.SetValues(model);
+                foreach (var item in model.GadgetPictures)
+                {
+                    context.Entry(item).State = EntityState.Added;
+                }
                 return context.SaveChanges() > 0;
             }
         }

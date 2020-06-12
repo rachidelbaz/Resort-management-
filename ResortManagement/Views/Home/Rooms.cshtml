@@ -58,12 +58,15 @@
     </div>
 
     <script>
+        var page = 2; 
     $(".load_more_button a").on({
         "click": function () {
-                if (@Model.PageNo+1>=@Model.pager.EndPage) {
+            debugger;
+            if (page>=@Model.pager.EndPage) {
                     $(".load_more_container").addClass("d-none");}
-           $.post($(this).attr("data-href"), {pageNo: '@(Model.PageNo+1)'}, function (response) {
-           $(".card-columns").append($(response).find(".card-columns").html());
+           $.post($(this).attr("data-href"), {pageNo:page}, function (response) {
+               $(".card-columns").append($(response).find(".card-columns").html());
+               page++;     
            }, 'html');
         }
         ,"mouseenter": function () {$(this).css("cursor","pointer");}

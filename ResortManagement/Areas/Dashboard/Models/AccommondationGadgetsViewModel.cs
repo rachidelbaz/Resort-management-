@@ -6,14 +6,27 @@ using System.Web;
 
 namespace ResortManagement.Areas.Dashboard.Models
 {
+    public class AccommodationGatgetsActionModel
+    {
+        public int ID { get; set; }
+        public int AccommodationTypeID { get; set; }
+        public string Name { get; set; }
+        public int NOfRoom { get; set; }
+        public decimal FeePerNight { get; set; }
+        public string imgUrls { get; set; }
+
+    }
     public class AccommondationGadgetsViewModel
     {
+
+        public virtual List<AccommodationGadgetPicture> GadgetPictures { get; set; }
         public AccommodationGadgetsEditViewModel accommodationGadgetsEditViewModel = new AccommodationGadgetsEditViewModel();
         public AccommodationGadgetsListingViewModel accommodationGadgetsListingViewModel = new AccommodationGadgetsListingViewModel();
     }
 
     public class AccommodationGadgetsEditViewModel
     {
+        public List<Picture> pictures { get; set; }
         public AccommodationGatgets accommodationGadgets { get; set; }
         public IEnumerable<AccommodationTypes> accommodationTypes { get; set; }
 
