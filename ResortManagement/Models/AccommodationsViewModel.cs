@@ -12,6 +12,7 @@ namespace ResortManagement.Models
         public IEnumerable<Accommodations> accommodations {get;set; }
         public IEnumerable<AccommodationGatgets> accommodationGatgets { get; set; }
         public IEnumerable<AccommodationTypes> accommodationTypes { get; set; }
+        public List<Picture> Accommopictures { get; set; }
         public int PageNo { get; set; }
         public int PageSize { get; set; }
         public Pager pager { get; set; }

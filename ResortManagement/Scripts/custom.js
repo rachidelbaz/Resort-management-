@@ -31,7 +31,7 @@ $(document).ready(function()
 	setHeader();
 	initMenu();
 	initSearch();
-	initDatePicker();
+	//initDatePicker();
 	initCustomSelect();
 	initGallery();
 	initRoomsSlider();

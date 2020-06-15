@@ -17,6 +17,16 @@
     <link rel="stylesheet" type="text/css" href="~/Content/Styles/responsive.css">
     <link href="~/Content/Styles/rooms.css" rel="stylesheet" />
     <script src="~/Areas/Content/vendor/jquery/jquery.min.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>*@
+    
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+            integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+          href="//code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css" />
 </head>
 <body>
 
@@ -37,9 +47,8 @@
                 <nav class="main_nav">
                     <ul class="d-flex flex-row align-items-center justify-content-start">
                         <li class="active"><a href="@Url.Action("Index","Home")">Home</a></li>
-                        <li><a href="@Url.Action("About","Home")">About us</a></li>
                         <li><a href="@Url.Action("Rooms","Home")">Rooms</a></li>
-
+                        <li><a href="@Url.Action("About","Home")">About us</a></li>
                         <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
                     </ul>
                 </nav>
@@ -246,8 +255,8 @@
         </footer>
     </div>
     @RenderSection("scripts", required: false)
-    
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+
     <script src="~/Content/Styles/bootstrap-4.1.2/popper.js"></script>
     <script src="~/Content/Styles/bootstrap-4.1.2/bootstrap.min.js"></script>
     <script src="~/Content/plugins/greensock/TweenMax.min.js"></script>
@@ -259,8 +268,9 @@
     <script src="~/Content/plugins/easing/easing.js"></script>
     <script src="~/Content/plugins/progressbar/progressbar.min.js"></script>
     <script src="~/Content/plugins/parallax-js-master/parallax.min.js"></script>
-    <script src="~/Content/plugins/jquery-datepicker/jquery-ui.js"></script>
     <script src="~/Scripts/custom.js"></script>
+    <script src="~/Scripts/elements.js"></script>
+    <script src="~/Scripts/main.js"></script>
 </body>
 </html>
 

@@ -26,7 +26,7 @@ namespace ResortManagement.Services
         {
             using (var context=new ResortManagementDbContext())
             {
-                var Accommodations=context.accommodation.Include(acc=>acc.accommodationGatgets).AsQueryable();
+                var Accommodations=context.accommodation.Include(acc=>acc.accommodationPictures).Include(acc=>acc.accommodationGatgets).AsQueryable();
 
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
