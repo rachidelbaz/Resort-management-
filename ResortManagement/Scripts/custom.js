@@ -32,7 +32,7 @@ $(document).ready(function()
 	initMenu();
 	initSearch();
 	//initDatePicker();
-	initCustomSelect();
+	//initCustomSelect();
 	initGallery();
 	initRoomsSlider();
 	initDiscoverSlider();

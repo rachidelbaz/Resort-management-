@@ -33,6 +33,8 @@ C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\b
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.csprojAssemblyReference.cache
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addPicTable.resources
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addPictureIdColumnToAccoType.resources
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addClientIdToBokkingTable.resources
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addStatusColumnToBookingTable.resources
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.csproj.GenerateResource.cache
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.csproj.CopyComplete
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.dll

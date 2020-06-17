@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ResortManagement.Entities
 {
+    
     public class AccommodationGatgets
     {
         [Key]
@@ -15,7 +16,6 @@ namespace ResortManagement.Entities
         public int AccommodationTypeID { get; set; }
         [ForeignKey(name: "AccommodationTypeID")]
         public virtual AccommodationTypes accommodationType { get; set; }
-
         public string Name { get; set; }
         public int NOfRoom { get; set; }
         public decimal FeePerNight { get; set; }

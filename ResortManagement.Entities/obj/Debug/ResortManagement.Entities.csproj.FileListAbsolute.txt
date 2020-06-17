@@ -24,7 +24,7 @@ C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\b
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.csprojAssemblyReference.cache
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.csproj.CopyComplete
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.dll
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.pdb
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.Entities\obj\Debug\ResortManagement.Entities.csprojAssemblyReference.cache

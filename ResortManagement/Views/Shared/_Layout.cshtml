@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.3.4/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.3.4/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/OwlCarousel2-2.3.4/animate.css">
-    <link href="~/Content/plugins/jquery-datepicker/jquery-ui.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="~/Content/Styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Styles/responsive.css">
     <link href="~/Content/Styles/rooms.css" rel="stylesheet" />
@@ -46,10 +45,11 @@
                 </nav>
                 <nav class="main_nav">
                     <ul class="d-flex flex-row align-items-center justify-content-start">
-                        <li class="active"><a href="@Url.Action("Index","Home")">Home</a></li>
-                        <li><a href="@Url.Action("Rooms","Home")">Rooms</a></li>
-                        <li><a href="@Url.Action("About","Home")">About us</a></li>
-                        <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+                        
+                        <li class="@(string.Concat(ViewContext.RouteData.Values["Controller"].ToString(),ViewContext.RouteData.Values["Action"].ToString())==string.Format("Home{0}","Index")?string.Format("active",""):string.Empty)"><a href="@Url.Action("Index","Home")">Home</a></li>
+                        <li class="@(string.Concat(ViewContext.RouteData.Values["Controller"].ToString(),ViewContext.RouteData.Values["Action"].ToString())==string.Format("Home{0}","Rooms")?string.Format("active",""):string.Empty)" ><a href="@Url.Action("Rooms","Home")">Rooms</a></li>
+                        <li class="@(string.Concat(ViewContext.RouteData.Values["Controller"].ToString(),ViewContext.RouteData.Values["Action"].ToString())==string.Format("Home{0}","About") ? string.Format("active",""):string.Empty)" ><a href="@Url.Action("About","Home")">About us</a></li>
+                        <li class="@(string.Concat(ViewContext.RouteData.Values["Controller"].ToString(),ViewContext.RouteData.Values["Action"].ToString())==string.Format("Home{0}","Contact")?string.Format("active",""):string.Empty)" ><a href="@Url.Action("Contact","Home")">Contact</a></li>
                     </ul>
                 </nav>
 
@@ -119,7 +119,7 @@
         </div>
 
         <!-- Menu -->
-        <div class="menu">
+        <div class="menu ">
             <div class="menu_container d-flex flex-column align-items-center justify-content-center">
 
                 <!-- Menu Navigation -->
@@ -166,13 +166,13 @@
                 <div class="row">
                     <div class="col">
                         <div class="booking_container d-flex flex-row align-items-end justify-content-start">
-                            <form action="#" class="booking_form">
+                            <form  action="Home/Rooms" class="booking_form">
                                 <div class="booking_form_container d-flex flex-lg-row flex-column align-items-start justify-content-start flex-wrap">
                                     <div class="booking_form_inputs d-flex flex-row align-items-start justify-content-between flex-wrap">
-                                        <div class="booking_dropdown"><input type="text" class="datepicker booking_input booking_input_a booking_in" placeholder="Check in" required="required"></div>
-                                        <div class="booking_dropdown"><input type="text" class="datepicker booking_input booking_input_a booking_out" placeholder="Check out" required="required"></div>
+                                        <div class="booking_dropdown"><input type="text" name="CheckIn" class="datepicker booking_input booking_input_a booking_in" placeholder="Check in" required="required"></div>
+                                        <div class="booking_dropdown"><input type="text" name="CheckOut" class="datepicker booking_input booking_input_a booking_out" placeholder="Check out" required="required"></div>
                                         <div class="custom-select">
-                                            <select>
+                                            <select name="Adults">
                                                 <option value="0">Adults</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -182,7 +182,7 @@
                                             </select>
                                         </div>
                                         <div class="custom-select">
-                                            <select>
+                                            <select name="Children">
                                                 <option value="0">Children</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -192,7 +192,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <button class="booking_form_button ml-lg-auto">book now</button>
+                                    <button type="submit" class="booking_form_button ml-lg-auto">book now</button>
                                 </div>
                             </form>
                         </div>
@@ -255,8 +255,6 @@
         </footer>
     </div>
     @RenderSection("scripts", required: false)
-
-
     <script src="~/Content/Styles/bootstrap-4.1.2/popper.js"></script>
     <script src="~/Content/Styles/bootstrap-4.1.2/bootstrap.min.js"></script>
     <script src="~/Content/plugins/greensock/TweenMax.min.js"></script>

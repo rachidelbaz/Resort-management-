@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ResortManagement.Entities
 {
-     public class AccommodationTypes
+    public class AccommodationTypes
     {
         [Key]
         public int ID { get; set; }

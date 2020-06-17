@@ -414,6 +414,7 @@
     <None Include="packages.config" />
     <Content Include="Views\Home\Rooms.cshtml" />
     <Content Include="Views\Home\_RoomsListing.cshtml" />
+    <Content Include="Views\Home\booking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202005092112386_InitialCreate.resx">

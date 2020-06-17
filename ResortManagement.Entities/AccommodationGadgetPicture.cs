@@ -14,7 +14,7 @@ namespace ResortManagement.Entities
         public int ID { get; set; }
         public int AccommodationGadgetId { get; set; }
         [ForeignKey("AccommodationGadgetId")]
-        public AccommodationGatgets  accommodationGatgets { get; set; }
+        public virtual AccommodationGatgets  accommodationGatgets { get; set; }
 
         public int PictureId { get; set; }
         public virtual Picture picture { get; set; }

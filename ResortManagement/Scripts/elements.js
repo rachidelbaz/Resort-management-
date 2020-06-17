@@ -33,7 +33,7 @@ $(document).ready(function()
 	var ctrl = new ScrollMagic.Controller();
 
 	setHeader();
-	initMenu();
+	//initMenu();
 	initSearch();
 	//initDatePicker();
 	initCustomSelect();

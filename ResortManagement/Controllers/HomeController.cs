@@ -17,12 +17,12 @@ namespace ResortManagement.Controllers
             model.PageNo = 1;
             model.PageSize = 4;
             model.accommodations = AccoommodationsService.Instance.GetAllAccommodations(string.Empty,0,model.PageSize, model.PageNo);
-            model.Accommopictures = PictureServices.Instance.GetPituresByPictureID(model.accommodations.Select(acc=>acc.accommodationPictures.Select(accP=>accP.pictureID).ToList()).SelectMany(x=>x).Distinct().ToList());
+            //model.Accommopictures = PictureServices.Instance.GetPituresByPictureID(model.accommodations.Select(acc=>acc.accommodationPictures.Select(accP=>accP.pictureID).ToList()).SelectMany(x=>x).Distinct().ToList());
             model.accommodationTypes = AccommodationTypeServices.Instance.GetAllAccommondationTypes();
             return View(model);
         }
         ResortManagement.Models.AccommodationsViewModel model = new ResortManagement.Models.AccommodationsViewModel();
-        public ActionResult Rooms(int? pageNo)
+        public ActionResult Rooms(int? pageNo,string CheckIn,string CheckOut,string Adults, string Children)
         {
             model.PageNo = pageNo ?? 1;
             model.PageSize = 4;
@@ -43,6 +43,10 @@ namespace ResortManagement.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+        public ActionResult booking()
+        {
             return View();
         }
     }
