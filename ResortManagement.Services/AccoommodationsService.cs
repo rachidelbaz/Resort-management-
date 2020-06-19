@@ -62,7 +62,24 @@ namespace ResortManagement.Services
             }
         }
 
-       
+        public IEnumerable<Accommodations> GetAccommodationsByBooking(DateTime? checkIn, int Duration, int? noOfBeds, int pageNo, int pageSize)
+        {
+            using (var context = new ResortManagementDbContext())
+            {
+                var accommodations= context.accommodation.Include(acc => acc.accommodationPictures).Include(acc=>acc.accommodationGatgets).AsQueryable();
+                if (checkIn.HasValue && Duration>0)
+                {
+                    accommodations = accommodations.Where(acc=>!context.booking.Select(b=>b.AccommodationID).ToList().Contains(acc.ID)||context.booking.Where(b=>b.AccommmodationDate.AddDays(b.Duration)<=checkIn).Select(b=>b.AccommodationID).ToList().Contains(acc.ID));
+                }
+                if (noOfBeds.HasValue)
+                {
+                    accommodations = accommodations.Where(acc=>acc.accommodationGatgets.NOFBeds==noOfBeds);
+                }
+                return accommodations.OrderByDescending(acc=>acc.ID).Skip((pageNo-1)* pageSize).Take(pageSize).ToList();
+            }
+            
+        }
+
         public IEnumerable<Accommodations> GetAllAccommodations()
         {
             using (var context = new ResortManagementDbContext())
@@ -71,18 +88,30 @@ namespace ResortManagement.Services
             }
         }
 
-        public bool EditAccommodation(Accommodations NewModel)
+        public bool EditAccommodation(Accommodations NewModel,string name)
         {
             using (var context = new ResortManagementDbContext())
             {
                 var oldModel = context.accommodation.Find(NewModel.ID);
-                context.Entry(oldModel).CurrentValues.SetValues(NewModel);
-                foreach (var item in NewModel.accommodationPictures)
+                try
                 {
-                    context.Entry(item).State = EntityState.Added;
+                    NewModel.Name = null;
+                    context.Entry(oldModel).CurrentValues.SetValues(NewModel);
+                    NewModel.Name = name;
+                    context.Entry(oldModel).CurrentValues.SetValues(NewModel);
+                    if (NewModel.accommodationPictures != null)
+                    {
+                        foreach (var item in NewModel.accommodationPictures)
+                        {
+                            context.Entry(item).State = EntityState.Added;
+                        }
+                    }
+                    return context.SaveChanges() > 0;
                 }
-               
-                return context.SaveChanges() > 0;
+                catch
+                {
+                    return false;
+                }
             }
         }
 
@@ -90,8 +119,16 @@ namespace ResortManagement.Services
         {
             using (var context= new ResortManagementDbContext())
             {
-                context.accommodation.Add(model);
-                return context.SaveChanges() > 0;
+                try
+                {
+                    context.accommodation.Add(model);
+                    return context.SaveChanges() > 0;
+                }
+                catch
+                {
+                    return false;
+                }
+               
             }
         }
 

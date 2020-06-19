@@ -12,6 +12,7 @@ namespace ResortManagement.Areas.Dashboard.Models
         public int AccommodationTypeID { get; set; }
         public string Name { get; set; }
         public int NOfRoom { get; set; }
+        public int NofBeds { get; set; }
         public decimal FeePerNight { get; set; }
         public string imgUrls { get; set; }
 

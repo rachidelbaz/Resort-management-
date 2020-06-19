@@ -54,21 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\202006050614162_addPicTable.cs" />
-    <Compile Include="Migrations\202006050614162_addPicTable.Designer.cs">
-      <DependentUpon>202006050614162_addPicTable.cs</DependentUpon>
+    <Compile Include="Migrations\202006172023264_InitialCreate.cs" />
+    <Compile Include="Migrations\202006172023264_InitialCreate.Designer.cs">
+      <DependentUpon>202006172023264_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202006111242096_addPictureIdColumnToAccoType.cs" />
-    <Compile Include="Migrations\202006111242096_addPictureIdColumnToAccoType.Designer.cs">
-      <DependentUpon>202006111242096_addPictureIdColumnToAccoType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202006170938547_addClientIdToBokkingTable.cs" />
-    <Compile Include="Migrations\202006170938547_addClientIdToBokkingTable.Designer.cs">
-      <DependentUpon>202006170938547_addClientIdToBokkingTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202006171113064_addStatusColumnToBookingTable.cs" />
-    <Compile Include="Migrations\202006171113064_addStatusColumnToBookingTable.Designer.cs">
-      <DependentUpon>202006171113064_addStatusColumnToBookingTable.cs</DependentUpon>
+    <Compile Include="Migrations\202006191628444_addNOFBedsTotableAccommodation.cs" />
+    <Compile Include="Migrations\202006191628444_addNOFBedsTotableAccommodation.Designer.cs">
+      <DependentUpon>202006191628444_addNOFBedsTotableAccommodation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,17 +77,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202006050614162_addPicTable.resx">
-      <DependentUpon>202006050614162_addPicTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006172023264_InitialCreate.resx">
+      <DependentUpon>202006172023264_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202006111242096_addPictureIdColumnToAccoType.resx">
-      <DependentUpon>202006111242096_addPictureIdColumnToAccoType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202006170938547_addClientIdToBokkingTable.resx">
-      <DependentUpon>202006170938547_addClientIdToBokkingTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202006171113064_addStatusColumnToBookingTable.resx">
-      <DependentUpon>202006171113064_addStatusColumnToBookingTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006191628444_addNOFBedsTotableAccommodation.resx">
+      <DependentUpon>202006191628444_addNOFBedsTotableAccommodation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

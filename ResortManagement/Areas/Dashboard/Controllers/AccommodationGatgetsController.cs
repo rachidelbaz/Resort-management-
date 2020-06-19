@@ -57,6 +57,8 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             var NewAccommodationGatget = new AccommodationGatgets();
             NewAccommodationGatget.ID = model.ID;
             NewAccommodationGatget.Name = model.Name;
+            NewAccommodationGatget.NOfRoom = model.NOfRoom;
+            NewAccommodationGatget.NOFBeds = model.NofBeds;
             NewAccommodationGatget.FeePerNight = model.FeePerNight;
             NewAccommodationGatget.AccommodationTypeID = model.AccommodationTypeID;
             var Pictures = new List<Picture>();
@@ -71,25 +73,33 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 if (model.ID > 0)
                 {
                     Model.accommodationGadgets = AccommodationGadgetsServices.Instance.GetAccommodationGadgetsByID(model.ID);
-                    Model.accommodationGadgets.Name = model.Name;
-                    Model.accommodationGadgets.NOfRoom = model.NOfRoom;
-                    Model.accommodationGadgets.AccommodationTypeID = model.AccommodationTypeID;
-                    Model.accommodationGadgets.accommodationType = AccommodationTypeServices.Instance.GetAccommondationTypeByID(model.AccommodationTypeID);
+                    //Model.accommodationGadgets.Name = model.Name;
+                    //Model.accommodationGadgets.NOfRoom = model.NOfRoom;
+                    //Model.accommodationGadgets.AccommodationTypeID = model.AccommodationTypeID;
+                   // Model.accommodationGadgets.accommodationType = AccommodationTypeServices.Instance.GetAccommondationTypeByID(model.AccommodationTypeID);
                     if (Model.accommodationGadgets.GadgetPictures.Any())
                     {
                      bool isDeleted = PictureServices.Instance.DeletePics(Model.accommodationGadgets.GadgetPictures.Select(acc=>acc.PictureId).ToList());
                     }
-                    NewAccommodationGatget.GadgetPictures = new List<AccommodationGadgetPicture>();
-                    NewAccommodationGatget.GadgetPictures.AddRange(Pictures.Select(acc=>new AccommodationGadgetPicture() { PictureId=acc.ID, AccommodationGadgetId=NewAccommodationGatget.ID}));
+                    if (Pictures.Any())
+                    {
+                        NewAccommodationGatget.GadgetPictures = new List<AccommodationGadgetPicture>();
+                        NewAccommodationGatget.GadgetPictures.AddRange(Pictures.Select(acc => new AccommodationGadgetPicture() { PictureId = acc.ID, AccommodationGadgetId = NewAccommodationGatget.ID }));
+                    }
+                    
                     Result = AccommodationGadgetsServices.Instance.EditAccommondationGadget(NewAccommodationGatget);
                     jsonResult.Data = new {Edited=Result, Success = Result, Message = Result ? "Accommodation Gadget updated successfully" : "update Accommodation Gadget Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
                 else
                 {
-                    NewAccommodationGatget.GadgetPictures = new List<AccommodationGadgetPicture>();
-                    NewAccommodationGatget.GadgetPictures.AddRange(Pictures.Select(pic=>new AccommodationGadgetPicture() { PictureId=pic.ID, AccommodationGadgetId=NewAccommodationGatget.ID }));
+                    if (Pictures.Any())
+                    {
+                        NewAccommodationGatget.GadgetPictures = new List<AccommodationGadgetPicture>();
+                        NewAccommodationGatget.GadgetPictures.AddRange(Pictures.Select(pic => new AccommodationGadgetPicture() { PictureId = pic.ID, AccommodationGadgetId = NewAccommodationGatget.ID }));
+                    }
+                   
                     Result = AccommodationGadgetsServices.Instance.CreateAccommondationGadget(NewAccommodationGatget);
-                    jsonResult.Data = new { Edited=false, Success = Result, Message = Result ? "Accommodation Gadget added successfully" : "add Accommodation Type Gadget! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                    jsonResult.Data = new { Edited=false, Success = Result, Message = Result ? "Accommodation Gadget added successfully" : "Fait added Accommodation Gadget! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
 
             

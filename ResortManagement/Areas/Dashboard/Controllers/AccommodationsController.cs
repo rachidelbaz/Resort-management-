@@ -65,23 +65,27 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             bool Result = false;
             if (model.ID > 0)
             {
-                var OldAccommodationPictures = AccoommodationsService.Instance.GetAccommodationsByID(model.ID).accommodationPictures;
-                if (OldAccommodationPictures != null && OldAccommodationPictures.Any())
+
+                Model.accommodation= AccoommodationsService.Instance.GetAccommodationsByID(model.ID);
+                if (Model.accommodation.accommodationPictures != null && Model.accommodation.accommodationPictures.Any())
                 {
-                    bool isDeleted = PictureServices.Instance.DeletePics(OldAccommodationPictures.Select(acc => acc.pictureID).ToList());     
+                    bool isDeleted = PictureServices.Instance.DeletePics(Model.accommodation.accommodationPictures.Select(acc => acc.pictureID).ToList());     
+                }
+                if (newPics.Any())
+                {
+                    newAccomodation.accommodationPictures = new List<AccommodationPicture>();
+                    newAccomodation.accommodationPictures.AddRange(newPics.Select(pic => new AccommodationPicture() { pictureID = pic.ID, AccommodationID = model.ID }));
                 }
                 
-                newAccomodation.accommodationPictures = new List<AccommodationPicture>();
-                newAccomodation.accommodationPictures.AddRange(newPics.Select(pic => new AccommodationPicture() { pictureID = pic.ID, AccommodationID = model.ID }));
-                Result = AccoommodationsService.Instance.EditAccommodation(newAccomodation);
-               jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                Result = AccoommodationsService.Instance.EditAccommodation(newAccomodation, model.Name);
+               jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
             }
             else
             { 
                 newAccomodation.accommodationPictures = new List<AccommodationPicture>();
                 newAccomodation.accommodationPictures.AddRange(newPics.Select(pic=>new AccommodationPicture() { pictureID=pic.ID, AccommodationID=newAccomodation.ID}));
                 Result = AccoommodationsService.Instance.CreatAccommodation(newAccomodation);
-                jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation updated successfully" : "update Accommodation Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Added successfully" : "Add Accommodation Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
             }
 
             return jsonResult;

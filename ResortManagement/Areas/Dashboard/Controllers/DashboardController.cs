@@ -22,18 +22,35 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             var Files = Request.Files;
             var URLpictures = new List<string>();
+            List<bool> results = new List<bool>();
             try
             {
                 for (int i = 0; i < Files.Count; i++)
-                { 
-                    var picture = Files[i];
-                    var fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
-                    var filePath = Path.Combine(Server.MapPath("~/Content/images/WebPictures"), fileName);
-                    URLpictures.Add(string.Concat("/Content/images/WebPictures/", fileName));
-                    picture.SaveAs(filePath);      
+                {
+                    if (Files[i].ContentLength/1024>30 && Files[i].ContentLength/1024<400)
+                    {
+                        var picture = Files[i];
+                        var fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
+                        var filePath = Path.Combine(Server.MapPath("~/Content/images/WebPictures"), fileName);
+                        URLpictures.Add(string.Concat("/Content/images/WebPictures/", fileName));
+                        picture.SaveAs(filePath);
+                        results.Add(true);
+                    }
+                    else
+                    {
+                        results.Add(false);
+                    }
+                       
                 }
-                jsonResult.Data = new { success = true, ImgURL = URLpictures };
+                if (!results.Contains(true))
+                {
+                    jsonResult.Data = new { success = false, message = "Non valide One or more image, minimum size 30 Kb & maximum size 400 Kb",Class= "alert-danger" };
+                }
+                else
+                {
+                    jsonResult.Data = new { success = true, ImgURL= URLpictures };
 
+                }
             }
             catch (Exception x)
             {

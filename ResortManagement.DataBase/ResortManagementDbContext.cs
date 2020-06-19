@@ -3,6 +3,7 @@ using ResortManagement.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,13 @@ namespace ResortManagement.DataBase
             this.Configuration.LazyLoadingEnabled = false;
            
         }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+        //    modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+        //    modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+        //    modelBuilder.Entity<AccommodationPicture>().HasKey(ap => new { ap.AccommodationID, ap.pictureID });
+        //}
         public static ResortManagementDbContext Create()
         {
             return new ResortManagementDbContext();

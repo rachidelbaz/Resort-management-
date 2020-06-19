@@ -91,10 +91,14 @@ namespace ResortManagement.Services
             {
                 var gadget = context.accommodationGatget.Find(model.ID);
                 context.Entry(gadget).CurrentValues.SetValues(model);
-                foreach (var item in model.GadgetPictures)
+                if (model.GadgetPictures!=null)
                 {
-                    context.Entry(item).State = EntityState.Added;
+                    foreach (var item in model.GadgetPictures)
+                    {
+                        context.Entry(item).State = EntityState.Added;
+                    }
                 }
+               
                 return context.SaveChanges() > 0;
             }
         }

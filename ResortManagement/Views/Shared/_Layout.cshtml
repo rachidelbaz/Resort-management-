@@ -149,12 +149,36 @@
 
             </div>
         </div>
+        @{ 
+            var action = ViewContext.RouteData.Values["Action"].ToString();
+            string img;
+            string title;
+            switch (action)
+            {
+                case "Rooms":
+                    img = "Rooms.jpg";
+                    title = "Rooms";
+                    break;
+                case "About":
+                    img = "About.jpg";
+                    title = "About us";
+                    break;
+                case "Contact":
+                    img = "contact.jpg";
+                    title = "Contact";
+                    break;
+                default:
+                    img = "home.jpg";
+                    title = "Book Your Stay";
+                    break;
+            }
+            }
 
         <!-- Home -->
         <div class="home">
-            <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="/Content/images/home.jpg" data-speed="0.8"></div>
+            <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="@(string.Concat("/Content/images/",img))" data-speed="0.8"></div>
             <div class="home_container d-flex flex-column align-items-center justify-content-center">
-                <div class="home_title"><h1>Book Your Stay</h1></div>
+                <div class="home_title"><h1>@title</h1></div>
                 <div class="home_text text-center">Fusce erat dui, venenatis et erat in, vulputate dignissim lacus. Donec vitae tempus dolor, sit amet elementum lorem. Ut cursus tempor turpis.</div>
                 <div class="button home_button"><a href="#">book now</a></div>
             </div>

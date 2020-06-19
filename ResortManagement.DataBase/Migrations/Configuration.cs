@@ -9,7 +9,7 @@ namespace ResortManagement.DataBase.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
             ContextKey = "ResortManagement.DataBase.ResortManagementDbContext";
         }
 

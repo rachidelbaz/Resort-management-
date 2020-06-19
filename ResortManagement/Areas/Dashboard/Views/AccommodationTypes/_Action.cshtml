@@ -88,7 +88,7 @@
         .html(rMessage)
         .addClass(rClass);
     }
-
+    var DivMessage = $("#DivMessage");
     $("#btnSave").click(function () {
         var imgUrls = [];
         $("#ImgContainer img").each(function () {
@@ -103,8 +103,6 @@
             data: $("#formAction").serialize(),
             dataType:'json'
         }).done(function (response) {
-            debugger;
-            const DivMessage = $("#DivMessage");
                 Message(DivMessage, response.Message, response.Class);        
            //to refresh _listing partialView Data declared in index view
             if (response.Edited && response.Success) {
@@ -125,7 +123,6 @@
     var divClone = $("#ImgContainer div:first-child");
     var divContainer = $("#ImgContainer");
     $("#inputGroupFile01").change(function () {
-        debugger;
         var PicsData = new FormData();
         var files = this.files;
         for (var i = 0; i < files.length; i++) {
@@ -146,6 +143,12 @@
                     div.children('img').attr("src", response.ImgURL[i]);
                     divContainer.append(div);
                 }
+            }
+            else {
+                Message(DivMessage, response.message, response.Class);
+                 setTimeout(function () {
+                DivMessage.addClass('d-none');
+            }, 5000);
             }
         });
 

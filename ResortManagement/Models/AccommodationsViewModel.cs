@@ -9,13 +9,18 @@ namespace ResortManagement.Models
 {
     public class AccommodationsViewModel
     {
-        public IEnumerable<Accommodations> accommodations {get;set; }
+        internal DateTime CheckOut;
+        internal DateTime CheckIn;
+
+        public IEnumerable<Accommodations> accommodations { get; set; }
         public IEnumerable<AccommodationGatgets> accommodationGatgets { get; set; }
         public IEnumerable<AccommodationTypes> accommodationTypes { get; set; }
         public List<Picture> Accommopictures { get; set; }
         public int PageNo { get; set; }
         public int PageSize { get; set; }
         public Pager pager { get; set; }
+        public int Duration { get;set; }
+        public int? NoOfBeds { get;set; }
     }
     public class AccommodationsGasgetsViewModel {
     

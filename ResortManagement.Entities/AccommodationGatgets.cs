@@ -15,9 +15,10 @@ namespace ResortManagement.Entities
         public int ID { get; set; }
         public int AccommodationTypeID { get; set; }
         [ForeignKey(name: "AccommodationTypeID")]
-        public virtual AccommodationTypes accommodationType { get; set; }
+        public AccommodationTypes accommodationType { get; set; }
         public string Name { get; set; }
         public int NOfRoom { get; set; }
+        public int NOFBeds { get; set; }
         public decimal FeePerNight { get; set; }
         public virtual List<AccommodationGadgetPicture> GadgetPictures { get; set; }
     }

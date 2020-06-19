@@ -126,18 +126,18 @@
                 .removeClass('d-none')
                 .html(response.Message)
                 .addClass(response.Class);
-            $(":input").val('');
-            $("#ImgContainer div").each(function () {
-                $(this).remove();
-            });
-            
+            //$("#ImgContainer div").each(function () {
+            //    $(this).remove();
+            //});
            //to refresh _listing partialView Data, declared in index view
             refreshTableListing();
-            if (response.Edited) {
+            if (response.Edited && response.Success) {
                 setTimeout(function () {
                     $('#exampleModalCenter').modal('hide');
                 }, 1000);
-
+            } else if(!response.Edited && response.Success) {
+                $(":input").val('');
+                ImgContainer.find('div').remove();
             }
 
             setTimeout(function () {

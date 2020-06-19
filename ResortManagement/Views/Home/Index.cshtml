@@ -8,19 +8,22 @@
 {
     <div class="intro">
         <div class="container">
-            @if (Model.accommodationTypes != null)
+            @if (Model.accommodationTypes != null && Model.accommodationTypes.Any())
             {
                 <div class="row">
                     <div class="col">
                         <div class="section_title text-center">
                             <div>Welcome</div>
                             <h1>
-                                @foreach (var item in Model.accommodationTypes.Take(Model.accommodationTypes.Count() - 1))
+                                @if (Model.accommodationTypes.Count() >= 2)
                                 {
-                                    <span>@item.Type </span>
+                                    foreach (var item in Model.accommodationTypes.Take(Model.accommodationTypes.Count() - 1))
+                                    {
+                                        <span>@item.Type </span>
+                                    }
+                                    <span>&amp;</span>
                                 }
-                                <span>&amp;</span>
-                                <span>@Model.accommodationTypes.LastOrDefault().Type</span>
+                                <span>@(Model.accommodationTypes.LastOrDefault().Type)</span>
                             </h1>
                         </div>
                     </div>
@@ -98,11 +101,11 @@
                     </div>
                 </div>
             }
-            </div>
+        </div>
     </div>
 
     <!-- Rooms -->
-    if (Model.accommodations != null)
+    if (Model.accommodations.Any())
     {
         <div class="rooms_right container_wrapper">
             <div class="container">
@@ -113,12 +116,40 @@
                         <div class="rooms_slider_container">
                             <div class="owl-carousel owl-theme rooms_slider">
                                 <!-- Slide -->
-                                @foreach (var item in Model.Accommopictures.Where(accP=>Model.accommodations.Select(acc=>acc.accommodationPictures.Select(accp=>accp.pictureID)).FirstOrDefault().ToList().Contains(accP.ID)))
+
+                                @if (Model.Accommopictures != null)
                                 {
-                                    <div class="slide">
-                                        <div class="background_image" style="background-image:url(@(string.IsNullOrEmpty(item.URL)?EmptyImg:string.Concat(urlDefault,item.URL)))"></div>
-                                    </div>
+                                    //item.accommodationPictures.Any(iAp=>Model.Accommopictures.Select(mAp=>mAp.ID).ToList().Contains(iAp.pictureID));
+                                    bool isIN = Model.accommodations.FirstOrDefault().accommodationPictures.Any() ? Model.accommodations.FirstOrDefault().accommodationPictures.Select(iAp => iAp.pictureID).ToList().Intersect(Model.Accommopictures.Select(MaP => MaP.ID).ToList()).Any() : false;
+                                    if (isIN)
+                                    {
+                                        foreach (var Item in Model.Accommopictures.Where(MaccP => Model.accommodations.FirstOrDefault().accommodationPictures.Select(accp => accp.pictureID).ToList().Contains(MaccP.ID)))
+                                        {
+                                            <div class="slide">
+                                                <div class="background_image" style="background-image:url(@(string.IsNullOrEmpty(Item.URL) ? EmptyImg :string.Concat(urlDefault,Item.URL)))"></div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        <div class="slide">
+                                            <div class="background_image" style="background-image:url(@EmptyImg)"></div>
+                                        </div>
+                                    }
+
                                 }
+
+                                @*@if (Model.Accommopictures != null)
+                                    {
+
+                                        foreach (var item in Model.Accommopictures.Where(accP => Model.accommodations.Select(acc => acc.accommodationPictures.Select(accp => accp.pictureID)).FirstOrDefault().ToList().Contains(accP.ID)))
+                                        {
+                                            <div class="slide">
+                                                <div class="background_image" style="background-image:url(@(string.IsNullOrEmpty(item.URL) ? EmptyImg : string.Concat(urlDefault, item.URL)))"></div>
+                                            </div>
+                                        }
+                                    }*@
                             </div>
                         </div>
                     </div>
@@ -131,7 +162,7 @@
                             </div>
                             <div class="rooms_text">
                                 <p>
-                                    @(Model.accommodations.FirstOrDefault().Description)
+                                    @(Model.accommodations.Any() ? Model.accommodations.FirstOrDefault().Description : string.Empty);
                                 </p>
                             </div>
                             <div class="rooms_list">
@@ -161,74 +192,104 @@
 
 
         <!-- Rooms -->
+        if (Model.accommodations.Count() > 1)
+        {
+            <div class="rooms_left container_wrapper">
+                <div class="container">
+                    <div class="row row-eq-height">
 
-        <div class="rooms_left container_wrapper">
-            <div class="container">
-                <div class="row row-eq-height">
+                        <!-- Rooms Content -->
+                        <div class="col-xl-6">
+                            <div class="rooms_left_content">
+                                <div class="section_title">
+                                    <div>Rooms</div>
+                                    <h1>@(Model.accommodations.Select(acc => acc.accommodationGatgets.Name).LastOrDefault())</h1>
 
-                    <!-- Rooms Content -->
-                    <div class="col-xl-6">
-                        <div class="rooms_left_content">
-                            <div class="section_title">
-                                <div>Rooms</div>
-                                <h1>@(Model.accommodations.Select(acc => acc.accommodationGatgets.Name).LastOrDefault())</h1>
-
-                            </div>
-                            <div class="rooms_text">
-                                <p>
-                                    @(Model.accommodations.LastOrDefault().Description)
-                                </p>
-                            </div>
-                            <div class="rooms_list">
-                                <ul>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="~/Content/images/check.png" alt="">
-                                        <span>Morbi tempus malesuada erat sed</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="~/Content/images/check.png" alt="">
-                                        <span>Tempus malesuada erat sed</span>
-                                    </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
-                                        <img src="~/Content/images/check.png" alt="">
-                                        <span>Pellentesque vel neque finibus elit</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="rooms_price">$ @(Model.accommodations.Select(acc => acc.accommodationGatgets.FeePerNight).LastOrDefault())/<span>Night</span></div>
-                            <div class="button rooms_button"><a href="#">book now</a></div>
-                        </div>
-                    </div>
-
-                    <!-- Rooms Image -->
-                    <div class="col-xl-6">
-                        <div class="rooms_slider_container">
-                            <div class="owl-carousel owl-theme rooms_slider">
-
-                                <!-- Slide -->
-                                @foreach (var item in Model.Accommopictures.Where(accP => Model.accommodations.Select(acc => acc.accommodationPictures.Select(accp => accp.pictureID)).LastOrDefault().ToList().Contains(accP.ID)))
-                                {
-                                    <div class="slide">
-                                        <div class="background_image" style="background-image:url(@(string.IsNullOrEmpty(item.URL) ? EmptyImg : string.Concat(urlDefault, item.URL)))"></div>
-                                    </div>
-                                }
+                                </div>
+                                <div class="rooms_text">
+                                    <p>
+                                        @(Model.accommodations.Any() ? Model.accommodations.LastOrDefault().Description : string.Empty)
+                                    </p>
+                                </div>
+                                <div class="rooms_list">
+                                    <ul>
+                                        <li class="d-flex flex-row align-items-center justify-content-start">
+                                            <img src="~/Content/images/check.png" alt="">
+                                            <span>Morbi tempus malesuada erat sed</span>
+                                        </li>
+                                        <li class="d-flex flex-row align-items-center justify-content-start">
+                                            <img src="~/Content/images/check.png" alt="">
+                                            <span>Tempus malesuada erat sed</span>
+                                        </li>
+                                        <li class="d-flex flex-row align-items-center justify-content-start">
+                                            <img src="~/Content/images/check.png" alt="">
+                                            <span>Pellentesque vel neque finibus elit</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="rooms_price">$ @(Model.accommodations.Select(acc => acc.accommodationGatgets.FeePerNight).LastOrDefault())/<span>Night</span></div>
+                                <div class="button rooms_button"><a href="#">book now</a></div>
                             </div>
                         </div>
-                    </div>
 
+                        <!-- Rooms Image -->
+                        <div class="col-xl-6">
+                            <div class="rooms_slider_container">
+                                <div class="owl-carousel owl-theme rooms_slider">
+
+                                    <!-- Slide -->
+                                    @if (Model.Accommopictures != null)
+                                    {
+                                        //item.accommodationPictures.Any(iAp=>Model.Accommopictures.Select(mAp=>mAp.ID).ToList().Contains(iAp.pictureID));
+                                        bool isIN = Model.accommodations.LastOrDefault().accommodationPictures.Any() ? Model.accommodations.LastOrDefault().accommodationPictures.Select(iAp => iAp.pictureID).ToList().Intersect(Model.Accommopictures.Select(MaP => MaP.ID).ToList()).Any() : false;
+                                        if (isIN)
+                                        {
+                                            foreach (var Item in Model.Accommopictures.Where(MaccP => Model.accommodations.LastOrDefault().accommodationPictures.Select(accp => accp.pictureID).ToList().Contains(MaccP.ID)))
+                                            {
+                                                <div class="slide">
+                                                    <div class="background_image" style="background-image:url(@(string.IsNullOrEmpty(Item.URL) ? EmptyImg :string.Concat(urlDefault,Item.URL)))"></div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            <div class="slide">
+                                                <div class="background_image" style="background-image:url(@EmptyImg)"></div>
+                                            </div>
+                                        }
+
+                                    }
+                                    @*@foreach (var item in Model.Accommopictures.Where(accP => Model.accommodations.Select(acc => acc.accommodationPictures.Select(accp => accp.pictureID)).LastOrDefault().ToList().Contains(accP.ID)))
+                                        {
+                                            <div class="slide">
+                                                <div class="background_image" style="background-image:url(@(string.IsNullOrEmpty(item.URL) ? EmptyImg : string.Concat(urlDefault, item.URL)))"></div>
+                                            </div>
+                                        }*@
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
+        }
 
-        <div class="load_more_container text-center mt-1 mb-0">
-            <div class="load_more_button"><a href="@Url.Action("Rooms","Home")">See more rooms</a></div>
-        </div>
+        if (Model.accommodations.Count() > 3)
+        {
+            <div class="load_more_container text-center mt-1 mb-0">
+                <div class="load_more_button"><a href="@Url.Action("Rooms", "Home")">See more rooms</a></div>
+            </div>
+        }
     }
     else
     {
-        <div class="alert alert-warning" role="alert">
-            Sorry! No Room registred yet!
+        <div class="container">
+            <div class="alert alert-warning" role="alert">
+                Sorry! No Room registred yet!
+            </div>
         </div>
+
     }
     <!-- Discover -->
 
@@ -274,23 +335,6 @@
                         </div>
                     </div>
                 }
-
-
-                <!-- Slide -->
-                <div class="slide">
-                    <div class="background_image" style="background-image:url(/Content/images/discover_2.jpg)"></div>
-                    <div class="discover_overlay d-flex flex-column align-items-center justify-content-center">
-                        <h1><a href="#">Parties</a></h1>
-                    </div>
-                </div>
-
-                <!-- Slide -->
-                <div class="slide">
-                    <div class="background_image" style="background-image:url(/Content/images/discover_3.jpg)"></div>
-                    <div class="discover_overlay d-flex flex-column align-items-center justify-content-center">
-                        <h1><a href="#">Relax</a></h1>
-                    </div>
-                </div>
 
             </div>
         </div>

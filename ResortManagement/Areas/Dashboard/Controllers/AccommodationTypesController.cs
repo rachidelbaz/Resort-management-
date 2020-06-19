@@ -61,14 +61,14 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                     newAccommodationTypes.AccommodationTypePictures = new List<AccommodationTypePicture>();
                     newAccommodationTypes.AccommodationTypePictures.AddRange(Pictures.Select(p => new AccommodationTypePicture() { pictureID = p.ID, AccommodationTypeId = newAccommodationTypes.ID }));
                     Result = AccommodationTypeServices.Instance.EditAccommondationType(newAccommodationTypes);
-                    jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation Type updated successfully" : "update Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                    jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation Type updated successfully" : "update Accommodation Type Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
                 else
                 {
                      newAccommodationTypes.AccommodationTypePictures = new List<AccommodationTypePicture>();
                      newAccommodationTypes.AccommodationTypePictures.AddRange(Pictures.Select(p=>new AccommodationTypePicture() { pictureID=p.ID, AccommodationTypeId = newAccommodationTypes.ID }));
                     Result = AccommodationTypeServices.Instance.CreateAccommondationType(newAccommodationTypes);
-                     jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Fail! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                     jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
                 }
    
             

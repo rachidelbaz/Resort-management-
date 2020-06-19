@@ -53,6 +53,13 @@
                 </div>
                 <input class="form-control" name="NOfRoom" type="number" min="1" max="5" placeholder="" value="@(Model.accommodationGadgets!=null?Model.accommodationGadgets.NOfRoom.ToString():string.Empty)">
             </div>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Number of Beds</span>
+                </div>
+                <input class="form-control" name="NOFBeds" type="number" min="1" max="" placeholder="" value="@(Model.accommodationGadgets!=null?Model.accommodationGadgets.NOFBeds.ToString():string.Empty)">
+            </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Fee Per Night</span>
@@ -78,7 +85,7 @@
                     </div>
                 </div>
                 <!--End Clone-->
-                @if (Model.accommodationGadgets != null && Model.pictures!=null)
+                @if (Model.accommodationGadgets != null && Model.pictures != null)
                 {
                     foreach (var item in Model.pictures)
                     {
@@ -119,7 +126,6 @@
             data: $("#formAction").serialize(),
             dataType:'json'
         }).done(function (response) {
-            
                  DivMessage
                 .removeClass('d-none')
                 .html(response.Message)

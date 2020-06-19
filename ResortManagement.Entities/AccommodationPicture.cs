@@ -9,7 +9,7 @@ namespace ResortManagement.Entities
         public int ID { get; set; }
         public int AccommodationID { get; set; }
         [ForeignKey("AccommodationID")]
-        public virtual Accommodations accommodations { get; set; }
+        public Accommodations accommodations { get; set; }
         public int pictureID { get; set; }
         public virtual Picture picture { get; set; }
     }
