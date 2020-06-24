@@ -17,9 +17,9 @@ namespace ResortManagement.Entities
         public Accommodations accommodation { get; set; }
         public DateTime AccommmodationDate { get; set; }
         public int Duration { get; set; }
-        public string Status { get; set; } = "Waiting";
-        public int clientId { get; set; }
-        [ForeignKey(name:"clientId")]
-        public Client client { get; set; }
+        public string Status { get; set; } = "Pending";
+        public string RMUserId { get; set; }
+        [ForeignKey(name: "RMUserId")]
+        public RMUser RMUser { get; set; }
     }
 }

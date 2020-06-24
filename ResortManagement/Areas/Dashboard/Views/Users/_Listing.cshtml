@@ -21,7 +21,8 @@
         <tbody>
             @foreach (var user in Model.RMUsers)
             {
-                <tr>
+               
+                <tr class="@(user.Roles.Any()?"bg-secondary":string.Empty)">
                     <th scope="row">@user.UserName</th>
                     <th>@user.Email</th>
                     <th>
@@ -67,11 +68,6 @@
                                 data-href="@Url.Action("Delete", "Users",
                                       new { ID = @user.Id})">
                             <i class="fas fa-trash-alt fa-1x mr-1"></i>Delete
-                        </button>
-                        <button class="btn btn-outline-info btnRoles"
-                                data-href="@Url.Action("Roles", "Users",
-                                      new { ID = @user.Id})">
-                            <i class="fas fa-user-tag fa-1x mr-1"></i>Roles
                         </button>
                     </td>
                 </tr>

@@ -153,7 +153,8 @@ namespace ResortManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new RMUser { UserName = model.Email, Email = model.Email };
+                var user = new RMUser { UserName = model.Email, Email = model.Email, CIN=model.CIN, Address=model.Address, City=model.City
+                                       , FullName=model.FullName, PhoneNumber=model.PhoneNumber, DateOfBirth=model.DateOfBirth};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -35,7 +35,6 @@ namespace ResortManagement.DataBase
         public DbSet<AccommodationGatgets> accommodationGatget { get; set; }
         public DbSet<Accommodations> accommodation { get; set; }
         public DbSet<Bookings> booking { get; set; }
-        public DbSet<Client> client { get; set; }
         //should not create user cuase it aready created from IdentityDbContext<user> 
         //public DbSet<RMUser> users { get; set; }
         public DbSet<Picture>  picture { get; set; }

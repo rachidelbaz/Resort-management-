@@ -1,0 +1,156 @@
+﻿@model ResortManagement.Areas.Dashboard.Models.BookingsEditViewModel
+@using ResortManagement.Areas.Code 
+@{
+    var urlDefault = "/content/images/WebPictures/";
+}
+@if (Model != null)
+{
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+            @if (Model.booking != null)
+            {
+            <span>Edit booking</span>
+            }
+            else
+            {
+            <span>Create booking</span>
+            }
+
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="formAction">
+            <input type="hidden" name="ID" value="@(Model.booking!=null?Model.booking.ID.ToString():string.Empty)">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Accoommodation Type</span>
+                </div>
+                <select id="AccTypeSelector" class="form-control font-weight-bold">
+                    @if (Model.accommodationTypes!=null)
+                    {
+                        foreach (var accType in Model.accommodationTypes)
+                        {
+                            <option class="font-weight-bold" value="@accType.ID">@accType.Type</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Accoommodation</span>
+                </div>
+                <select id="AccSelector" class="form-control font-weight-bold">
+                </select>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">CIN Client</span>
+                </div>
+                <input class="form-control" name="RMUserId" type="text" placeholder="" value="@(Model.booking!=null?Model.booking.RMUserId:string.Empty)">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Date</span>
+                </div>
+                <input class="form-control" name="AccommmodationDate" type="text" placeholder="" value="@(Model.booking!=null?Model.booking.AccommmodationDate.ToShortDateString():string.Empty)">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Duration</span>
+                </div>
+                <input class="form-control" name="Duration" type="number" min="1" max="15" placeholder="" value="@(Model.booking!=null?Model.booking.Duration.ToString():string.Empty)">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Status</span>
+                </div>
+                <select name="" class="form-control font-weight-bold pr-3">
+                    @foreach (var S in Enum.GetValues(typeof(Status)))
+                    {
+                        <option class="font-weight-bold" value="@S">@S</option>
+                    }
+                </select>
+            </div>
+        </form>
+
+        <div class="alert d-none" role="alert" id="DivMessage">
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-share fa-1x mr-1"></i>Close</button>
+        <button type="button" class="btn btn-primary" id="btnSave"><i class="fas fa-save fa-1x mr-1"></i>Save changes</button>
+    </div>
+
+}
+<script>
+    $("#AccTypeSelector").on('change', function () {
+        let Id = $(this).val();
+        let $option = $(this).children('option:selected');
+        $.ajax({
+            url: '@Url.Action("GetGadgetByType","Bookings")',
+            type: 'GET',
+            dataType: 'json',
+            data: { Id }
+        }).done(function (response) {
+            let AccSelector = $("#AccSelector");
+            let Options = [];
+            if (response["Gadgets"] != null) {
+                $.each(response["Gadgets"], function (index, gadget) {
+                    let $optionClone = $option.clone();
+                    $optionClone.val(gadget["ID"]).text(gadget["Name"]);
+                    Options.push($optionClone);
+                });
+                AccSelector.append(...Options);
+            }
+        });
+    });
+    $("#btnSave").click(function () {
+        var imgUrls = [];
+        $("#ImgContainer img").each(function () {
+             if ($(this).attr("src")!="") {
+            imgUrls.push($(this).attr("src"));
+            }
+        });
+        $("input[name='imgUrls']").val(imgUrls);
+
+        const DivMessage = $("#DivMessage");
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Action","Bookings")',
+            data: $("#formAction").serialize(),
+            dataType:'json'
+        }).done(function (response) {
+                 DivMessage
+                .removeClass('d-none')
+                .html(response.Message)
+                .addClass(response.Class);
+            //$("#ImgContainer div").each(function () {
+            //    $(this).remove();
+            //});
+           //to refresh _listing partialView Data, declared in index view
+            refreshTableListing();
+            if (response.Edited && response.Success) {
+                setTimeout(function () {
+                    $('#exampleModalCenter').modal('hide');
+                }, 1000);
+            } else if(!response.Edited && response.Success) {
+                $(":input").val('');
+                ImgContainer.find('div').remove();
+            }
+
+            setTimeout(function () {
+                DivMessage.addClass('d-none');
+            }, 5000);
+
+            });
+    });
+
+</script>
+
+
+

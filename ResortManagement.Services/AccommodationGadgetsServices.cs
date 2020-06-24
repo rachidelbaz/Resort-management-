@@ -121,5 +121,12 @@ namespace ResortManagement.Services
                 return context.SaveChanges() > 0;
             }
         }
+        public IEnumerable<AccommodationGatgets> GetGAdgetByAccTypeID(int value)
+        {
+            using (var context = new ResortManagementDbContext())
+            {
+                return context.accommodationGatget.Where(acc => acc.AccommodationTypeID == value).ToList();
+            }
+        }
     }
 }

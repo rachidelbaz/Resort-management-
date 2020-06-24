@@ -24,10 +24,17 @@ namespace ResortManagement.Controllers
         ResortManagement.Models.AccommodationsViewModel model = new ResortManagement.Models.AccommodationsViewModel();
         public ActionResult Rooms(int? pageNo,string CheckIn,string CheckOut,int? Adults, int? Children)
         {
+            var d = DateTime.MinValue;
+            var t = DateTime.MaxValue;
+            var f = DateTime.Now;
+            var g = f.AddDays(4);
+            var j = f.Day;
+            var i = f.Date;
+            f.ToLongDateString();
             model.PageNo = pageNo ?? 1;
             model.PageSize = 4;
             bool CheckInisDate = DateTime.TryParse(CheckIn, out model.CheckIn);
-            bool CheckOutisDate = DateTime.TryParse(CheckIn, out model.CheckOut);
+            bool CheckOutisDate = DateTime.TryParse(CheckOut, out model.CheckOut);
             if (CheckInisDate & CheckOutisDate) { model.Duration = model.CheckOut.Day-model.CheckIn.Day; }
             if (Adults.HasValue)
             {
@@ -40,7 +47,7 @@ namespace ResortManagement.Controllers
                     model.NoOfBeds = Adults.Value;
                 }
             }
-            model.accommodations = AccoommodationsService.Instance.GetAccommodationsByBooking(model.CheckIn, model.Duration=0,model.NoOfBeds, model.PageNo, model.PageSize);
+            model.accommodations = AccoommodationsService.Instance.GetAccommodationsByBooking(model.CheckIn, model.Duration,model.NoOfBeds, model.PageNo, model.PageSize);
             model.accommodations = AccoommodationsService.Instance.GetAllAccommodations(null, 0, model.PageSize, pageNo: model.PageNo);
             model.Accommopictures = PictureServices.Instance
                 .GetPituresByPictureID(model.accommodations.

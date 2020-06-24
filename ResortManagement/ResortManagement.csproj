@@ -167,9 +167,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Code\Status.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccommodationGatgetsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccommodationsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccommodationTypesController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\BookingsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\RolesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\UsersController.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Areas\Dashboard\Models\AccommodationsViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AccommondationGadgetsViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AccommondationTypesViewModel.cs" />
+    <Compile Include="Areas\Dashboard\Models\BookingsViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\Pager.cs" />
     <Compile Include="Areas\Dashboard\Models\RolesViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\UsersViewmodel.cs" />
@@ -216,6 +219,7 @@
     <Content Include="Areas\Content\vendor\jquery\jquery.slim.js" />
     <Content Include="Areas\Content\vendor\jquery\jquery.slim.min.js" />
     <Content Include="Content\images\empty.jpg" />
+    <Content Include="Content\images\tag.png" />
     <Content Include="Content\plugins\easing\easing.js" />
     <Content Include="Content\plugins\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\plugins\font-awesome-4.7.0\css\font-awesome.min.css" />
@@ -375,6 +379,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Dashboard\Views\Client\" />
     <Folder Include="Content\images\WebPictures\" />
   </ItemGroup>
   <ItemGroup>
@@ -411,6 +416,9 @@
     <Content Include="Content\plugins\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Content\plugins\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Content\plugins\font-awesome-4.7.0\scss\_variables.scss" />
+    <Content Include="Areas\Dashboard\Views\Bookings\_Listing.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Bookings\_Action.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Bookings\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Rooms.cshtml" />
     <Content Include="Views\Home\_RoomsListing.cshtml" />

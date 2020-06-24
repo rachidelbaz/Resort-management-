@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ResortManagement.Models
@@ -68,7 +69,6 @@ namespace ResortManagement.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
@@ -79,6 +79,18 @@ namespace ResortManagement.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required(ErrorMessage = "The CIN field is required.")]
+        public string CIN { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        [Required(ErrorMessage = "The Full Name field is required.")]
+        [Display(Name ="Full Name")]
+        public string FullName { get; set; }
+        [Display(Name ="Phone Number")]
+        public string PhoneNumber { get; set; }
+        [Required(ErrorMessage ="The Date of birth field is required.")]
+        [Display(Name ="Date of birth")]
+        public DateTime DateOfBirth { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -112,5 +112,10 @@ namespace ResortManagement.Services
                 return context.SaveChanges()>0;
             }
         }
+
+        public object DeleteBookingsByID(int iD)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

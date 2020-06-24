@@ -66,9 +66,11 @@ namespace ResortManagement.Services
         {
             using (var context = new ResortManagementDbContext())
             {
+                var k = context.booking.Select(b => b.AccommmodationDate).ToList();
                 var accommodations= context.accommodation.Include(acc => acc.accommodationPictures).Include(acc=>acc.accommodationGatgets).AsQueryable();
                 if (checkIn.HasValue && Duration>0)
                 {
+                    
                     accommodations = accommodations.Where(acc=>!context.booking.Select(b=>b.AccommodationID).ToList().Contains(acc.ID)||context.booking.Where(b=>b.AccommmodationDate.AddDays(b.Duration)<=checkIn).Select(b=>b.AccommodationID).ToList().Contains(acc.ID));
                 }
                 if (noOfBeds.HasValue)
@@ -131,6 +133,8 @@ namespace ResortManagement.Services
                
             }
         }
+
+       
 
         public Accommodations GetAccommodationsByID(int ID)
         {

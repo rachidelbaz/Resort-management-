@@ -23,7 +23,7 @@
         <div class="input-group mb-2">
             <input type="text" class="form-control" value="" placeholder="Search!" id="inputSearch" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
             <select class="form-control font-weight-bold pr-3" id="RoleSelector">
-                <option value="0" class="font-weight-bold " disabled selected>Select Role</option>
+                <option value="" class="font-weight-bold " disabled selected>Select Role</option>
                 @if (Model.Roles != null && Model.Roles.Count()>0)
                 {
                     foreach (var role in Model.Roles)

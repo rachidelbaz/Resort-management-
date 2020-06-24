@@ -124,24 +124,28 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 user.Email = model.Email;
                 user.UserName = model.UserName;
                 user.City = model.City;
+                user.DateOfBirth = model.DateOfBirth;
                 user.Address = model.Address;
+                if (model.UserRoles!=null)
+                {
+                    foreach (var UroleName in model.UserRoles)
+                    {
+                        if (!(await UserManager.IsInRoleAsync(user.Id, UroleName)))
+                        {
+                            resultRole = await UserManager.AddToRoleAsync(model.Id, UroleName);
+                        }
+                    }
+                    foreach (var Ur in user.Roles)
+                    {
+                        var r = await RoleManager.FindByIdAsync(Ur.RoleId);
+                        if (!model.UserRoles.Contains(r.Name))
+                        {
+                            resultRole = await UserManager.RemoveFromRoleAsync(model.Id, r.Name);
+                        }
 
-                foreach (var UroleName in model.UserRoles)
-                {
-                    if (!(await UserManager.IsInRoleAsync(user.Id, UroleName)))
-                    {
-                        resultRole = await UserManager.AddToRoleAsync(model.Id, UroleName);
                     }
                 }
-                foreach (var Ur in user.Roles)
-                {
-                    var r = await RoleManager.FindByIdAsync(Ur.RoleId);
-                    if (!model.UserRoles.Contains(r.Name))
-                    {
-                        resultRole = await UserManager.RemoveFromRoleAsync(model.Id,r.Name);
-                    }
-                    
-                }
+
 
                 IdResult = await UserManager.UpdateAsync(user);
 
@@ -169,6 +173,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 user.Email = model.Email;
                 user.UserName = model.UserName;
                 user.City = model.City;
+                user.DateOfBirth = model.DateOfBirth;
                 user.Address = model.Address;
 
                 IdResult = await UserManager.CreateAsync(user);

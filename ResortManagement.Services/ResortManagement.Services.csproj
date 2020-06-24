@@ -101,6 +101,7 @@
     <Compile Include="AccommodationPictureServices.cs" />
     <Compile Include="AccommodationTypeServices.cs" />
     <Compile Include="AccoommodationsService.cs" />
+    <Compile Include="BookingsServices.cs" />
     <Compile Include="PictureServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResortManagemenetSignInManager.cs" />

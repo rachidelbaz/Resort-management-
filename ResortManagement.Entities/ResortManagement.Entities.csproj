@@ -61,7 +61,6 @@
     <Compile Include="AccommodationTypePicture.cs" />
     <Compile Include="AccommodationTypes.cs" />
     <Compile Include="Bookings.cs" />
-    <Compile Include="Client.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RMUser.cs" />

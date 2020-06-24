@@ -37,3 +37,6 @@ C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\o
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.InitialCreate.resources
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.csproj.GenerateResource.cache
 C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addNOFBedsTotableAccommodation.resources
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addCinToClientTable.resources
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addCinBookinglistToUser.resources
+C:\Users\El baz Rachid\source\repos\ResortManagement\ResortManagement.DataBase\obj\Debug\ResortManagement.DataBase.Migrations.addDatebirthToUser.resources
