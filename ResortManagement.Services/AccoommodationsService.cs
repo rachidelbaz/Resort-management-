@@ -145,6 +145,14 @@ namespace ResortManagement.Services
             }
         }
 
+        public IEnumerable<Accommodations> GetAccByGadgetId(int value)
+        {
+            using (var context=new ResortManagementDbContext())
+            {
+                return context.accommodation.Where(acc=>acc.AccommodationGatgetID==value).ToList();
+            }
+        }
+
         public bool DeleteAccommodationByID(int value)
         {
             using (var context=new ResortManagementDbContext())

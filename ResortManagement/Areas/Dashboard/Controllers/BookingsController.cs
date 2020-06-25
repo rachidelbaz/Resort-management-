@@ -1,4 +1,5 @@
 ﻿using ResortManagement.Areas.Dashboard.Models;
+using ResortManagement.Entities;
 using ResortManagement.Services;
 using System;
 using System.Collections.Generic;
@@ -23,55 +24,34 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             model.PageSize= pagSize.HasValue ? pagSize.Value > 0 ? pagSize.Value : 5 : 5;
             model.SearchTerm = searchTerm;
             model.PageNo = pagNo.HasValue ? pagNo.Value > 0 ? pagNo.Value : 1 : 1;
-
-            model.Bookings = BookingsServices.Instance.GetSearchBookings(model.SearchTerm, model.PageNo, model.PageSize);
-            int TotalItems = BookingsServices.Instance.GetSearchBookingsCount(model.SearchTerm);
+            model.Status = Status;
+            model.Bookings = BookingsServices.Instance.GetSearchBookings(model.SearchTerm, model.Status, model.PageNo, model.PageSize);
+            int TotalItems = BookingsServices.Instance.GetSearchBookingsCount(model.SearchTerm, model.Status);
 
             model.pager = new Pager(TotalItems, model.PageNo, model.PageSize);
 
             return PartialView("_Listing", model);
         }
-        //[HttpPost]
-        //public JsonResult Action(BookingsActionViewModel model)
-        //{
-        //    JsonResult jsonResult = new JsonResult();
-        //    jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-        //    var newAccommodationTypes = new AccommodationTypes();
-        //    newAccommodationTypes.ID = model.ID;
-        //    newAccommodationTypes.Type = model.Type;
-        //    newAccommodationTypes.Description = model.Description;
-        //    var Pictures = new List<Picture>();
-        //    if (!string.IsNullOrEmpty(model.imgUrls))
-        //    {
-        //        Pictures.AddRange(PictureServices.Instance.converterToPictures(model.imgUrls));
-        //    }
-
-        //    bool Result = false;
-
-
-        //        if (model.ID>0)
-        //        {
-        //            Model.accommodationType = BookingsServices.Instance.GetBookingsByID(model.ID);
-        //            if (Model.accommodationType.AccommodationTypePictures.Any())
-        //            {
-        //             bool IsDeleted = PictureServices.Instance.DeletePics(Model.accommodationType.AccommodationTypePictures.Select(acc=>acc.pictureID).ToList());
-        //            }
-        //            newAccommodationTypes.AccommodationTypePictures = new List<AccommodationTypePicture>();
-        //            newAccommodationTypes.AccommodationTypePictures.AddRange(Pictures.Select(p => new AccommodationTypePicture() { pictureID = p.ID, AccommodationTypeId = newAccommodationTypes.ID }));
-        //            Result = BookingsServices.Instance.EditBookings(newAccommodationTypes);
-        //            jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Accommodation Type updated successfully" : "update Accommodation Type Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
-        //        }
-        //        else
-        //        {
-        //             newAccommodationTypes.AccommodationTypePictures = new List<AccommodationTypePicture>();
-        //             newAccommodationTypes.AccommodationTypePictures.AddRange(Pictures.Select(p=>new AccommodationTypePicture() { pictureID=p.ID, AccommodationTypeId = newAccommodationTypes.ID }));
-        //            Result = AccommodationTypeServices.Instance.CreateBookings(newAccommodationTypes);
-        //             jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Accommodation Type added successfully" : "add Accommodation Type Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
-        //        }
+        [HttpPost]
+        public JsonResult Action(Bookings model)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            bool Result;
+            if (model.ID > 0)
+            {
+                Result = BookingsServices.Instance.EditBookings(model);
+                jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Booking updated successfully" : "update Booking Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+            }
+            else
+            {
+                Result = BookingsServices.Instance.CreateBookings(model);
+                jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Booking added successfully" : "add Booking Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+            }
 
 
-        //    return jsonResult;
-        //}
+            return jsonResult;
+        }
         ///// <summary>
         ///// Action get work for create and edit 
         ///// </summary>
@@ -90,7 +70,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
         [HttpPost]
         public JsonResult Delete(int ID)
         {
-            return Json(new { Success = AccommodationTypeServices.Instance.DeleteBookingsByID(ID) }, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = BookingsServices.Instance.DeleteBookingsByID(ID) }, JsonRequestBehavior.AllowGet);
         }
         
         public JsonResult GetGadgetByType(int?Id)
@@ -104,6 +84,17 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             }
 
             return jsonResut;
+        }
+        public JsonResult GetAccByGadget(int?Id)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            if (Id.HasValue)
+            {
+                jsonResult.Data = new {Accs= AccoommodationsService.Instance.GetAccByGadgetId(Id.Value) };
+            }
+            return jsonResult;
         }
     }
 }

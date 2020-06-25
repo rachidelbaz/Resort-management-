@@ -113,9 +113,5 @@ namespace ResortManagement.Services
             }
         }
 
-        public object DeleteBookingsByID(int iD)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -27,10 +27,10 @@
             <input type="hidden" name="ID" value="@(Model.booking!=null?Model.booking.ID.ToString():string.Empty)">
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Accoommodation Type</span>
+                    <span class="input-group-text">Type</span>
                 </div>
                 <select id="AccTypeSelector" class="form-control font-weight-bold">
-                    @if (Model.accommodationTypes!=null)
+                    @if (Model.accommodationTypes != null)
                     {
                         foreach (var accType in Model.accommodationTypes)
                         {
@@ -41,7 +41,14 @@
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Accoommodation</span>
+                    <span class="input-group-text">Gadget</span>
+                </div>
+                <select id="GadgSelector" class="form-control font-weight-bold">
+                </select>
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Accommodation</span>
                 </div>
                 <select id="AccSelector" class="form-control font-weight-bold">
                 </select>
@@ -56,7 +63,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Date</span>
                 </div>
-                <input class="form-control" name="AccommmodationDate" type="text" placeholder="" value="@(Model.booking!=null?Model.booking.AccommmodationDate.ToShortDateString():string.Empty)">
+                <input id="DatePicker" class="form-control" name="AccommmodationDate" type="text" placeholder="" value="@(Model.booking!=null?Model.booking.AccommmodationDate.ToShortDateString():string.Empty)">
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -97,27 +104,46 @@
             dataType: 'json',
             data: { Id }
         }).done(function (response) {
-            let AccSelector = $("#AccSelector");
-            let Options = [];
+            let GadgetSelector = $("#GadgSelector");
+            GadgetSelector.find('option').remove();
+            $("#AccSelector").find('option').remove();
+            let Options = []; 
             if (response["Gadgets"] != null) {
                 $.each(response["Gadgets"], function (index, gadget) {
                     let $optionClone = $option.clone();
                     $optionClone.val(gadget["ID"]).text(gadget["Name"]);
                     Options.push($optionClone);
                 });
+                GadgetSelector.append(...Options);
+            }
+        });
+    });
+    $("#GadgSelector").on("change", function () {
+        let Id = $(this).val();
+        let Option = $(this).children('option:selected');
+        $.ajax({
+            url: '@Url.Action("GetAccByGadget","Bookings")',
+            type: 'GET',
+            data: {Id},
+            dataType: 'json'
+        }).done(function (response) {
+            let AccSelector = $("#AccSelector");
+            AccSelector.find('option').remove();
+            let Options = [];
+            if (response.Accs.length > 0) {
+                $.each(response.Accs, function (index,acc)
+                {
+                    let $optionClone = Option.clone();
+                    $optionClone.val(acc["ID"]).text(acc["Name"]);
+                    Options.push($optionClone);
+                });
+                console.log(Options);
+                console.log(AccSelector);
                 AccSelector.append(...Options);
             }
         });
     });
     $("#btnSave").click(function () {
-        var imgUrls = [];
-        $("#ImgContainer img").each(function () {
-             if ($(this).attr("src")!="") {
-            imgUrls.push($(this).attr("src"));
-            }
-        });
-        $("input[name='imgUrls']").val(imgUrls);
-
         const DivMessage = $("#DivMessage");
         $.ajax({
             type: 'POST',
@@ -129,9 +155,6 @@
                 .removeClass('d-none')
                 .html(response.Message)
                 .addClass(response.Class);
-            //$("#ImgContainer div").each(function () {
-            //    $(this).remove();
-            //});
            //to refresh _listing partialView Data, declared in index view
             refreshTableListing();
             if (response.Edited && response.Success) {
@@ -149,7 +172,18 @@
 
             });
     });
-
+    function setAge() {
+        var date = new Date();
+        var o = date.setFullYear(date.getFullYear() - 18);
+        return new Date(o);
+    }
+    $("#DatePicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        beforeShow: function () { setTimeout(function () { $('.ui-datepicker').css('z-index', 9999); }, 0); },
+        maxDate: setAge(),
+        dateFormat:'dd-mm-yy'
+    });
 </script>
 
 
