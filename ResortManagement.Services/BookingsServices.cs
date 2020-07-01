@@ -96,5 +96,13 @@ namespace ResortManagement.Services
                 return Context.SaveChanges() > 0;
             }
         }
+
+        public DateTime GetAccoAvailableDate(int value)
+        {
+            using (var Context =new ResortManagementDbContext())
+            {
+                return Context.booking.Where(b => b.AccommodationID == value).Select(b =>b.AccommmodationDate).FirstOrDefault().AddDays(Context.booking.Where(b=>b.AccommodationID==value).Select(b=>b.Duration).FirstOrDefault());
+            }
+        }
     }
 }

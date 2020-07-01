@@ -1,4 +1,6 @@
-﻿using ResortManagement.Areas.Dashboard.Models;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using ResortManagement.Areas.Dashboard.Models;
 using ResortManagement.Entities;
 using ResortManagement.Services;
 using System;
@@ -38,18 +40,53 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             JsonResult jsonResult = new JsonResult();
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             bool Result;
+            //if (ModelState.isValid)
+            //{
+
             if (model.ID > 0)
             {
-                Result = BookingsServices.Instance.EditBookings(model);
-                jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Booking updated successfully" : "update Booking Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                var UserManager = Request.GetOwinContext().GetUserManager<ResortManagementUserManager>();
+                var user = UserManager.GetUserByCIN(model.RMUserId);
+                if (user!=null)
+                {
+                    model.RMUserId = user.Id;
+                    Result = BookingsServices.Instance.EditBookings(model);
+                    jsonResult.Data = new { Edited = Result, Success = Result, Message = Result ? "Booking updated successfully" : "update Booking Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                }
+                else
+                {
+                    jsonResult.Data = new { Edited = true, Success = false, Message = "update Booking Failed! Sorry! user not fond !", Class = "alert-danger" };
+                }
+
             }
             else
             {
-                Result = BookingsServices.Instance.CreateBookings(model);
-                jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Booking added successfully" : "add Booking Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                
+                if (!string.IsNullOrEmpty(model.RMUserId))
+                {
+                    var UserManager = Request.GetOwinContext().GetUserManager<ResortManagementUserManager>();
+                     var user = UserManager.GetUserByCIN(model.RMUserId);
+                    if(user!=null)
+                    {
+                        model.RMUserId = user.Id;
+                        Result = BookingsServices.Instance.CreateBookings(model);
+                        jsonResult.Data = new { Edited = false, Success = Result, Message = Result ? "Booking added successfully" : "add Booking Failed! Sorry.", Class = Result ? "alert-success" : "alert-danger" };
+                    }
+                    else
+                    {
+                        jsonResult.Data = new { Edited = false, Success = false, Message ="add Booking Failed! Sorry! user not fond !", Class ="alert-danger" };
+                    }
+
+                }
+                
             }
+            //}
+            //else
+            //{
+            //    var e = ModelState.Select(Er=>Er.Value.Errors).Where(y=>y.Count()>0).ToList();
+            //}
 
-
+           
             return jsonResult;
         }
         ///// <summary>
@@ -62,6 +99,9 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             if (ID.HasValue)
             {
                 Model.booking = BookingsServices.Instance.GetBookingsByID(ID.Value);
+                var userManager = Request.GetOwinContext().GetUserManager<ResortManagementUserManager>();
+                var user= userManager.GetUserByID(Model.booking.RMUserId);
+                Model.booking.RMUserId =user.CIN;
             }
             Model.accommodationTypes = AccommodationTypeServices.Instance.GetAllAccommondationTypes().OrderBy(acc=>acc.Type).ToList();
             return PartialView("_Action", Model);
@@ -93,6 +133,17 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             if (Id.HasValue)
             {
                 jsonResult.Data = new {Accs= AccoommodationsService.Instance.GetAccByGadgetId(Id.Value) };
+            }
+            return jsonResult;
+        }
+
+        public JsonResult CheckAccommoDate(int?Id)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            if (Id.HasValue)
+            {
+                jsonResult.Data =new {Date= BookingsServices.Instance.GetAccoAvailableDate(Id.Value) };
             }
             return jsonResult;
         }

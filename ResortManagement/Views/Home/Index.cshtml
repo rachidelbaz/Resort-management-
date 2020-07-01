@@ -107,6 +107,7 @@
     <!-- Rooms -->
     if (Model.accommodations.Any())
     {
+        var AccId=Model.accommodations.Select(acc => acc.ID).FirstOrDefault();
         <div class="rooms_right container_wrapper">
             <div class="container">
                 <div class="row row-eq-height">
@@ -181,8 +182,9 @@
                                     </li>
                                 </ul>
                             </div>
+                            
                             <div class="rooms_price">$ @(Model.accommodations.Select(acc => acc.accommodationGatgets.FeePerNight).FirstOrDefault()) /<span>Night</span></div>
-                            <div class="button rooms_button"><a href="#">book now</a></div>
+                            <div class="button rooms_button"><a href="@Url.Action("booking","Home",new {Id=@AccId})">book now</a></div>
                         </div>
                     </div>
                 </div>
@@ -192,8 +194,9 @@
 
 
         <!-- Rooms -->
-        if (Model.accommodations.Count() > 1)
+        if (Model.accommodations.Any())
         {
+            var AccLId=Model.accommodations.Select(acc => acc.ID).LastOrDefault();
             <div class="rooms_left container_wrapper">
                 <div class="container">
                     <div class="row row-eq-height">
@@ -228,7 +231,7 @@
                                     </ul>
                                 </div>
                                 <div class="rooms_price">$ @(Model.accommodations.Select(acc => acc.accommodationGatgets.FeePerNight).LastOrDefault())/<span>Night</span></div>
-                                <div class="button rooms_button"><a href="#">book now</a></div>
+                                <div class="button rooms_button"><a href="@Url.Action("booking","Home",new {Id=AccLId})">book now</a></div>
                             </div>
                         </div>
 
@@ -400,6 +403,9 @@
         </div>
     </div>
 }
+<script>
+
+</script>
 
 
 

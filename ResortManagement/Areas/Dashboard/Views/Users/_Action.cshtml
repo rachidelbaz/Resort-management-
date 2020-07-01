@@ -10,13 +10,6 @@
             <h5 class="modal-title" id="exampleModalCenterTitle">
                 <span>Edit User</span>
             </h5>
-            @*<div id="ImgContainer" class="d-flex justify-content-center align-content-center mx-auto">
-                <img src="~/Content/images/tag.png"/>
-                <div class="position-absolute align-self-center">
-                    <span class="font-weight-bold mt-0">Client</span>
-                </div>
-            </div>*@
-            
         }
         else
         {
@@ -32,6 +25,12 @@
     <div class="modal-body">
         <form id="formAction">
             <input type="hidden" name="id" value="@(Model.RMUser!=null?Model.RMUser.Id:string.Empty)">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">CIN</span>
+                </div>
+                <input class="form-control" name="CIN" type="text" placeholder="" value="@(Model.RMUser!=null?Model.RMUser.CIN:string.Empty)">
+            </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Full Name</span>
@@ -62,11 +61,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Role</span>
                         </div>
-                        <div class="col border rounded-right ml-0">
+                        <div class="col border rounded-right ml-0 ">
 
                             @if (Model.Roles != null)
                             {
-                                <ul class="d-flex flex-wrap">
+                                <ul class="d-flex flex-wrap my-auto">
                                     @foreach (var role in Model.Roles)
                                     {
                                         <li class="input-group m-1">

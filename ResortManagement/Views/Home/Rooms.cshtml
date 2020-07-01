@@ -7,7 +7,7 @@
 
 <!-- Rooms -->
 
-@if (Model != null && Model.accommodations.Any() && Model.pager!=null)
+@if (Model != null && Model.accommodations.Any() && Model.pager != null)
 {
     <div class="rooms">
         <div class="container">
@@ -16,21 +16,21 @@
                     <div class="card-columns">
 
                         @foreach (var room in Model.accommodations)
+                        {
+                            bool roomHasImg = false;
+                            string img = null;
+                            if (room.accommodationPictures.Any())
                             {
-                                bool roomHasImg = false;
-                                string img=null;
-                                if (room.accommodationPictures.Any())
-                                {
-                                    roomHasImg= room.accommodationPictures.Select(rAp => rAp.pictureID).ToList()
-                                               .Intersect(Model.Accommopictures.Select(MaP => MaP.ID).ToList()).Any();
+                                roomHasImg = room.accommodationPictures.Select(rAp => rAp.pictureID).ToList()
+                                           .Intersect(Model.Accommopictures.Select(MaP => MaP.ID).ToList()).Any();
 
-                                    img = Model.Accommopictures.Where(MaP => room.accommodationPictures.Select(rAp => rAp.pictureID).ToList()
-                                                  .Contains(MaP.ID)).Select(MaP => MaP.URL).FirstOrDefault();
+                                img = Model.Accommopictures.Where(MaP => room.accommodationPictures.Select(rAp => rAp.pictureID).ToList()
+                                              .Contains(MaP.ID)).Select(MaP => MaP.URL).FirstOrDefault();
 
 
-                                }
+                            }
                             <div class="card">
-                                <img class="card-img-top" 
+                                <img class="card-img-top"
                                      src="@(room.accommodationPictures.Any()?roomHasImg?!string.IsNullOrEmpty(img)?string.Concat(urlDefault,img):EmptyImg:EmptyImg:EmptyImg)"
                                      alt="Room image description">
                                 <div class="card-body">
@@ -42,20 +42,16 @@
                                         <ul>
                                             <li class="d-flex flex-row align-items-center justify-content-start">
                                                 <img src="~/Content/images/check.png" alt="">
-                                                <span>Morbi tempus malesuada erat sed</span>
+                                                <span>Rooms: @room.accommodationGatgets.NOfRoom</span>
                                             </li>
                                             <li class="d-flex flex-row align-items-center justify-content-start">
                                                 <img src="~/Content/images/check.png" alt="">
-                                                <span>Tempus malesuada erat sed</span>
-                                            </li>
-                                            <li class="d-flex flex-row align-items-center justify-content-start">
-                                                <img src="~/Content/images/check.png" alt="">
-                                                <span>Pellentesque vel neque finibus elit</span>
+                                                <span>Beds: @room.accommodationGatgets.NOFBeds</span>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="rooms_price">$ @(room.accommodationGatgets.FeePerNight)/<span>Night</span></div>
-                                    <div class="button rooms_button"><a href="#">book now</a></div>
+                                    <div class="button rooms_button"><a href="@Url.Action("booking","Home",new {Id=room.ID})">book now</a></div>
                                 </div>
                             </div>
 
@@ -64,7 +60,7 @@
                     </div>
 
                     @*@(Model.pager!=null?Model.PageNo >= Model.pager.EndPage?"d-none":string.Empty:"d-none")*@
-                    @if (Model.accommodations.Count()>4)
+                    @if (Model.pager.TotalItems > Model.pager.PageSize)
                     {
                         <div class="load_more_container text-center">
                             <div class="load_more_button"><a data-href="@Url.Action("Rooms","Home")">load more rooms</a></div>
@@ -78,26 +74,50 @@
     </div>
 
     <script>
-        var page = 2; 
+        var page = 2;
     $(".load_more_button a").on({
         "click": function () {
-            debugger;
             if (page>=@Model.pager.EndPage) {
                     $(".load_more_container").addClass("d-none");}
-           $.post($(this).attr("data-href"), {pageNo:page}, function (response) {
+           $.post($(this).attr("data-href"), {pageNo:page,CheckIn:'@Model.CheckIn',CheckOut:'@Model.CheckOut',Adults:@Model.Adults,Children:@Model.Children}, function (response) {
                $(".card-columns").append($(response).find(".card-columns").html());
-               page++;     
+               page++;
            }, 'html');
         }
         ,"mouseenter": function () {$(this).css("cursor","pointer");}
     });
+        $(".rooms_button a").on({
+            "click": function () {
+                $.ajax({
+                    url: $(this).attr("data-href"),
+                    method: 'POST',
+                    datatype: 'json'
+                }).done(function (response) {
+                    if (response.success) {
+                        swal({
+                            title: "Good job!",
+                            text: "You clicked the button!",
+                            icon: "success",
+                            buttons: false,
+                        });
+                    } else {
+                          swal({
+                            title: "sorry!",
+                            text: "You clicked the button!",
+                            icon: "warning",
+                            buttons: false,
+                        });
+                    }
+                });
+            }
+        });
     </script>
 }
 else
 {
     <div class="container mt-2">
         <div class="alert alert-warning" role="alert">
-            Sorry! No Room registred yet!
+            Sorry! Introvable!
         </div>
     </div>
 }

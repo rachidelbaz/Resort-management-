@@ -1,5 +1,5 @@
 ﻿@model ResortManagement.Areas.Dashboard.Models.BookingsEditViewModel
-@using ResortManagement.Areas.Code 
+@using ResortManagement.Areas.Code
 @{
     var urlDefault = "/content/images/WebPictures/";
 }
@@ -10,11 +10,11 @@
         <h5 class="modal-title" id="exampleModalCenterTitle">
             @if (Model.booking != null)
             {
-            <span>Edit booking</span>
+                <span>Edit booking</span>
             }
             else
             {
-            <span>Create booking</span>
+                <span>Create booking</span>
             }
 
         </h5>
@@ -32,6 +32,7 @@
                 <select id="AccTypeSelector" class="form-control font-weight-bold">
                     @if (Model.accommodationTypes != null)
                     {
+                        <option class="font-weight-bold" selected disabled>Select Type</option>
                         foreach (var accType in Model.accommodationTypes)
                         {
                             <option class="font-weight-bold" value="@accType.ID">@accType.Type</option>
@@ -44,13 +45,19 @@
                     <span class="input-group-text">Gadget</span>
                 </div>
                 <select id="GadgSelector" class="form-control font-weight-bold">
+                    <option class="font-weight-bold" selected disabled>Select Gadget</option>
                 </select>
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Accommodation</span>
                 </div>
-                <select id="AccSelector" class="form-control font-weight-bold">
+                <select id="AccSelector" name="AccommodationID" class="form-control font-weight-bold">
+                    <option class="font-weight-bold" selected disabled>Select Accommodation</option>
+                    @if (Model.booking != null)
+                    {
+                        <option value="@Model.booking.accommodation.ID">@Model.booking.accommodation.Name</option>
+                    }
                 </select>
             </div>
             <div class="input-group mb-2">
@@ -75,10 +82,10 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Status</span>
                 </div>
-                <select name="" class="form-control font-weight-bold pr-3">
+                <select name="Status" class="form-control font-weight-bold pr-3">
                     @foreach (var S in Enum.GetValues(typeof(Status)))
                     {
-                        <option class="font-weight-bold" value="@S">@S</option>
+                        <option class="font-weight-bold" value="@S" @(Model.booking != null ? !string.IsNullOrEmpty(Model.booking.Status) ? Model.booking.Status == S.ToString() ? "selected" : string.Empty : string.Empty : string.Empty)>@S</option>
                     }
                 </select>
             </div>
@@ -105,9 +112,9 @@
             data: { Id }
         }).done(function (response) {
             let GadgetSelector = $("#GadgSelector");
-            GadgetSelector.find('option').remove();
-            $("#AccSelector").find('option').remove();
-            let Options = []; 
+            GadgetSelector.find('option:nth-child(1n+2)').remove();
+            $("#AccSelector").find('option:nth-child(1n+2)').remove();
+            let Options = [];
             if (response["Gadgets"] != null) {
                 $.each(response["Gadgets"], function (index, gadget) {
                     let $optionClone = $option.clone();
@@ -128,7 +135,7 @@
             dataType: 'json'
         }).done(function (response) {
             let AccSelector = $("#AccSelector");
-            AccSelector.find('option').remove();
+            AccSelector.find('option:nth-child(1n+2)').remove();
             let Options = [];
             if (response.Accs.length > 0) {
                 $.each(response.Accs, function (index,acc)
@@ -137,8 +144,6 @@
                     $optionClone.val(acc["ID"]).text(acc["Name"]);
                     Options.push($optionClone);
                 });
-                console.log(Options);
-                console.log(AccSelector);
                 AccSelector.append(...Options);
             }
         });
@@ -172,17 +177,43 @@
 
             });
     });
-    function setAge() {
-        var date = new Date();
-        var o = date.setFullYear(date.getFullYear() - 18);
-        return new Date(o);
+  
+    function convertToJavaScriptDate(value) {
+        debugger;
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        let d = dt.getDate();
+        let m=(dt.getMonth() + 1);
+        if (d < 10 ) {
+            d="0"+dt.getDate();
+        }
+        if (m<10) {
+            m = "0" + (dt.getMonth() + 1);
+        }
+        if (dt.getFullYear() < new Date().getFullYear()) {
+            return new Date();
+        }
+        return d+"-"+m+ "-" + dt.getFullYear();
     }
-    $("#DatePicker").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        beforeShow: function () { setTimeout(function () { $('.ui-datepicker').css('z-index', 9999); }, 0); },
-        maxDate: setAge(),
-        dateFormat:'dd-mm-yy'
+    $("#AccSelector").change(function () {
+        let Id = $(this).val();
+        $.ajax({
+            url: '@Url.Action("CheckAccommoDate","Bookings")',
+            methode: 'GET',
+            data: { Id },
+            dataType: 'json'
+        }).done(function (response)
+        {
+            $("#DatePicker").datepicker("destroy");
+             //$("#DatePicker").datepicker("disable");
+             $("#DatePicker").datepicker({
+                 beforeShow: function () { setTimeout(function () { $('.ui-datepicker').css('z-index', 9999); }, 0); },
+                 minDate: convertToJavaScriptDate(response.Date),
+               dateFormat:'dd-mm-yy'
+             });
+             //$("#DatePicker").datepicker("enable");
+        });
     });
 </script>
 

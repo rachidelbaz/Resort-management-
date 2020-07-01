@@ -79,7 +79,11 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             model.RoleID = !string.IsNullOrEmpty(RoleID) ? RoleID : string.Empty;
             model.PageSize = pageSize.HasValue ? pageSize.Value > 5 ? pageSize.Value : 5 : 5;
             model.PageNo = pageNo.HasValue ? pageNo.Value > 1 ? pageNo.Value : 1 : 1;
-            model.RMUsers = UserManager.GetUsers(model.SearchTerm, model.RoleID, model.PageSize, model.PageNo);
+            var rMUsersWithR = new List<RMUser>();
+            model.RMUsers= UserManager.GetUsers(model.SearchTerm, model.RoleID, model.PageSize, model.PageNo);
+            rMUsersWithR.AddRange(model.RMUsers.Where(u=>u.Roles.Any()));
+            rMUsersWithR.AddRange(model.RMUsers.Where(u =>!u.Roles.Any()));
+            model.RMUsers = rMUsersWithR;
             int TotalUsers = UserManager.GetUsersCount(model.SearchTerm, model.RoleID);
             model.pager = new Pager(TotalUsers, model.PageNo, model.PageSize);
             model.AllRoles = UserManager.GetAllRoles();
@@ -124,6 +128,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
                 user.Email = model.Email;
                 user.UserName = model.UserName;
                 user.City = model.City;
+               
                 user.DateOfBirth = model.DateOfBirth;
                 user.Address = model.Address;
                 if (model.UserRoles!=null)
@@ -169,6 +174,7 @@ namespace ResortManagement.Areas.Dashboard.Controllers
             }
             else
             {
+                user.CIN = model.CIN;
                 user.FullName = model.FullName;
                 user.Email = model.Email;
                 user.UserName = model.UserName;

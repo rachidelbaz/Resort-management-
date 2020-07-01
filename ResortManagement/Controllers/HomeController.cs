@@ -22,20 +22,15 @@ namespace ResortManagement.Controllers
             return View(model);
         }
         ResortManagement.Models.AccommodationsViewModel model = new ResortManagement.Models.AccommodationsViewModel();
-        public ActionResult Rooms(int? pageNo,string CheckIn,string CheckOut,int? Adults, int? Children)
+        public ActionResult Rooms(string search,int? pageNo,string CheckIn,string CheckOut,int? Adults, int? Children)
         {
-            var d = DateTime.MinValue;
-            var t = DateTime.MaxValue;
-            var f = DateTime.Now;
-            var g = f.AddDays(4);
-            var j = f.Day;
-            var i = f.Date;
-            f.ToLongDateString();
             model.PageNo = pageNo ?? 1;
             model.PageSize = 4;
+            model.Adults = Adults.HasValue ? Adults.Value : 0;
+            model.Children = Children.HasValue ? Children.Value : 0;
             bool CheckInisDate = DateTime.TryParse(CheckIn, out model.CheckIn);
             bool CheckOutisDate = DateTime.TryParse(CheckOut, out model.CheckOut);
-            if (CheckInisDate & CheckOutisDate) { model.Duration = model.CheckOut.Day-model.CheckIn.Day; }
+            if (CheckInisDate && CheckOutisDate) { model.Duration =int.Parse(model.CheckOut.Subtract(model.CheckIn).Days.ToString()); }
             if (Adults.HasValue)
             {
                 if (Children.HasValue)
@@ -47,13 +42,11 @@ namespace ResortManagement.Controllers
                     model.NoOfBeds = Adults.Value;
                 }
             }
-            model.accommodations = AccoommodationsService.Instance.GetAccommodationsByBooking(model.CheckIn, model.Duration,model.NoOfBeds, model.PageNo, model.PageSize);
-            model.accommodations = AccoommodationsService.Instance.GetAllAccommodations(null, 0, model.PageSize, pageNo: model.PageNo);
+            model.accommodations = AccoommodationsService.Instance.GetAccommodationsByBooking(search, model.CheckIn, model.Duration,model.NoOfBeds, model.PageNo, model.PageSize);
             model.Accommopictures = PictureServices.Instance
                 .GetPituresByPictureID(model.accommodations.
                 Select(acc=>acc.accommodationPictures.Select(accp=>accp.pictureID).ToList()).SelectMany(x=>x).Distinct().ToList());
-            var TotalAccommodations = AccoommodationsService.Instance.GetAllAccommodationsCount(null, 0);
-
+            var TotalAccommodations = AccoommodationsService.Instance.GetAccommodationsByBookingCount(search, model.CheckIn, model.Duration, model.NoOfBeds);
             model.pager = new Pager(TotalAccommodations, model.PageNo, model.PageSize);
             return View(model);
         }
@@ -71,9 +64,33 @@ namespace ResortManagement.Controllers
 
             return View();
         }
+        [HttpGet]
         public ActionResult booking()
         {
-            return View();
+         return View();
+        }
+        [HttpPost]
+        public JsonResult booking(int? Id)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            if (Id.HasValue)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    //BookingsServices.Instance.CreateBookings();
+                    jsonResult.Data = new { };
+                }
+                else
+                {
+                    jsonResult.Data = new {RedirectUrl = Url.Action("Login","Account") };
+                }
+            }
+            else
+            {
+                jsonResult.Data = new {RedirectUrl = Url.Action("Rooms","Home") };
+            }
+            return jsonResult;
         }
     }
 }

@@ -67,6 +67,14 @@ namespace ResortManagement.Services
             return manager;
         }
 
+        public RMUser GetUserByCIN(string rMUserId)
+        {
+            using (var Context=new ResortManagementDbContext())
+            {
+                return Context.Users.FirstOrDefault(u=>u.CIN.ToLower()==rMUserId.ToLower());
+            }
+        }
+
         public IEnumerable<IdentityRole> GetAllRoles()
         {
             using (var context=new ResortManagementDbContext())
@@ -126,7 +134,7 @@ namespace ResortManagement.Services
                 {
                  users = users.Where(u=>u.Roles.Select(r=>r.RoleId).Contains(RoleID));
                 }
-                return users.OrderByDescending(u=>u.Id).Skip((pageNo-1)*pageSize).Take(pageSize).ToList();
+                return users.OrderBy(u=>u.Id).Skip((pageNo-1)*pageSize).Take(pageSize).ToList();
             }
 
         }

@@ -17,7 +17,6 @@ namespace ResortManagement.Areas.Dashboard.Models
     {
         public Bookings booking { get; set; }
         public string Accommodation { get; set; }
-        public Status status;
         public IEnumerable<AccommodationTypes> accommodationTypes { get; set;}
     }
     public class BookingsListingViewModel

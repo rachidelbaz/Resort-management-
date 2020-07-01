@@ -23,18 +23,18 @@
             <tr>
                 <th scope="row">@Booking.accommodation.Name</th>
                 <td>@Booking.RMUser.CIN</td>
-                <td>@Booking.AccommmodationDate</td>
+                <td>@Booking.AccommmodationDate.ToShortDateString()</td>
                 <td>@Booking.Duration</td>
                 <td>@Booking.Status</td>
                 <td>
                     <button class="btn btn-outline-primary mr-2 btnAction"
                             data-toggle="modal" data-target="#exampleModalCenter"
-                            data-href="@Url.Action("Action", "Accommodations",
+                            data-href="@Url.Action("Action", "Bookings",
                                           new { ID = @Booking.ID})">
                         <i class="fas fa-edit fa-1x mr-1"></i>Edit
                     </button>
                     <button class="btn btn-outline-danger btnDelete"
-                            data-href="@Url.Action("Delete", "Accommodations",
+                            data-href="@Url.Action("Delete", "Bookings",
                                       new { ID = @Booking.ID})">
                         <i class="fas fa-trash-alt fa-1x mr-1"></i>Delete
                     </button>

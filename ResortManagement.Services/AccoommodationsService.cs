@@ -3,6 +3,7 @@ using ResortManagement.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,24 +63,50 @@ namespace ResortManagement.Services
             }
         }
 
-        public IEnumerable<Accommodations> GetAccommodationsByBooking(DateTime? checkIn, int Duration, int? noOfBeds, int pageNo, int pageSize)
+        public IEnumerable<Accommodations> GetAccommodationsByBooking(string search, DateTime? checkIn, int Duration, int? noOfBeds, int pageNo, int pageSize)
         {
             using (var context = new ResortManagementDbContext())
             {
-                var k = context.booking.Select(b => b.AccommmodationDate).ToList();
                 var accommodations= context.accommodation.Include(acc => acc.accommodationPictures).Include(acc=>acc.accommodationGatgets).AsQueryable();
                 if (checkIn.HasValue && Duration>0)
                 {
-                    
-                    accommodations = accommodations.Where(acc=>!context.booking.Select(b=>b.AccommodationID).ToList().Contains(acc.ID)||context.booking.Where(b=>b.AccommmodationDate.AddDays(b.Duration)<=checkIn).Select(b=>b.AccommodationID).ToList().Contains(acc.ID));
+                    var AccoIDsNotBookgins = context.booking.Where(b =>checkIn<=b.AccommmodationDate && b.AccommmodationDate<=EntityFunctions.AddDays(checkIn,Duration) ).Select(b => b.AccommodationID).ToList();
+                    accommodations = accommodations.Where(acc=>!AccoIDsNotBookgins.Contains(acc.ID));
                 }
                 if (noOfBeds.HasValue)
                 {
-                    accommodations = accommodations.Where(acc=>acc.accommodationGatgets.NOFBeds==noOfBeds);
+                    accommodations = accommodations.Where(acc=>(acc.accommodationGatgets.NOFBeds*acc.accommodationGatgets.NOfRoom)>=noOfBeds);
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    var AccoTypeIDs = context.accommodationType.Where(accType=>accType.Type.ToLower().Contains(search.Trim().ToLower())).Select(accT=>accT.ID).ToList();
+                    accommodations = accommodations.Where(acc => acc.accommodationGatgets.Name.ToLower().Contains(search.Trim().ToLower())|| AccoTypeIDs.Contains(acc.accommodationGatgets.AccommodationTypeID));
                 }
                 return accommodations.OrderByDescending(acc=>acc.ID).Skip((pageNo-1)* pageSize).Take(pageSize).ToList();
             }
             
+        }
+        public int GetAccommodationsByBookingCount(string search, DateTime? checkIn, int Duration, int? noOfBeds)
+        {
+            using (var context = new ResortManagementDbContext())
+            {
+                var accommodations = context.accommodation.Include(acc => acc.accommodationPictures).Include(acc => acc.accommodationGatgets).AsQueryable();
+                if (checkIn.HasValue && Duration > 0)
+                {
+                    var AccoIDsNotBookgins = context.booking.Where(b => checkIn <= b.AccommmodationDate && b.AccommmodationDate <= EntityFunctions.AddDays(checkIn, Duration)).Select(b => b.AccommodationID).ToList();
+                    accommodations = accommodations.Where(acc => !AccoIDsNotBookgins.Contains(acc.ID));
+                }
+                if (noOfBeds.HasValue)
+                {
+                    accommodations = accommodations.Where(acc => (acc.accommodationGatgets.NOFBeds * acc.accommodationGatgets.NOfRoom) >= noOfBeds);
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    accommodations = accommodations.Where(acc=>acc.accommodationGatgets.Name.ToLower().Contains(search.Trim().ToLower()));
+                }
+                return accommodations.ToList().Count();
+            }
+
         }
 
         public IEnumerable<Accommodations> GetAllAccommodations()
@@ -163,5 +190,6 @@ namespace ResortManagement.Services
                 return context.SaveChanges() > 0;
             }
         }
+
     }
 }

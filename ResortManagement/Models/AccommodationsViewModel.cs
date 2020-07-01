@@ -9,8 +9,11 @@ namespace ResortManagement.Models
 {
     public class AccommodationsViewModel
     {
-        internal DateTime CheckOut;
-        internal DateTime CheckIn;
+        public DateTime CheckOut;
+        public DateTime CheckIn;
+       
+        public int Adults;
+        public int Children;
 
         public IEnumerable<Accommodations> accommodations { get; set; }
         public IEnumerable<AccommodationGatgets> accommodationGatgets { get; set; }

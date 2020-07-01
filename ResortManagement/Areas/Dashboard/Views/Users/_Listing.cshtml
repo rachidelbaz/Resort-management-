@@ -22,7 +22,7 @@
             @foreach (var user in Model.RMUsers)
             {
                
-                <tr class="@(user.Roles.Any()?"bg-secondary":string.Empty)">
+                <tr class="@(user.Roles.Any()?"bg-warning":string.Empty)">
                     <th scope="row">@user.UserName</th>
                     <th>@user.Email</th>
                     <th>
